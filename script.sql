@@ -84,3 +84,4 @@ create table bank_details
     primary key (emp_ID),
     foreign key (emp_ID) references employee(emp_id) on delete cascade
     );
+    
