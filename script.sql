@@ -11,27 +11,27 @@ drop table if exists payroll;
 drop table if exists user;
 SET FOREIGN_KEY_CHECKS = 1; 
 create table employee
-	(emp_name	varchar(20),
-     emp_id	varchar(6),
+	(name	varchar(20),
+     id	varchar(6),
      gender	varchar(6),
      phone_number	varchar(10),
      email	varchar(30),
      birth_date    date,
      martial_status varchar(10),
-     primary key (emp_id)
+     primary key (id)
      );
 create table supervisor
 	(supervisor_id	varchar(6),
-	 emp_id	varchar(6),
-     primary key (supervisor_id,emp_id),
-     foreign key (emp_id) references employee(emp_id) on delete cascade
+	 id	varchar(6),
+     primary key (supervisor_id,id),
+     foreign key (id) references employee(id) on delete cascade
      );
 
 create table user
 	(user_name	varchar(20),
-	 emp_id	varchar(6),
+	 id	varchar(6),
      primary key(user_name),
-     foreign key (emp_id) references employee(emp_id) on delete cascade
+     foreign key (id) references employee(id) on delete cascade
      );
 create table salary
 	(job_title	varchar(10),
@@ -40,13 +40,13 @@ create table salary
      primary key (job_title,pay_grade)
      );     
 create table employment 
-	(emp_id	varchar(6),
+	(id	varchar(6),
 	 job_title	varchar(10),
      pay_grade	char(1),
      employement_status	varchar(10),
      department	varchar(10),
-     primary key (emp_id),
-     foreign key (emp_id) references employee(emp_id) ,
+     primary key (id),
+     foreign key (id) references employee(id) ,
      foreign key (job_title,pay_grade) references salary(job_title,pay_grade) 
      );     
 create table leave_detail
@@ -60,38 +60,38 @@ create table leave_detail
      foreign key (job_title,pay_grade) references salary(job_title,pay_grade) 
      );
 create table personal_leave
-	(emp_id	varchar(6),
-	 leave_type	varchar(10),
-     leave_date	date,
-     primary key(emp_id,leave_date),
-     foreign key(emp_id) references employee(emp_id) on delete cascade
+	(id	varchar(6),
+	 type	varchar(10),
+     date	date,
+     primary key(id,date),
+     foreign key(id) references employee(id) on delete cascade
      );
 
 create table address
-	(emp_ID	varchar(6),
+	(id	varchar(6),
      address_line_1	varchar(20),
 	 address_line_2	varchar(20),
      province	varchar(10),
      city	varchar(15),
      postal_code	varchar(5),
-     primary key (emp_id),
-     foreign key (emp_id) references employee(emp_id) on delete cascade
+     primary key (id),
+     foreign key (id) references employee(id) on delete cascade
      );
 
 create table bank_details
 	(
-    emp_ID varchar(6),
+    id varchar(6),
     bank_name varchar(20),
     branch_name varchar(20),
     account_no varchar(20),
-    primary key (emp_ID),
-    foreign key (emp_ID) references employee(emp_id) on delete cascade
+    primary key (id),
+    foreign key (id) references employee(id) on delete cascade
     );
 create table payroll
 	(
-    emp_id	varchar(6),
+    id	varchar(6),
     payed_date date,
-    primary key(emp_id,payed_date),
-    foreign key(emp_id) references employee(emp_id) on delete cascade
+    primary key(id,payed_date),
+    foreign key(id) references employee(id) on delete cascade
     );
     
