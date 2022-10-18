@@ -84,4 +84,11 @@ create table bank_details
     primary key (emp_ID),
     foreign key (emp_ID) references employee(emp_id) on delete cascade
     );
+create table payroll
+	(
+    emp_id	varchar(6),
+    payed_date date,
+    primary key(emp_id,payed_date),
+    foreign key(emp_id) references employee(emp_id) on delete cascade
+    );
     
