@@ -7,6 +7,7 @@ drop table if exists employment;
 drop table if exists leave_detail;
 drop table if exists personal_leave;
 drop table if exists salary;
+drop table if exists payroll;
 drop table if exists user;
 SET FOREIGN_KEY_CHECKS = 1; 
 create table employee
@@ -14,7 +15,9 @@ create table employee
      emp_id	varchar(6),
      gender	varchar(6),
      phone_number	varchar(10),
+     email	varchar(30),
      birth_date    date,
+     martial_status varchar(10),
      primary key (emp_id)
      );
 create table supervisor
