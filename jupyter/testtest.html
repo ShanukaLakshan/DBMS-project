@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+    integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1"
+    crossorigin="anonymous"
+  />
+      <title>Document</title>
+      <style>
+        body {
+          background-image: url(./img/lol1.jpg);
+          background-size: 100%;
+          background-position: top;
+          background-repeat: no-repeat;
+        }
+        .btn-primary {
+      color: white;
+      background-color: rgba(210, 147, 94);
+      border-color: rgba(210, 147, 94, 0.7);
+    }
+
+    .btn-primary:hover {
+      color: white;
+      background-color: rgb(169, 118, 77);
+      border-color: rgb(169, 118, 77);
+    }
+
+    .btn-primary:active {
+      color: #212529;
+      background-color: rgb(204, 119, 149);
+      border-color: #c25b76;
+    }
+    .btn-primary:disabled {
+      color: #212529;
+      background-color: #c3e6cb !important;
+      border-color: #c3e6cb;
+    }
+    .btn-primary:focus {
+      box-shadow: 0 0 0 0.2rem rgb(169, 118, 77);
+      background-color: rgb(236, 162, 102) !important;
+      border-color: rgb(236, 162, 102) !important;
+      box-shadow: #723d00 !important;
+      outline: #c25b76 !important;
+    }
+    .btn-outline-warning{
+      color: #212529 !important;
+      border-color: #6F1D1B;
+    }
+    .btn-outline-warning:hover{
+      color: #ffffff !important;
+      background-color: #6F1D1B;
+      border-color: #6F1D1B;
+    }
+    .border-primary{
+      border-color: #6F1D1B !important;
+    }
+
+        </style>
+</head>
+<body>
+    <div class="d-flex align-items-center">
+        <div class="row no-gutters h-100 fixed-top">
+            <div class="row d-flex align-items-center ">
+                <div class="col-sm-6 text-center" >
+                    <div class="caroursel-inner">
+                        <div class="carousel-item">
+                            <img src="./img/staff1.jpg" alt="...">
+                            <div class="carousel-caption d-none d-md-block">
+                            <h5>Staff</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class=" col-lg-4 offset-1">
+                     <div
+                    class="card-body p-md-5 mx-md-4 rounded-3 shadow-lg  "
+                    style="
+                      background-color: rgba(250, 214, 165, 0.4);
+                      margin: 20px;
+                    "
+                  >
+                    <div class="text-center">
+                      <img
+                        src="./img/jupiter_logo.png"
+                        style="width: 280px"
+                        alt="logo"
+                      />
+                      <h4 class="mt-sm pb-1"><p style="font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif ;color: #5a3508; ">Fashoion Fades, Style Lives!</p></h4>
+                    </div>
+  
+                    <form
+                      action="personal_page.php"
+                      method="post"
+                      class="text-center"
+                    >
+                      <p class=" fw-bold fs-5" style="color:#432818;">LOGIN ACCOUNT</p>
+  
+                      <div class="form-outline mb-4">
+                        <input
+                          type="text"
+                          name="uname"
+                          class="form-control"
+                          placeholder="Enter User Name"
+                          required
+                        />
+                      </div>
+  
+                      <div class="form-outline mb-4">
+                        <input
+                          type="password"
+                          name="pwd"
+                          placeholder="Enter Password"
+                          class="form-control"
+                          required
+                        />
+                      </div>
+  
+                      <div class="text-center pt-1 mb-5 pb-1">
+                        <button
+                          class="btn btn-primary"
+                          style="width: 200px"
+                          type="submit"
+                        >
+                          Log in
+                        </button>
+                      </div>
+  
+                      <div
+                        class="d-flex align-items-center justify-content-center pb-4"
+                      >
+                        <p class="mb-0 me-2">Don't have an account?</p>
+                        <a
+                          href="register.html"
+                          class="btn btn-outline-warning"
+                          tabindex="-1"
+                          role="button"
+                          aria-disabled="true"
+                          >Register</a
+                        >
+                      </div>
+                    </form>
+                  </div></div>
+                
+            </div>
+        </div>
+    </div>
+    
+</body>
+</html>

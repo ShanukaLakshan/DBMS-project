@@ -11,187 +11,241 @@
       crossorigin="anonymous"
     />
     <title>Document</title>
+    <style>
+      body{
+        background-image: url(./img/rbackground.jpg);
+        background-size: 100%;
+        background-position: 10%;
+      }
+      .btn-primary {
+      color: white;
+      background-color: rgba(210, 147, 94);
+      border-color: rgba(210, 147, 94, 0.7);
+    }
+
+    .btn-primary:hover {
+      color: white;
+      background-color: rgb(169, 118, 77);
+      border-color: rgb(169, 118, 77);
+    }
+
+    .btn-primary:active {
+      color: #212529;
+      background-color: rgb(204, 119, 149);
+      border-color: #c25b76;
+    }
+    .btn-primary:disabled {
+      color: #212529;
+      background-color: #c3e6cb !important;
+      border-color: #c3e6cb;
+    }
+    .btn-primary:focus {
+      box-shadow: 0 0 0 0.2rem rgb(169, 118, 77);
+      background-color: rgb(236, 162, 102) !important;
+      border-color: rgb(236, 162, 102) !important;
+      box-shadow: #723d00 !important;
+      outline: #c25b76 !important;
+    }
+    </style>
   </head>
   <body>
-    <div
-      class="container d-flex justify-content-center align-items-center"
-      style="min-height: 100vh"
-    >
-      <form
-        action="user_details_collector.php"
-        method="POST"
-        class="border shadow p-3 rounded"
-      >
-        <h1 style="margin-bottom: 20px" class="md-5">Enter your details</h1>
-
-        <h5 class="md-3">Personal details</h5>
-        <div class="md-3">
-          <div class="row">
-            <div class="col">
-              <input
-                type="text"
-                class="form-control"
-                name="fname"
-                placeholder="First name"
-                aria-label="First name"
-              />
-            </div>
-            <div class="col">
-              <input
-                type="text"
-                class="form-control"
-                name="lname"
-                placeholder="Last name"
-                aria-label="Last name"
-              />
-            </div>
-          </div>
-          <input
-            type="text"
-            style="margin-top: 10px"
-            name="email"
-            placeholder="Email : saman@gmail.com"
-            class="form-control"
-          />
-          <input
-            type="date"
-            style="margin-top: 10px"
-            name="bdate"
-            class="form-control"
-          />
-        </div>
-        <label style="margin-top: 10px" class="col-sm-4 control-label"
-          >Select Gender</label
-        >
-        <div class="col-sm-8">
-          <label class="radio-inline">
-            <input type="radio" name="gender" value="male" /> Male
-          </label>
-          <label class="radio-inline">
-            <input type="radio" name="gender" value="female" /> Female
-          </label>
-        </div>
-        <label style="margin-top: 10px" class="col-sm-4 control-label"
-          >Address</label
-        >
-        <div class="row g-3">
-          <div class="col-sm-5">
-            <input
-              type="text"
-              class="form-control"
-              name="city"
-              placeholder="City"
-              aria-label="City"
-            />
-          </div>
-          <div class="col-sm-4">
-            <select class="form-select" name="province">
-              <option selected>Province</option>
-              <option value="Central">Central</option>
-              <option value="North Central">North Central</option>
-              <option value="Northern">Northern</option>
-              <option value="Eastern">Eastern</option>
-              <option value="North Western">North Western</option>
-              <option value="Southern">Southern</option>
-              <option value="Uva">Uva</option>
-              <option value="Southern">Southern</option>
-              <option value="Western">Western</option>
-            </select>
-          </div>
-          <div class="col-sm">
-            <input
-              type="text"
-              class="form-control"
-              name="zip"
-              placeholder="Zip"
-              aria-label="Zip"
-            />
-          </div>
-        </div>
-
-        <h5 style="margin-top: 10px" class="md-3">Employment details</h5>
-        <div class="md-3">
-          <div class="row">
-            <div class="col">
+    <div class="container d-flex justify-content-center align-items-center">
+      <div
+        class="row align-items-center "
+        style="min-height: 100vh">
+        <div class="col-md-12">
+          <div class="card border-dark rounded-3 " style="width: 50rem; background-color: #ffffff68;padding: 2%; ">
+            <div class="row">
               <div class="col">
-                <select class="form-select" name="jtitle">
-                  <option selected>Job title</option>
-                  <option value="hr_manager">HR Manager</option>
-                  <option value="accountant">Accountant</option>
-                  <option value="software_engineer">Software Engineer</option>
-                  <option value="qa_engineer">QA Engineer</option>
-                  <option value="clerk">Clerk</option>
-                  <option value="labour">Labour</option>
-                </select>
+                <h1 style="margin-bottom: 20px;text-align: center; " class="md-5">Enter your details</h1>
               </div>
             </div>
-            <div class="col">
-              <select class="form-select" name="dpt">
-                <option selected>Department</option>
-                <option value="hr">HR</option>
-                <option value="admin">Admin</option>
-                <option value="it">IT</option>
-                <option value="finance">Finance</option>
-                <option value="welfare">Welfare</option>
-              </select>
-            </div>
-          </div>
+            <div class="row ">
+                <div class="col-md-6">
+                        <form
+                    action="user_details_collector.php"
+                    method="POST"
+                    >
 
-          <div style="margin-top: 2px" class="row g-3">
-            <div class="col">
-              <select class="form-select" name="paygrade">
-                <option selected>Pay Grade</option>
-                <option value="Level 1">Level I</option>
-                <option value="Level 2">Level II</option>
-              </select>
+                    <h5 class="md-3">Personal details</h5>
+                    <div class="md-3">
+                      <div class="row">
+                        <div class="col">
+                          <input
+                            type="text"
+                            class="form-control"
+                            name="fname"
+                            placeholder="First name"
+                            aria-label="First name"
+                          />
+                        </div>
+                        <div class="col">
+                          <input
+                            type="text"
+                            class="form-control"
+                            name="lname"
+                            placeholder="Last name"
+                            aria-label="Last name"
+                          />
+                        </div>
+                      </div>
+                      <input
+                        type="text"
+                        style="margin-top: 10px"
+                        name="email"
+                        placeholder="Email : saman@gmail.com"
+                        class="form-control"
+                      />
+                      <input
+                        type="date"
+                        style="margin-top: 10px"
+                        name="bdate"
+                        class="form-control"
+                      />
+                    </div>
+                    <label style="margin-top: 10px" class="col-sm-4 control-label"
+                      >Select Gender</label
+                    >
+                    <div class="col-sm-8">
+                      <label class="radio-inline">
+                        <input type="radio" name="gender" value="male" /> Male
+                      </label>
+                      <label class="radio-inline">
+                        <input type="radio" name="gender" value="female" /> Female
+                      </label>
+                    </div>
+                    <label style="margin-top: 10px" class="col-sm-4 control-label"
+                      >Address</label
+                    >
+                    <div class="row g-3">
+                      <div class="col-sm-5">
+                        <input
+                          type="text"
+                          class="form-control"
+                          name="city"
+                          placeholder="City"
+                          aria-label="City"
+                        />
+                      </div>
+                      <div class="col-sm-4">
+                        <select class="form-select" name="province">
+                          <option selected>Province</option>
+                          <option value="Central">Central</option>
+                          <option value="North Central">North Central</option>
+                          <option value="Northern">Northern</option>
+                          <option value="Eastern">Eastern</option>
+                          <option value="North Western">North Western</option>
+                          <option value="Southern">Southern</option>
+                          <option value="Uva">Uva</option>
+                          <option value="Southern">Southern</option>
+                          <option value="Western">Western</option>
+                        </select>
+                      </div>
+                      <div class="col-sm">
+                        <input
+                          type="text"
+                          class="form-control"
+                          name="zip"
+                          placeholder="Zip"
+                          aria-label="Zip"
+                        />
+                      </div>
+                    </div>
+
+                    <br />
+                  </form>
+                </div>
+                <div class="col-md-6">
+                  <form>
+                  <h5 style="margin-top: 10px" class="md-3">Employment details</h5>
+                    <div class="md-3">
+                      <div class="row">
+                        <div class="col">
+                          <div class="col">
+                            <select class="form-select" name="jtitle">
+                              <option selected>Job title</option>
+                              <option value="hr_manager">HR Manager</option>
+                              <option value="accountant">Accountant</option>
+                              <option value="software_engineer">Software Engineer</option>
+                              <option value="qa_engineer">QA Engineer</option>
+                              <option value="clerk">Clerk</option>
+                              <option value="labour">Labour</option>
+                            </select>
+                          </div>
+                        </div>
+                        <div class="col">
+                          <select class="form-select" name="dpt">
+                            <option selected>Department</option>
+                            <option value="hr">HR</option>
+                            <option value="admin">Admin</option>
+                            <option value="it">IT</option>
+                            <option value="finance">Finance</option>
+                            <option value="welfare">Welfare</option>
+                          </select>
+                        </div>
+                      </div>
+
+                      <div style="margin-top: 2px" class="row g-3">
+                        <div class="col">
+                          <select class="form-select" name="paygrade">
+                            <option selected>Pay Grade</option>
+                            <option value="Level 1">Level I</option>
+                            <option value="Level 2">Level II</option>
+                          </select>
+                        </div>
+                        <div class="col">
+                          <select class="form-select" name="status">
+                            <option selected>Status</option>
+                            <option value="Intern-Full time">Intern - Full time</option>
+                            <option value="Intern-Part time">Intern - Part time</option>
+                            <option value="Contract-Full time">Contract - Full time</option>
+                            <option value="Contract-Part time">Contract - Part time</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+
+                    <h5 style="margin-top: 10px" class="md-3">Account details</h5>
+                    <div class="md-3">
+                      <div class="row">
+                        <div class="col">
+                          <input
+                            type="text"
+                            class="form-control"
+                            name="bnkname"
+                            placeholder="Bank name"
+                            aria-label="First name"
+                          />
+                        </div>
+                        <div class="col">
+                          <input
+                            type="text"
+                            class="form-control"
+                            name="bncname"
+                            placeholder="Branch name"
+                            aria-label="Last name"
+                          />
+                        </div>
+                      </div>
+                      <input
+                        type="text"
+                        style="margin-top: 10px"
+                        name="accn"
+                        placeholder="Account Number"
+                        class="form-control"
+                      />
+                    </div>
+                        </div>
+                </div>
+              </form>
+            <div class="row">
+              <div class="col text-center">
+                <input class="btn btn-primary" type="submit" value="Send" />
+              </div>
             </div>
-            <div class="col">
-              <select class="form-select" name="status">
-                <option selected>Status</option>
-                <option value="Intern-Full time">Intern - Full time</option>
-                <option value="Intern-Part time">Intern - Part time</option>
-                <option value="Contract-Full time">Contract - Full time</option>
-                <option value="Contract-Part time">Contract - Part time</option>
-              </select>
             </div>
-          </div>
         </div>
-
-        <h5 style="margin-top: 10px" class="md-3">Account details</h5>
-        <div class="md-3">
-          <div class="row">
-            <div class="col">
-              <input
-                type="text"
-                class="form-control"
-                name="bnkname"
-                placeholder="Bank name"
-                aria-label="First name"
-              />
-            </div>
-            <div class="col">
-              <input
-                type="text"
-                class="form-control"
-                name="bncname"
-                placeholder="Branch name"
-                aria-label="Last name"
-              />
-            </div>
-          </div>
-          <input
-            type="text"
-            style="margin-top: 10px"
-            name="accn"
-            placeholder="Account Number"
-            class="form-control"
-          />
-        </div>
-
-        <br />
-
-        <input class="btn btn-primary" type="submit" value="Send" />
-      </form>
+      </div>
     </div>
   </body>
 </html>
