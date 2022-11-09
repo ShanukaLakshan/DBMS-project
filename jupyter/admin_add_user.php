@@ -11,7 +11,7 @@
 
 <body>
   <div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh">
-    <form method="POST" class="border shadow p-3 rounded" action="http://localhost:8080/jupyter/add_user_database.php">
+    <form method="POST" class="border shadow p-3 rounded" action="http://localhost:8080/DBMS-project/jupyter/add_user_database.php">
       <h1 style="margin-bottom: 20px" class="md-5">Filled
         <?php echo $_GET['xfname']; ?>'s details
       </h1>

@@ -1,5 +1,4 @@
 <?php
-// header("Location: http://localhost:8080/jupyter/add_user_success.php");
 
 // $sname = "localhost";
 // $uname = "" . $_POST['uname'];
@@ -10,7 +9,7 @@ include('admin_config.php');
 
 $conn = mysqli_connect($sname, $uname, $password, $db_name);
 $name = $_POST['xxfname'] . $_POST['xxlname'];
-$id = 7;
+$id = 88;
 $gender = $_POST['xxgender'];
 $mobile = '0771231231';
 $email = $_POST['xxemail'];
@@ -32,7 +31,6 @@ $bnkname = "BOC";
 $bncname = $_POST['xxbncname'];
 $accn = $_POST['xxaccn'];
 
-// $sql = "SELECT id FROM employee ORDER BY DESC LIMIT 1";
 $sql1 = "INSERT INTO employee VALUES ('$name','$id','$gender','$mobile','$email','$bdate','$marital')";
 $sql2 = "INSERT INTO address VALUES ('$id','$addresline1','$addresline2','$province','$city','$zip')";
 $sql3 = "INSERT INTO employment VALUES ('$id','$jtitle','$paygrade','$status','$dpt')";
@@ -42,7 +40,6 @@ if (!$conn) {
     echo "Connection Failed!";
     exit();
 }
-
 if ($conn->query($sql1) === TRUE) {
     echo "\nNew employee record created successfully\n";
 } else {

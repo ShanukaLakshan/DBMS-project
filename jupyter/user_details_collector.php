@@ -16,7 +16,7 @@ try {
     $mail->Host       = 'smtp.gmail.com';
     $mail->SMTPAuth   = true;
     $mail->Username   = 'shanukalakshan9817@gmail.com';
-    $mail->Password   = 'zvbxldnlkyylru'; // need to change
+    $mail->Password   = 'ayzvbxldnlkyylru'; // need to change
     $mail->SMTPSecure = 'tls';
     $mail->Port       = 587;
 
@@ -74,7 +74,7 @@ $mail->Body    = '
 
 <body>
   
-    <form method="GET" class="border shadow p-3 rounded" action="http://localhost:8080/jupyter/admin_add_user.php">
+    <form method="GET" class="border shadow p-3 rounded" action="http://localhost:8080/DBMS-project/jupyter/admin_add_user.php">
         <div class="mb-1">
             <label class="form-label">First Name</label>
                 <input type="text" name="xfname" value="' . $_POST['fname'] . '"><br>        
