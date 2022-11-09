@@ -63,3 +63,13 @@
   .form-select:focus{
 	box-shadow: 0 0 0 0.2rem #6f1c1b70;
   }
+  .btn-danger{
+	background-color: #9e2725 !important;
+	border-color: #9e2725 !important;
+	
+  }
+  .btn-danger:hover{
+	color: #ffffff !important;
+	background-color: #6F1D1B !important;
+	border-color: #6F1D1B !important;
+  }
