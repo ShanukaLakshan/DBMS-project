@@ -10,6 +10,7 @@
     integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1"
     crossorigin="anonymous"
   />
+    <link rel="stylesheet" href="style.css">
       <title>Jupiter - Login</title>
       <link rel="icon" type="image/x-icon" href="./img/favicon.png">
       <style>
@@ -18,53 +19,14 @@
           background-size: 100%;
           background-position: top;
           background-repeat: no-repeat;
+          background-attachment: fixed;
         }
-        .btn-primary {
-      color: white;
-      background-color: rgba(210, 147, 94);
-      border-color: rgba(210, 147, 94, 0.7);
-    }
-
-    .btn-primary:hover {
-      color: white;
-      background-color: rgb(169, 118, 77);
-      border-color: rgb(169, 118, 77);
-    }
-
-    .btn-primary:active {
-      color: #212529;
-      background-color: rgb(204, 119, 149);
-      border-color: #c25b76;
-    }
-    .btn-primary:disabled {
-      color: #212529;
-      background-color: #c3e6cb !important;
-      border-color: #c3e6cb;
-    }
-    .btn-primary:focus {
-      box-shadow: 0 0 0 0.2rem rgb(169, 118, 77);
-      background-color: rgb(236, 162, 102) !important;
-      border-color: rgb(236, 162, 102) !important;
-      box-shadow: #723d00 !important;
-      outline: #c25b76 !important;
-    }
-    .btn-outline-warning{
-      color: #212529 !important;
-      border-color: #6F1D1B;
-    }
-    .btn-outline-warning:hover{
-      color: #ffffff !important;
-      background-color: #6F1D1B;
-      border-color: #6F1D1B;
-    }
-    .border-primary{
-      border-color: #6F1D1B !important;
-    }
+        
 
         </style>
 </head>
 <body>
-    <div class="d-flex align-items-center">
+    <div class="d-flex align-items-center position-static">
         <div class="row no-gutters h-100 fixed-top">
             <div class="row d-flex align-items-center ">
                 <div class="col-sm-6 text-center" >
@@ -113,7 +75,7 @@
                       margin: 20px;
                     "
                   >
-                    <div class="text-center">
+                    <div class="text-center d-block img-fluid">
                       <img
                         src="./img/jupiter_logo.png"
                         style="width: 280px"
