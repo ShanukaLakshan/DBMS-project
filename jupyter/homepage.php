@@ -7,7 +7,7 @@ $userpassword = "" . $_POST['pwd'];
 try {
     $conn = mysqli_connect($sname, $uname, $password, $db_name);
     $get_leaves = "select id FROM leave_request WHERE id in (SELECT id FROM supervisor where supervisor_id = '$username') and status='pending'";
-    $leaves = mysqli_query($conn, $get_leaves);
+    $leave = mysqli_query($conn, $get_leaves);
 } catch (Exception $e) {
     echo "<p style='color:red;'>Database Connection Failed !</p>";
     exit();
@@ -70,7 +70,7 @@ try {
 </head>
 <style>
   body {
-    background-color: #2C3333;
+    background-color: #635666;
   }
 
   /* The side navigation menu */
@@ -78,7 +78,7 @@ try {
     margin: 0;
     padding: 0;
     width: 100px;
-    background-color: #f1f1f1;
+    background-color: #ECE5C7;
     position: fixed;
     height: 100%;
     overflow: auto;
@@ -99,8 +99,8 @@ try {
 
   /* Active/current link */
   .sidebar a.active {
-    background-color: #395B64;
-    color: white;
+    background-color: #354259;
+    color: rgb(255, 255, 255);
   }
 
   /* Links on mouse-over */
@@ -199,8 +199,16 @@ try {
   }
 
   .progress-bar-warning {
-    background-color: #395B64;
+    background-color: #635666;
     
+  }
+  .btn{
+    border-radius: 0px;
+  }
+  .btn:hover{
+    background-color: #354259;
+    border-radius:0px;
+    color:white
   }
 </style>
 
@@ -208,17 +216,39 @@ try {
 
   <div class="sidebar">
     <a class="active" href="#home">Home</a>
-    <a href="#contact">Pending approvals</a>
-    <a href="#about">Request a leave</a>
+    <?php if ($row2['user_type'] === 'admin') { ?>
+            <form action="review_employee.php" method="POST">
+                <input type="text" name="uname" value="<?php echo $username ?>" style="display: none;" />
+                <input type="password" name="pwd" value="<?php echo $userpassword ?>" style="display: none;" />
+                <button class="btn btn">Review Employees</button>
+            </form>
+        <?php } else { ?>
+          <a href="#" style="display: none;" >Review Employees</a>
+      <?php } ?>
+    <form action="leaveform.php" action="GET">
+        <input type="text" name="uname" value="<?php echo $row['name'] ?>" style="display: none;">
+        <input type="text" name="id" value="<?php echo $row['id'] ?>" style="display: none;">
+        <button type="submit" class="btn btn">Request a leave</button>
+    </form>
+    <form action="approve_leaves.php" method="GET">
+      <button type="submit" class="btn btn position-relative" name="get_username" value="<?php echo $username; ?>">
+          Pending approves
+          <span class="position-absolute top-70 start-90 translate-middle badge rounded-pill bg-danger"> <?php echo "" . mysqli_num_rows($leave); ?>
+
+              <span class="visually-hidden">unread messages</span>
+          </span>
+      </button>
+  </form>
+
   </div>
   <div class="content">
-    <div class="row col-lg-15 " style="background-color:#E7F6F2">
+    <div class="row col-lg-15 " style="background-color:#354259">
       <div class="col">
         <img class="border-dark " src="./img/jupiter_logo.png"
           style="width:250px;margin-bottom: 5px;margin-left: 10px;">
       </div>
       <div class="col-lg-6 align-self-center text-center">
-        <h4 style="color:rgb(0, 0, 0)">Jupiter Employee Portal</h4>
+        <h4 style="color:rgb(255, 255, 255)">Jupiter Employee Portal</h4>
       </div>
       <div class="col-sm-3 align-self-lg-center d-flex justify-content-end">
         <div class="row mx-0 text-end">
@@ -239,12 +269,12 @@ try {
           </div>
           <div class="col-lg-auto text-end align-content-end" style="margin-left:-4%;">
             <div class="dropdown align-self-end" style="float:right">
-              <button class="dropbtn align-self-end">
-                <?php echo $row['name'] ?> &nbsp<i class="fa fa-caret-down"></i>
+              <button class="dropbtn align-self-end"> <p style="color:white">
+                <?php echo $row['name'] ?> &nbsp<i class="fa fa-caret-down"></i></p>
               </button>
               <div class="dropdown-content" style="left:0px">
                 <a href="#">Account details</a>
-                <a href="#">Logout</a>
+                <a href="../jupyter/index.html">Logout</a>
               </div>
             </div>
           </div>
@@ -256,10 +286,10 @@ try {
     <div class="container-fluid mx-0">
       <div class="row" style="margin-top:1%">
         <div class="col">
-          <div class="card rounded-3" style="padding: 2%;background-color: rgba(255, 255, 255, 0.2);">
+          <div class="card rounded-3" style="padding: 2%;background-color: rgba(255, 255, 255, 0.5);">
             <div class="row">
               <div class="col justify-content-md-start">
-                <div class="card" style="padding:2%">
+                <div class="card" style="padding:2%;background-color:#EEEDDE">
                   <div class="text-center">
                     <?php
                                         $sql3 = mysqli_query($conn, "SELECT * FROM user WHERE id = '$username'");
@@ -282,22 +312,28 @@ try {
                     </h6>
                   </div>
                   <div class="container-fluid">
-                    <div class="row justify-content-center " style="margin-top:10px;">
-                      <div class="col col-sm-4 align-self-center">
+                    <div class="row justify-content-md-center w-75 offset-md-1" style="margin-top:10px;">
+                      <div class="col col-md-auto">
                         <p style="color: #858585; margin-bottom: 2px;">Gender</p>
                         <p>
                           <?php echo $row['gender'] ?>
                         </p>
                       </div>
-                      <div class="col col-sm-4 align-self-center">
+                      <div class="col col-md-auto">
                         <p style="color: #858585; margin-bottom: 2px;">Martial Status</p>
                         <p>
                           <?php echo $row['marital_status'] ?>
                         </p>
                       </div>
+                      <div class="col col-md-auto">
+                        <p style="color: #858585; margin-bottom: 2px;">ID</p>
+                        <p>
+                          <?php echo $row['id'] ?>
+                        </p>
+                      </div>
                     </div>
-                    <div class="row justify-content-center">
-                      <div class="col col-sm-4 ">
+                    <div class="row justify-content-md-center w-75 offset-md-1">
+                      <div class="col col-md-auto ">
                         <p style="color: #858585; margin-bottom: 2px;">Address</p>
                         <p>
                           <?php echo $row5['address_line_1'].','.$row5['address_line_2'] ?>
@@ -306,7 +342,7 @@ try {
                           <?php echo $row5['city'].','.$row5['postal_code'] ?>
                         </p>
                       </div>
-                      <div class="col col-sm-4">
+                      <div class="col col-md-auto">
                         <p style="color: #858585; margin-bottom: 2px;">Phone</p>
                         <p>
                           <?php echo $row['phone_number'] ?>
@@ -318,7 +354,7 @@ try {
               </div>
               <div class="col justify-content-center">
                 <div class="row align-self-center">
-                  <div class="card" style="background-color:#E7F6F2">
+                  <div class="card" style="background-color:#EEEDDE">
                     <div class="card-header">
                       <p class="fw-bold" style="font-size:large">Employment</p>
                     </div>
@@ -347,11 +383,11 @@ try {
                   </div>
                 </div>
                 <div class="row align-self-center  " style="margin-top:10px">
-                  <div class="card">
+                  <div class="card" style="background-color:#EEEDDE;margin-top: 4%;">
                     <div class="card-header" >
                       <p class="fw-bold" style="font-size:large">Leaves</p>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body" style="padding-left:5%;padding-right:5%">
                       <div class="row" >
                         <p style="color: #858585; margin-bottom: 10px;">No Pay</p>
                         <div class="progress" style="padding:0 ;">
