@@ -267,7 +267,7 @@ div.content {
                                                 <div class="col col-sm-4 ">
                                                     <p style="color: #858585; margin-bottom: 2px;">Address</p>
                                                     <p ><?php echo $row5['address_line_1'].','.$row5['address_line_2'] ?></p>
-                                                    <p><?php echo $row5['city'].','.$row5['postal_code'] ?></p>
+                                                    <p style="margin-top:-10%"><?php echo $row5['city'].','.$row5['postal_code'] ?></p>
                                                 </div>
                                                 <div class="col col-sm-4">
                                                     <p style="color: #858585; margin-bottom: 2px;">Phone</p>
