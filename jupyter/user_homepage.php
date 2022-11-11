@@ -8,6 +8,8 @@ try {
     $conn = mysqli_connect($sname, $uname, $password, $db_name);
     $get_leaves = "select id FROM leave_request WHERE id in (SELECT id FROM supervisor where supervisor_id = '$username') and status='pending'";
     $leaves = mysqli_query($conn, $get_leaves);
+    $get_job = "select job_title from employment where id='$username'";
+    $job = mysqli_query($conn, $get_job);
 } catch (Exception $e) {
     echo "<p style='color:red;'>Database Connection Failed !</p>";
     exit();
@@ -19,6 +21,10 @@ try {
 
     $sql1 = mysqli_query($conn, "SELECT * FROM employee WHERE id in (SELECT id FROM user WHERE id = '$username' AND password = '$userpassword')");
     $row = mysqli_fetch_array($sql1);
+
+    $sql3 = mysqli_query($conn,"SELECT * FROM employment WHERE id='$username'");
+    $row4 = mysqli_fetch_array($sql3);
+    echo $row4['job_title'];
 } catch (Exception $e) {
     echo "<p style='color:red;'>Username or Password is incorrect !</p>";
     exit();
@@ -37,22 +43,26 @@ try {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous" />
     <link rel="stylesheet" href="style.css" />
-    <title>Jupiter - name</title>
+    <title>Jupiter - <?php echo $row['name'] ?></title>
     <link rel="icon" type="image/x-icon" href="./img/favicon.png">
     <style>
         body {
-            background-image: url(./img/rbackground.jpg);
+            background-image: url(./img/background5.jpg);
             background-size: 100%;
             background-position: 10%;
         }
+        .border-primary{
+            border-color: #6F1D1B !important;
+        }
+
     </style>
 </head>
 
 <body>
     <div class="row justify-content-md-center align-items-center" style="min-height:100vh">
         <div class="col col-lg-5">
-            <div class="card border-primary shadow-lg" style="width:25 rem;background-color: #ffffff68; ">
-                <h5 class="card-header text-center" style="background-color:#ffffffb7">Welcome, <?php echo $row['name'] ?></h5>
+            <div class="card border-primary shadow-lg" style="width:70 rem;background-color: #ffffff68; ">
+                <h1 class="card-header text-center " style="background-color:#ffffffb7">Welcome, <?php echo $row['name'] ?></h1>
                 <div class="card-body">
                     <div class="row ">
                         <div class="col">
@@ -78,13 +88,18 @@ try {
                             <h5 class="card-title fw-bold" style="margin-top: 10px;"><?php echo $row['name'] ?></h5>
                             <h6 class="card-title" style="margin-top: -5px;"><?php echo $row2['user_name'] ?></h6>
                         </div>
-                        <div class="col align-items-center">
-                            <div class="row btn-sm" style="margin-top:90px">
-                                <form action="personal_page.php" method="POST">
-                                    <input type="text" name="uname" value="<?php echo $username ?>" style="display: none;" />
-                                    <input type="password" name="pwd" value="<?php echo $userpassword ?>" style="display: none;" />
-                                    <button type="submit" class="btn btn-secondary">Personal Details</button>
-                                </form>
+                        <div class="col">
+                            <div class="row btn-sm">
+                                <div class="text-end">
+                                    <form action="personal_page.php" method="POST">
+                                        <input type="text" name="uname" value="<?php echo $username ?>" style="display: none;" />
+                                        <input type="password" name="pwd" value="<?php echo $userpassword ?>" style="display: none;" />
+                                        <button type="submit" class="btn btn-secondary ">Personal Details</button>
+                                    </form>
+                                </div>
+                                <div class="text-center" style="margin-top:10px">
+                                    <h3> <?php echo $row4['job_title'] ?> </h3>
+                                </div>
                             </div>
                             <div class="text-end" style="margin-top:75px">
                                 <a href="index.html" class="btn btn-danger">Logout</a>
@@ -95,7 +110,7 @@ try {
                     <div class="row justify-content-center text-center">
                         <div class="col">
                             <form action="approve_leaves.php" method="GET">
-                                <button type="submit" class="btn btn-primary position-relative" name="get_username" value="<?php echo $username; ?>">
+                                <button type="submit" class="btn btn-dark position-relative" name="get_username" value="<?php echo $username; ?>">
                                     Pending approves
                                     <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"> <?php echo "" . mysqli_num_rows($leaves); ?>
 
@@ -108,7 +123,7 @@ try {
                             <form action="leaveform.php" action="GET">
                                 <input type="text" name="uname" value="<?php echo $row['name'] ?>" style="display: none;">
                                 <input type="text" name="id" value="<?php echo $row['id'] ?>" style="display: none;">
-                                <button type="submit" class="btn btn-primary">Request a leave</button>
+                                <button type="submit" class="btn btn-dark">Request a leave</button>
                             </form>
                         </div>
                         <?php if ($row2['user_type'] === 'admin') { ?>
