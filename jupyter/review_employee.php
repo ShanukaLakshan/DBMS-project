@@ -6,7 +6,7 @@ $userpassword = "" . $_POST['pwd'];
 
 try {
     $conn = mysqli_connect($sname, $uname, $password, $db_name);
-    $get_leaves = "select id FROM leave_request WHERE id in (SELECT id FROM supervisor where supervisor_id = '$username') and status='pending'";
+    $get_leaves = "select id FROM leave_requests WHERE id in (SELECT id FROM supervisor where supervisor_id = '$username') and status='pending'";
     $leaves = mysqli_query($conn, $get_leaves);
 } catch (Exception $e) {
     echo "<p style='color:red;'>Database Connection Failed !</p>";
@@ -14,10 +14,10 @@ try {
 }
 
 try {
-    $sql2 = mysqli_query($conn, "SELECT * FROM user WHERE id = '$username' AND password = '$userpassword'");
+    $sql2 = mysqli_query($conn, "SELECT * FROM user WHERE user_name = '$username' AND password = '$userpassword'");
     $row2 = mysqli_fetch_array($sql2);
 
-    $sql1 = mysqli_query($conn, "SELECT * FROM employee WHERE id in (SELECT id FROM user WHERE id = '$username' AND password = '$userpassword')");
+    $sql1 = mysqli_query($conn, "SELECT * FROM employee WHERE id in (SELECT id FROM user WHERE user_name = '$username' AND password = '$userpassword')");
     $row = mysqli_fetch_array($sql1);
 } catch (Exception $e) {
     echo "<p style='color:red;'>Username or Password is incorrect !</p>";

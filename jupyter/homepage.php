@@ -6,40 +6,45 @@ $userpassword = "" . $_POST['pwd'];
 
 try {
     $conn = mysqli_connect($sname, $uname, $password, $db_name);
-    $get_leaves = "select id FROM leave_request WHERE id in (SELECT id FROM supervisor where supervisor_id = '$username') and status='pending'";
-    $leave = mysqli_query($conn, $get_leaves);
 } catch (Exception $e) {
     echo "<p style='color:red;'>Database Connection Failed !</p>";
     exit();
 }
 
 try {
-    $sql2 = mysqli_query($conn, "SELECT * FROM user WHERE id = '$username' AND password = '$userpassword'");
+    $sql2 = mysqli_query($conn, "SELECT * FROM user WHERE user_name = '$username' AND password = '$userpassword'");
     $row2 = mysqli_fetch_array($sql2);
 
-    $sql1 = mysqli_query($conn, "SELECT * FROM employee WHERE id in (SELECT id FROM user WHERE id = '$username' AND password = '$userpassword')");
+    $sql1 = mysqli_query($conn, "SELECT * FROM employee WHERE id in (SELECT id FROM user WHERE user_name = '$username' AND password = '$userpassword')");
     $row = mysqli_fetch_array($sql1);
 
-    $sql3 = mysqli_query($conn,"SELECT * FROM employment WHERE id='$username'");
+    $get_leaves = "select id FROM leave_requests WHERE id in (SELECT id FROM supervisor where supervisor_id = '$username') and status='pending'";
+    $leave = mysqli_query($conn, $get_leaves);
+
+    $id=$row['id'];
+    $sql3 = mysqli_query($conn,"SELECT * FROM employment WHERE id='$id'");
     $row4 = mysqli_fetch_array($sql3);
 
-    $sql4 = mysqli_query($conn,"SELECT * FROM address WHERE id='$username'");
+    $sql4 = mysqli_query($conn,"SELECT * FROM address WHERE id='$id'");
     $row5 = mysqli_fetch_array($sql4);
 
-    $sql5 = mysqli_query($conn,"SELECT count(id) as count FROM leave_request WHERE id='$username' and status='approved' and type='casual'");
+    $sql5 = mysqli_query($conn,"SELECT count(id) as count FROM leave_requests WHERE id='$id' and status='approved' and type='casual'");
     $casualc=mysqli_fetch_array($sql5);
 
-    $sql6 = mysqli_query($conn,"SELECT count(id) as count FROM leave_request WHERE id='$username' and status='approved' and type='anual'");
+    $sql6 = mysqli_query($conn,"SELECT count(id) as count FROM leave_requests WHERE id='$id' and status='approved' and type='anual'");
     $annualc=mysqli_fetch_array($sql6);
 
-    $sql7 = mysqli_query($conn,"SELECT count(id) as count FROM leave_request WHERE id='$username' and status='approved' and type='maternity'");
+    $sql7 = mysqli_query($conn,"SELECT count(id) as count FROM leave_requests WHERE id='$id' and status='approved' and type='maternity'");
     $maternityc=mysqli_fetch_array($sql7);
 
-    $sql8 = mysqli_query($conn,"SELECT count(id) as count FROM leave_request WHERE id='$username' and status='approved' and type='no_pay'");
+    $sql8 = mysqli_query($conn,"SELECT count(id) as count FROM leave_requests WHERE id='$id' and status='approved' and type='no_pay'");
     $nopayc=mysqli_fetch_array($sql8);
 
     $sql9 = mysqli_query($conn,"SELECT * FROM leave_detail WHERE job_title='$row4[job_title]'");
     $leaves=mysqli_fetch_array($sql9);
+    $dept_id=$row4['dept_id'];
+    $sql10=mysqli_query($conn,"SELECT * FROM department WHERE id='$dept_id'");
+    $dept=mysqli_fetch_array($sql10);
 
 } catch (Exception $e) {
     echo "<p style='color:red;'>Username or Password is incorrect !</p>";
@@ -48,12 +53,6 @@ try {
 
 
 ?>
-
-
-
-
-
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -231,7 +230,7 @@ try {
         <button type="submit" class="btn btn">Request a leave</button>
     </form>
     <form action="approve_leaves.php" method="GET">
-      <button type="submit" class="btn btn position-relative" name="get_username" value="<?php echo $username; ?>">
+      <button type="submit" class="btn btn position-relative" name="get_username" value="<?php echo $id; ?>">
           Pending approves
           <span class="position-absolute top-70 start-90 translate-middle badge rounded-pill bg-danger"> <?php echo "" . mysqli_num_rows($leave); ?>
 
@@ -254,7 +253,7 @@ try {
         <div class="row mx-0 text-end">
           <div class="col-auto text-end">
             <?php
-                $sql3 = mysqli_query($conn, "SELECT * FROM user WHERE id = '$username'");
+                $sql3 = mysqli_query($conn, "SELECT * FROM user WHERE id = '$id'");
                 $row3 = mysqli_fetch_array($sql3);
                 $name = $row2['img_name'];
                 $stmt = $pdo->prepare("SELECT `img_data` FROM `user` WHERE `img_name`=?");
@@ -292,7 +291,7 @@ try {
                 <div class="card" style="padding:2%;background-color:#EEEDDE">
                   <div class="text-center">
                     <?php
-                                        $sql3 = mysqli_query($conn, "SELECT * FROM user WHERE id = '$username'");
+                                        $sql3 = mysqli_query($conn, "SELECT * FROM user WHERE id = '$id'");
                                         $row3 = mysqli_fetch_array($sql3);
                                         $name = $row2['img_name'];
                                         $stmt = $pdo->prepare("SELECT `img_data` FROM `user` WHERE `img_name`=?");
@@ -363,7 +362,7 @@ try {
                         <div class="col col-sm-4">
                           <p style="color: #858585; margin-bottom: 2px;">Department</p>
                           <p>
-                            <?php echo $row4['department'] ?>
+                            <?php echo $dept['name'] ?>
                           </p>
                         </div>
                         <div class="col col-sm-4">

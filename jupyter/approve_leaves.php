@@ -10,7 +10,7 @@ try {
 
 try {
     $us_name = $_GET['get_username'];
-    $get_leaves = "select * FROM leave_request WHERE id in (SELECT id FROM supervisor where supervisor_id = '" . $us_name . "') and status='pending'";
+    $get_leaves = "select * FROM leave_requests WHERE id in (SELECT id FROM supervisor where supervisor_id = '" . $us_name . "') and status='pending'";
     $leaves = mysqli_query($conn, $get_leaves);
 } catch (Exception $e) {
     echo "<p style='color:red;'>Username or Password is incorrect !</p>";
@@ -55,11 +55,11 @@ try {
                                     <th scope="row"><?= $i ?></th>
                                     <td><?php echo $row["id"]; ?></td>
                                     <td><?php echo $row["type"]; ?></td>
-                                    <td><?php echo $row["date"]; ?></td>
+                                    <td><?php echo $row["date_of_leave"]; ?></td>
                                     <td><?php echo $row["status"]; ?></td>
                                     <form action="approved.php" method="GET">
                                         <input type="text" name="get_username" value="<?php echo $us_name ?>" style="display: none;" />
-                                        <input type="text" name="date" value="<?php echo $row["date"]; ?>" style="display: none;" />
+                                        <input type="text" name="date" value="<?php echo $row["date_of_leave"]; ?>" style="display: none;" />
                                         <input type="text" name="id" value="<?php echo $row["id"]; ?>" style="display: none;" />
                                         <td><button type="submit" class="btn btn-success">Approve</a></td>
                                     </form>

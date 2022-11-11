@@ -5,10 +5,10 @@ drop table if exists address;
 drop table if exists bank_details;
 drop table if exists employment;
 drop table if exists leave_detail;
-drop table if exists leave_approved;
 drop table if exists salary;
 drop table if exists payroll;
-drop table if exists leave_request;
+drop table if exists leave_requests;
+drop table if exists department;
 drop table if exists user;
 SET FOREIGN_KEY_CHECKS = 1; 
 create table employee
@@ -33,6 +33,9 @@ create table user
 	(user_name	varchar(20) not null,
 	 id	int not null,
      password varchar(40) not null,
+     user_type varchar(5),
+     img_name varchar(20),
+     img_data longblob,
      primary key(user_name),
      foreign key (id) references employee(id) on delete cascade
      );
@@ -43,15 +46,21 @@ create table salary
      amount	numeric(7,0) check (amount>0) not null,
      primary key (job_title,pay_grade)
      );     
+create table department
+	(name	varchar(10) not null,
+     id	varchar(5)	not null,
+     primary key(id)
+     );
 create table employment 
 	(id	int not null,
 	 job_title	varchar(20) not null,
      pay_grade	tinyint not null,
      employement_status	varchar(10 ) not null,
-     department	varchar(10) not null,
+     dept_id	varchar(5) not null,
      primary key (id),
      foreign key (id) references employee(id) ,
-     foreign key (job_title,pay_grade) references salary(job_title,pay_grade) 
+     foreign key (job_title,pay_grade) references salary(job_title,pay_grade),
+     foreign key (dept_id) references department(id)
      );     
 create table leave_detail
 	(pay_grade	tinyint not null,
@@ -63,14 +72,6 @@ create table leave_detail
      primary key (pay_grade,job_title),
      foreign key (job_title,pay_grade) references salary(job_title,pay_grade) 
      );
-create table leave_approved
-	(id	int not null,
-	 type	varchar(10) not null,
-     date	date not null,
-     primary key(id,date),
-     foreign key(id) references employee(id) on delete cascade
-     );
-
 create table address
 	(id	int not null,
      address_line_1	varchar(20) not null,
@@ -99,10 +100,13 @@ create table payroll
     foreign key(id) references employee(id) on delete cascade
     );
     
-create table leave_request
+create table leave_requests
 	(id int not null,
      type	varchar(10) not null,
-     date	date not null,
-     primary key(id,date),
+     date_of_leave	date not null,
+     date_requested date,
+     date_moderated date,
+     status varchar(10),
+     primary key(id,date_of_leave),
      foreign key(id) references employee(id) on delete cascade
      );
