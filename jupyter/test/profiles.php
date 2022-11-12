@@ -25,13 +25,11 @@ $users = mysqli_fetch_all($results, MYSQLI_ASSOC);
                 <table class="table table-bordered">
                     <thead>
                         <th>Image</th>
-                        <th>Bio</th>
                     </thead>
                     <tbody>
                         <?php foreach ($users as $user) : ?>
                             <tr>
-                                <td> <img src="<?php echo 'images/' . $user['profile_image'] ?>" width="90" height="90" alt=""> </td>
-                                <td> <?php echo $user['bio']; ?> </td>
+                                <td> <img src="<?php echo 'images/' . $user['profile_image'] ?>" width="90" height="90" alt="User Image"> </td>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>

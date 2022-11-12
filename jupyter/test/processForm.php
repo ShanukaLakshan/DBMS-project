@@ -5,10 +5,9 @@ $msg_class = "";
 $conn = mysqli_connect("localhost", "jupiter_admin", "112233", "jupiter");
 if (isset($_POST['save_profile'])) {
     // for the database
-    $bio = stripslashes($_POST['bio']);
     $profileImageName = time() . '-' . $_FILES["profileImage"]["name"];
     // For image upload
-    $target_dir = "img/";
+    $target_dir = "images/";
     $target_file = $target_dir . basename($profileImageName);
     // VALIDATION
     // validate image size. Size is calculated in Bytes
@@ -24,7 +23,7 @@ if (isset($_POST['save_profile'])) {
     // Upload image only if no errors
     if (empty($error)) {
         if (move_uploaded_file($_FILES["profileImage"]["tmp_name"], $target_file)) {
-            $sql = "INSERT INTO users SET profile_image='$profileImageName', bio='$bio'";
+            $sql = "INSERT INTO images SET img='$profileImageName'";
             if (mysqli_query($conn, $sql)) {
                 $msg = "Image uploaded and saved in the Database";
                 $msg_class = "alert-success";

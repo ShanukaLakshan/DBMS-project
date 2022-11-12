@@ -1,4 +1,5 @@
-<?php include_once('processForm.php') ?>
+<?php
+include_once('processForm.php') ?>
 <!DOCTYPE html>
 <html lang="en">
 
