@@ -127,31 +127,31 @@ $conn = mysqli_connect($sname, $uname, $password, $db_name);
                 <div class="md-3">
                   <div class="row">
                     <div class="col">
-                      <input type="text" class="form-control" name="fname" placeholder="First name" aria-label="First name" />
+                      <input type="text" class="form-control" name="fname" placeholder="First name" required />
                     </div>
                     <div class="col">
-                      <input type="text" class="form-control" name="lname" placeholder="Last name" aria-label="Last name" />
+                      <input type="text" class="form-control" name="lname" placeholder="Last name" required />
                     </div>
                   </div>
-                  <input type="text" style="margin-top: 10px" name="email" placeholder="Email : saman@gmail.com" class="form-control" />
-                  <input type="text" style="margin-top: 10px" name="phone" placeholder="Phone : 0771234567" class="form-control" />
-                  <input type="date" style="margin-top: 10px" name="bdate" class="form-control" />
+                  <input type="mail" style="margin-top: 10px" name="email" placeholder="Email : saman@gmail.com" class="form-control" required />
+                  <input type="text" style="margin-top: 10px" name="phone" placeholder="Phone : 0771234567" maxlength="10" minlength="10" class="form-control" required />
+                  <input type="date" style="margin-top: 10px" name="bdate" class="form-control" required />
                 </div>
                 <div class="row">
                   <div class="col">
                     <label style="margin-top: 10px" class="col-sm-7 control-label">Select Gender</label>
                     <div class="col-sm-8">
                       <label class="radio-inline">
-                        <input type="radio" name="gender" value="male" /> Male
+                        <input type="radio" name="gender" value="male" required /> Male
                       </label>
                       <label class="radio-inline">
-                        <input type="radio" name="gender" value="female" /> Female
+                        <input type="radio" name="gender" value="female" required /> Female
                       </label>
                     </div>
                   </div>
                   <div class="col">
-                    <select class="form-select" name="marital" style="margin-top:30px">
-                      <option selected>Marital Status</option>
+                    <select class="form-select" name="marital" style="margin-top:30px" required>
+                      <option value="">Marital Status</option>
                       <option value="single">Single</option>
                       <option value="married">Married</option>
                       <option value="divorced">Divorced</option>
@@ -162,21 +162,21 @@ $conn = mysqli_connect($sname, $uname, $password, $db_name);
                 <label style="margin-top: 10px" class="col-sm-4 control-label">Address</label>
                 <div class="row g-3">
                   <div class="col">
-                    <input style="margin-top:10px; margin-bottom:10px" type="text" class="form-control" name="addressline1" placeholder="Address line 1" aria-label="Address" />
+                    <input style="margin-top:10px; margin-bottom:10px" type="text" class="form-control" name="add1" placeholder="Address line 1" required />
                   </div>
                 </div>
                 <div class="row g-3">
                   <div class="col">
-                    <input style="margin-bottom:10px" type="text" class="form-control" name="addressline2" placeholder="Address line 2" aria-label="Address" />
+                    <input style="margin-bottom:10px" type="text" class="form-control" name="add2" placeholder="Address line 2" required />
                   </div>
                 </div>
                 <div class="row g-3">
                   <div class="col-sm-5">
-                    <input type="text" class="form-control" name="city" placeholder="City" aria-label="City" />
+                    <input type="text" class="form-control" name="city" placeholder="City" required />
                   </div>
                   <div class="col-sm-4">
-                    <select class="form-select" name="province">
-                      <option selected>Province</option>
+                    <select class="form-select" name="province" required>
+                      <option value="">Province</option>
                       <option value="Central">Central</option>
                       <option value="North Central">North Central</option>
                       <option value="Northern">Northern</option>
@@ -189,7 +189,7 @@ $conn = mysqli_connect($sname, $uname, $password, $db_name);
                     </select>
                   </div>
                   <div class="col-sm">
-                    <input type="text" class="form-control" name="zip" placeholder="Zip" aria-label="Zip" />
+                    <input type="text" class="form-control" name="zip" placeholder="Zip" required />
                   </div>
                 </div>
 
@@ -202,8 +202,8 @@ $conn = mysqli_connect($sname, $uname, $password, $db_name);
                   <div class="row">
                     <div class="col">
                       <div class="col">
-                        <select class="form-select" name="jtitle">
-                          <option>Job Title</option>
+                        <select class="form-select" name="jtitle" required>
+                          <option value="">Job Title</option>
                           <?php
                           $query = "SELECT DISTINCT job_title FROM employment ORDER BY job_title";
                           $result = $conn->query($query);
@@ -212,7 +212,7 @@ $conn = mysqli_connect($sname, $uname, $password, $db_name);
                           }
                           foreach ($options as $option) {
                           ?>
-                            <option><?php echo $option['job_title']; ?> </option>
+                            <option value="<?php echo $option['job_title']; ?>"><?php echo $option['job_title']; ?> </option>
                           <?php
                           }
                           ?>
@@ -220,38 +220,63 @@ $conn = mysqli_connect($sname, $uname, $password, $db_name);
                       </div>
                     </div>
                     <div class="col">
-                      <select class="form-select" name="dpt">
-                        <option selected>Department</option>
-                        <option value="hr">HR</option>
-                        <option value="admin">Admin</option>
-                        <option value="it">IT</option>
-                        <option value="finance">Finance</option>
-                        <option value="welfare">Welfare</option>
+                      <select class="form-select" name="dpt" required>
+                        <option value="">Department</option>
+                        <?php
+                        $query = "SELECT DISTINCT name FROM department ORDER BY name ASC";
+                        $result = $conn->query($query);
+                        if ($result->num_rows > 0) {
+                          $options = mysqli_fetch_all($result, MYSQLI_ASSOC);
+                        }
+                        foreach ($options as $option) {
+                        ?>
+                          <?php
+                          $query2 = "SELECT DISTINCT id FROM department where name='" . $option['name'] . "'";
+                          $dept = mysqli_query($conn, $query2);
+                          $dept1 = mysqli_fetch_assoc($dept);
+                          $dept_id = $dept1['id'];
+                          ?>
+                          <option value="<?php echo $dept_id; ?>"><?php echo $option['name']; ?> </option>
+                        <?php
+                        }
+                        ?>
                       </select>
                     </div>
                   </div>
 
                   <div style="margin-top: 2px" class="row g-3">
                     <div class="col">
-                      <select class="form-select" name="paygrade">
-                        <option selected>Pay Grade</option>
-                        <option value="1">Level I</option>
-                        <option value="2">Level II</option>
+                      <select class="form-select" name="paygrade" required>
+                        <option value="">Pay Grade</option>
+                        <?php
+                        $query = "SELECT DISTINCT pay_grade FROM salary ORDER BY pay_grade ASC";
+                        $result = $conn->query($query);
+                        if ($result->num_rows > 0) {
+                          $options = mysqli_fetch_all($result, MYSQLI_ASSOC);
+                        }
+                        foreach ($options as $option) {
+                        ?>
+                          <option value="<?php echo $option['pay_grade']; ?>"><?php echo $option['pay_grade']; ?> </option>
+                        <?php
+                        }
+                        ?>
                       </select>
                     </div>
                     <div class="col">
-                      <select class="form-select" name="status">
-                        <option selected>Status</option>
-                        <option value="Intern-Full time">Intern - Full time</option>
+                      <select class="form-select" name="status" required>
+                        <option value="">Status</option>
+                        <option value="Freelance">Freelance</option>
                         <option value="Intern-Part time">Intern - Part time</option>
-                        <option value="Contract-Full time">Contract - Full time</option>
+                        <option value="Intern-Full time">Intern - Full time</option>
                         <option value="Contract-Part time">Contract - Part time</option>
+                        <option value="Contract-Full time">Contract - Full time</option>
+                        <option value="Permanent">Permanent</option>
                       </select>
                     </div>
                   </div>
                   <div class="row g-3" style="margin-top: 0.5px;">
                     <div class="col">
-                      <input type="text" name="s_id" placeholder="Supervisor ID" class="form-control" />
+                      <input type="text" name="s_id" placeholder="Supervisor ID" class="form-control" style="display: none;" />
                     </div>
                   </div>
                 </div>
@@ -260,13 +285,13 @@ $conn = mysqli_connect($sname, $uname, $password, $db_name);
                 <div class="md-3">
                   <div class="row">
                     <div class="col">
-                      <input type="text" class="form-control" name="bnkname" placeholder="Bank name" aria-label="First name" />
+                      <input type="text" class="form-control" name="bnkname" placeholder="Bank name" required />
                     </div>
                     <div class="col">
-                      <input type="text" class="form-control" name="brnchname" placeholder="Branch name" aria-label="Last name" />
+                      <input type="text" class="form-control" name="brnchname" placeholder="Branch name" required />
                     </div>
                   </div>
-                  <input type="text" style="margin-top: 10px" name="accn" placeholder="Account Number" class="form-control" />
+                  <input type="text" style="margin-top: 10px" name="accn" placeholder="Account Number" class="form-control" required />
                 </div>
 
               </div>

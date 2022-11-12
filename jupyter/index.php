@@ -1,3 +1,15 @@
+<?php 
+if(isset($_REQUEST["err"]))
+	$msg="Invalid username or Password";
+?>
+<p style="color:red;">
+<?php
+if(isset($_COOKIE['uname']))
+  header("location:homepage.php");
+?>
+
+</p>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -192,7 +204,7 @@
               </div>
 
               <form
-                action="homepage.php"
+                action="login.php"
                 method="post"
                 class="text-center"
               >
@@ -226,6 +238,15 @@
                   >
                     Log in
                   </button>
+                  
+                </div>
+                <div class="row">
+                  <p style="color:#9e2725"><?php if(isset($msg))
+                    {
+                      
+                    echo $msg;
+                    }
+                    ?></p>
                 </div>
 
                 <div

@@ -1,8 +1,16 @@
+<?php 
+
+if(!isset($_COOKIE["uname"]))// $_COOKIE is a variable and login is a cookie name 
+
+	header("location:login.php"); 
+
+?>
 <?php
+    $username=$_COOKIE['uname'];
+    $userpassword=$_COOKIE['pass'];
+
 include('user_config.php');
 include('db_connector.php');
-$username = "" . $_POST['uname'];
-$userpassword = "" . $_POST['pwd'];
 
 try {
     $conn = mysqli_connect($sname, $uname, $password, $db_name);
@@ -10,18 +18,20 @@ try {
     echo "<p style='color:red;'>Database Connection Failed !</p>";
     exit();
 }
-
+if(isset($_REQUEST['c'])){
+  echo "<script>alert('Changed Successfully');</script>";
+}
 try {
-    $sql2 = mysqli_query($conn, "SELECT * FROM user WHERE user_name = '$username' AND password = '$userpassword'");
+    $sql2 = mysqli_query($conn, "SELECT * FROM user WHERE user_name = '$username'");
     $row2 = mysqli_fetch_array($sql2);
 
     $sql1 = mysqli_query($conn, "SELECT * FROM employee WHERE id in (SELECT id FROM user WHERE user_name = '$username' AND password = '$userpassword')");
     $row = mysqli_fetch_array($sql1);
+    $id=$row['id'];
 
-    $get_leaves = "select id FROM leave_requests WHERE id in (SELECT id FROM supervisor where supervisor_id = '$username') and status='pending'";
+    $get_leaves = "select id FROM leave_requests WHERE id in (SELECT id FROM supervisor where supervisor_id = '$id') and status='pending'";
     $leave = mysqli_query($conn, $get_leaves);
 
-    $id=$row['id'];
     $sql3 = mysqli_query($conn,"SELECT * FROM employment WHERE id='$id'");
     $row4 = mysqli_fetch_array($sql3);
 
@@ -31,7 +41,7 @@ try {
     $sql5 = mysqli_query($conn,"SELECT count(id) as count FROM leave_requests WHERE id='$id' and status='approved' and type='casual'");
     $casualc=mysqli_fetch_array($sql5);
 
-    $sql6 = mysqli_query($conn,"SELECT count(id) as count FROM leave_requests WHERE id='$id' and status='approved' and type='anual'");
+    $sql6 = mysqli_query($conn,"SELECT count(id) as count FROM leave_requests WHERE id='$id' and status='approved' and type='annual'");
     $annualc=mysqli_fetch_array($sql6);
 
     $sql7 = mysqli_query($conn,"SELECT count(id) as count FROM leave_requests WHERE id='$id' and status='approved' and type='maternity'");
@@ -40,12 +50,11 @@ try {
     $sql8 = mysqli_query($conn,"SELECT count(id) as count FROM leave_requests WHERE id='$id' and status='approved' and type='no_pay'");
     $nopayc=mysqli_fetch_array($sql8);
 
-    $sql9 = mysqli_query($conn,"SELECT * FROM leave_detail WHERE job_title='$row4[job_title]'");
+    $sql9 = mysqli_query($conn,"SELECT * FROM leave_detail WHERE job_title='$row4[job_title]' and pay_grade='$row4[pay_grade]'");
     $leaves=mysqli_fetch_array($sql9);
     $dept_id=$row4['dept_id'];
     $sql10=mysqli_query($conn,"SELECT * FROM department WHERE id='$dept_id'");
     $dept=mysqli_fetch_array($sql10);
-
 } catch (Exception $e) {
     echo "<p style='color:red;'>Username or Password is incorrect !</p>";
     exit();
@@ -65,7 +74,8 @@ try {
     integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
-  <title>Document</title>
+  <title>Jupiter - Portal</title>
+  <link rel="icon" type="image/x-icon" href="./img/favicon.png" />
 </head>
 <style>
   body {
@@ -83,6 +93,7 @@ try {
     overflow: auto;
     text-align: center;
     justify-content: center;
+    border-color: #354259;
   }
 
   /* Sidebar links */
@@ -94,6 +105,7 @@ try {
     height: 82px;
     text-align: center;
     justify-content: center;
+    
   }
 
   /* Active/current link */
@@ -201,8 +213,11 @@ try {
     background-color: #635666;
     
   }
-  .btn{
+  .btn-sq{
     border-radius: 0px;
+    background-color:#CDC2AE;
+    height: 82px !important;
+    width: 100px !important;
   }
   .btn:hover{
     background-color: #354259;
@@ -214,37 +229,29 @@ try {
 <body>
 
   <div class="sidebar">
-    <a class="active" href="#home">Home</a>
+    <a class="active" href="../jupyter/homepage.php">Home</a>
     <?php if ($row2['user_type'] === 'admin') { ?>
-            <form action="review_employee.php" method="POST">
-                <input type="text" name="uname" value="<?php echo $username ?>" style="display: none;" />
-                <input type="password" name="pwd" value="<?php echo $userpassword ?>" style="display: none;" />
-                <button class="btn btn">Review Employees</button>
-            </form>
-        <?php } else { ?>
-          <a href="#" style="display: none;" >Review Employees</a>
-      <?php } ?>
-    <form action="leaveform.php" action="GET">
-        <input type="text" name="uname" value="<?php echo $row['name'] ?>" style="display: none;">
-        <input type="text" name="id" value="<?php echo $row['id'] ?>" style="display: none;">
-        <button type="submit" class="btn btn">Request a leave</button>
-    </form>
-    <form action="approve_leaves.php" method="GET">
-      <button type="submit" class="btn btn position-relative" name="get_username" value="<?php echo $id; ?>">
-          Pending approves
-          <span class="position-absolute top-70 start-90 translate-middle badge rounded-pill bg-danger"> <?php echo "" . mysqli_num_rows($leave); ?>
-
-              <span class="visually-hidden">unread messages</span>
-          </span>
-      </button>
-  </form>
+      <a href="../jupyter/review_employee.php">Review Employees</a>
+    <?php } else { ?>
+      <a href="#" style="display: none;" >Review Employees</a>
+  <?php } ?>
+  <?php if ($row4['job_title'] === 'HR Manager') { ?>
+      <a href="../jupyter/add_new_employee.php">Add New Employee</a>
+    <?php } else { ?>
+      <a href="#" style="display: none;" >Add New Employee</a>
+  <?php } ?>
+    <a href="../jupyter/leaveform.php" >Request a Leave</a>
+    <a href="../jupyter/approve_leaves.php" style="position-relative">Pending Approvals</a>
+    <span class="position-absolute top-70 start-90 translate-middle badge rounded-pill bg-danger"> <?php echo "" . mysqli_num_rows($leave); ?>
 
   </div>
   <div class="content">
     <div class="row col-lg-15 " style="background-color:#354259">
       <div class="col">
-        <img class="border-dark " src="./img/jupiter_logo.png"
+        <a href='./homepage.php'>
+        <img  class="border-dark " src="./img/jupiter_logo.png"
           style="width:250px;margin-bottom: 5px;margin-left: 10px;">
+        </a>
       </div>
       <div class="col-lg-6 align-self-center text-center">
         <h4 style="color:rgb(255, 255, 255)">Jupiter Employee Portal</h4>
@@ -262,7 +269,12 @@ try {
                 $img = $img["img_data"];
                 $img = base64_encode($img);
                 $ext = pathinfo($name, PATHINFO_EXTENSION);
-                echo "<img src='data:image/" . $ext . ";base64," . $img . "' height='auto' width='30px' class='rounded-circle' alt='...'/>";
+                if (!empty($img)){
+                  echo "<img src='data:image/" . $ext . ";base64," . $img . "' height='auto' width='30px' class='rounded-circle' alt='...'/>";
+                }
+                else{
+                  echo "<img src='./img/user-default.png' height='auto' width='30px' class='rounded-circle' alt='...'/>";
+                }
                 ?>
 
           </div>
@@ -272,8 +284,8 @@ try {
                 <?php echo $row['name'] ?> &nbsp<i class="fa fa-caret-down"></i></p>
               </button>
               <div class="dropdown-content" style="left:0px">
-                <a href="#">Account details</a>
-                <a href="../jupyter/index.html">Logout</a>
+                <a href="../jupyter/account_details.php">Account details</a>
+                <a href="../jupyter/logout.php">Logout</a>
               </div>
             </div>
           </div>
@@ -300,8 +312,12 @@ try {
                                         $img = $img["img_data"];
                                         $img = base64_encode($img);
                                         $ext = pathinfo($name, PATHINFO_EXTENSION);
-                                        echo "<img class='border border-primary rounded-circle' src='data:image/" . $ext . ";base64," . $img . "' alt='user image' style='width: 300px; height: 300px;'/>";
-                                        ?>
+                                        if (!empty($img)){
+                                          echo "<img src='data:image/" . $ext . ";base64," . $img . "' height='auto' width='300px' class='rounded-circle' alt='...'/>";
+                                        }
+                                        else{
+                                          echo "<img src='./img/user-default.png' height='auto' width='300px' class='rounded-circle' alt='...'/>";
+                                        }                                        ?>
 
                     <h5 class="card-title fw-bold" style="margin-top: 10px;">
                       <?php echo $row['name'] ?>
@@ -335,10 +351,7 @@ try {
                       <div class="col col-md-auto ">
                         <p style="color: #858585; margin-bottom: 2px;">Address</p>
                         <p>
-                          <?php echo $row5['address_line_1'].','.$row5['address_line_2'] ?>
-                        </p>
-                        <p style="margin-top:-10%">
-                          <?php echo $row5['city'].','.$row5['postal_code'] ?>
+                          <?php echo $row5['address_line_1'].','.$row5['address_line_2'].','.$row5['city'].','.$row5['postal_code']  ?>
                         </p>
                       </div>
                       <div class="col col-md-auto">
