@@ -44,7 +44,6 @@ if(empty($_POST['dpt']) && empty($_POST['jtitle']) && empty($_POST['pay_grade'])
 else{
     $msg="Employees By ";
     $empq = "SELECT * FROM employee WHERE id in (select id from employment where dept_id=dept_id ";
-    //$filterq= mysqli_query($conn,"SELECT * FROM employee where id in (select id FROM employment WHERE dept_id=".$_POST['dpt']." ) ");
 
 if(!empty($_POST['dpt'])){
   $dept_id=$_POST['dpt'];
@@ -66,6 +65,7 @@ $empq .= ")";
 }
 
 $emps=mysqli_query($conn,$empq);
+
 } catch (Exception $e) {
     echo "<p style='color:red;'>Username or Password is incorrect !</p>";
     exit();
@@ -321,11 +321,11 @@ $emps=mysqli_query($conn,$empq);
     <div class="container-fluid mx-0">
       <div class="card" style="background-color: rgba(255, 255, 255, 0.423);">
         <div class="card-body">
-          <div class="card" style="padding: 2%;">
+          <div class="card" >
             <div class="card-header" style="background-color: #ECE5C7;">
-              <h3 class="text-center" ><?php echo $msg ?></h3>
+              <h3 class="text-center mt-2" ><?php echo $msg ?></h3>
             </div>
-            <div class="card-body">
+            <div class="card-body" style="padding: 2%;">
               <div class="row justify-content-center">
                 
                 <table class="table mt-3" style="width: auto;">
@@ -343,6 +343,10 @@ $emps=mysqli_query($conn,$empq);
                     </thead>
                     <tbody>
                         <?php
+                        if(mysqli_num_rows($emps)==0){
+                          echo "<tr><td colspan='8' class='text-center'>No Employees Found!</td></tr>";
+                        }
+                        else{
                         $i = 1;
                         while ($row = mysqli_fetch_assoc($emps)) { ?>
                             <tr>
@@ -355,8 +359,9 @@ $emps=mysqli_query($conn,$empq);
                                 <td><?php echo $row["birth_date"]; ?></td>
                                 <td><?php echo $row["marital_status"]; ?></td>
                             </tr>
+                          
                         <?php $i++;
-                        } ?>
+                        }} ?>
                     </tbody>
                 </table>
             </div>
