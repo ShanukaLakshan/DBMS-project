@@ -317,8 +317,8 @@ try {
         <div class="row justify-content-center">
           <div class="col-auto">
             <div class="card" style="background-color: #EEEDDE;min-height:80vh;">
-              <div class="card-header">
-                <p class="fw-bold" style="font-size:large">Leave details</p>
+              <div class="card-header" style="background-color:#ECE5C7 ">
+              <h4 style="text-align: center; " class="md-5 mt-2">Leave Details</h4>
               </div>
               <div class="card-body">
                 <form method="POST" action="leave_request.php">
@@ -370,8 +370,8 @@ try {
           </div>
           <div class="col-7">
             <div class="card" style="background-color:#EEEDDE;">
-              <div class="card-header" >
-                <p class="fw-bold" style="font-size:large">Leaves</p>
+              <div class="card-header" style="background-color:#ECE5C7 ">
+              <h4 style="text-align: center; " class="md-5 mt-2">Leaves Remaining</h4>
               </div>
               <div class="card-body" style="padding-left:5%;padding-right:5%">
               <div class="row" >

@@ -313,11 +313,12 @@ try {
             <div class="card h-100 " style="background-color: #ffffff74;">
               <div class="row justify-content-center">
                 <div class="col">
-                    <div class="card  rounded-3  " style=" background-color: #ffffff;padding: 2%;margin:2% ">
+                    <div class="card  rounded-3  " style=" background-color: #ffffff;margin:2% ">
               <div class="card-header mb-3" style="background-color:#ECE5C7 ";> 
-                <h2 style="text-align: center; " class="md-5">Enter your details</h2>                 
+                <h2 style="text-align: center; " class="md-5 mt-2">Enter your details</h2>                 
                 </div>
-              <form action="add_user_database.php" method="POST">
+                <div class="card-body" style="padding:2%">
+                  <form action="add_user_database.php" method="POST">
                 <div class="row ">
                   <div class="col-md-6">
     
@@ -500,6 +501,8 @@ try {
                   </div>
                 </div>
               </form>
+                </div>
+              
             </div>
                 </div>
               </div>
