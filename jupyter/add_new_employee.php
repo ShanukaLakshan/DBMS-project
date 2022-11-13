@@ -250,6 +250,11 @@ try {
       <a href="#" style="display: none;" >Add New Employee</a>
   <?php } ?>
     <a href="../jupyter/leaveform.php" >Request a Leave</a>
+    <?php if ($row4['job_title'] === 'HR Manager') { ?>
+    <a href="../jupyter/reports.php" >Reports</a>
+    <?php } else { ?>
+      <a href="#" style="display: none;" >Reports</a>
+  <?php } ?>
     <a href="../jupyter/approve_leaves.php" style="position:relative">Pending Approvals</a>
     <span class="position-absolute top-70 start-90 translate-middle badge rounded-pill bg-danger"> <?php echo "" . mysqli_num_rows($leave); ?>
 
@@ -304,16 +309,14 @@ try {
       </div>
     </div>
     <div class="container-fluid mx-1">
-        <div class="row h-100 justify-content-center">
-            <div class="card h-100" style="background-color: #ffffff74;">
+        <div class="row h-100 w-100 justify-content-center">
+            <div class="card h-100 " style="background-color: #ffffff74;">
               <div class="row justify-content-center">
-                <div class="col-auto">
-                    <div class="card  rounded-3  " style="width: 50rem; background-color: #ffffff;padding: 2%;margin:2% ">
-              <div class="row">
                 <div class="col">
-                  <h2 style="text-align: center; " class="md-5">Enter your details</h2>
+                    <div class="card  rounded-3  " style=" background-color: #ffffff;padding: 2%;margin:2% ">
+              <div class="card-header mb-3" style="background-color:#ECE5C7 ";> 
+                <h2 style="text-align: center; " class="md-5">Enter your details</h2>                 
                 </div>
-              </div>
               <form action="add_user_database.php" method="POST">
                 <div class="row ">
                   <div class="col-md-6">

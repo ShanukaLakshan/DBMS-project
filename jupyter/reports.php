@@ -37,24 +37,35 @@ try {
     $sql3 = mysqli_query($conn,"SELECT * FROM employment WHERE id='$id'");
     $row4 = mysqli_fetch_array($sql3);
 
-    $sql4 = mysqli_query($conn,"SELECT * FROM address WHERE id='$id'");
-    $row5 = mysqli_fetch_array($sql4);
-
-    $sql9 = mysqli_query($conn,"SELECT * FROM leave_detail WHERE job_title='$row4[job_title]' and pay_grade='$row4[pay_grade]'");
-    $leaves=mysqli_fetch_array($sql9);
-    $dept_id=$row4['dept_id'];
-    $sql10=mysqli_query($conn,"SELECT * FROM department WHERE id='$dept_id'");
-    $dept=mysqli_fetch_array($sql10);
-
-    $empq= mysqli_query($conn,"SELECT * FROM employee");
-
-if(empty($_POST['dpt'])){
-    $filterq=$empq;
+if(empty($_POST['dpt']) && empty($_POST['jtitle']) && empty($_POST['pay_grade'])){
+  $msg="All Employees";
+  $empq= "SELECT * FROM employee";
 }
 else{
-    $filterq= mysqli_query($conn,"SELECT * FROM employee where id in (select id FROM employment WHERE dept_id=".$_POST['dpt']." ) ");
+    $msg="Employees By ";
+    $empq = "SELECT * FROM employee WHERE id in (select id from employment where dept_id=dept_id ";
+    //$filterq= mysqli_query($conn,"SELECT * FROM employee where id in (select id FROM employment WHERE dept_id=".$_POST['dpt']." ) ");
+
+if(!empty($_POST['dpt'])){
+  $dept_id=$_POST['dpt'];
+  $sql10=mysqli_query($conn,"SELECT * FROM department WHERE id='$dept_id'");
+  $dept=mysqli_fetch_array($sql10);
+  $msg .= "Department: ".$dept['name']." ";
+  $empq .= "AND dept_id=".$_POST['dpt']." ";
+}
+if(!empty($_POST['jtitle'])){
+  $msg .= "Job Title: ".$_POST['jtitle']." ";
+  $jobt=$_POST['jtitle'];
+  $empq .= "AND job_title='$jobt' ";
+}
+if(!empty($_POST['pay_grade'])){
+  $msg .= "Pay Grade: ".$_POST['pay_grade']." ";
+  $empq .= "AND pay_grade=".$_POST['pay_grade']." ";
+}
+$empq .= ")";
 }
 
+$emps=mysqli_query($conn,$empq);
 } catch (Exception $e) {
     echo "<p style='color:red;'>Username or Password is incorrect !</p>";
     exit();
@@ -224,6 +235,17 @@ else{
     border-radius:0px;
     color:white
   }
+  .btn-primary {
+    background-color: #635666;
+    color: white;
+    border-color: #635666;
+  }
+  .btn-primary:hover {
+    background-color: #8d7992;
+    border-radius:10%;
+    border-color: #8d7992;
+    color: white
+  }
 </style>
 
 <body>
@@ -241,8 +263,8 @@ else{
       <a href="#" style="display: none;" >Add New Employee</a>
   <?php } ?>
     <a href="../jupyter/leaveform.php" >Request a Leave</a>
-    <a class="active" href="../jupyter/leaveform.php" >reports</a>
-    <a href="../jupyter/approve_leaves.php" style="position-relative">Pending Approvals</a>
+    <a class="active" href="./reports.php" >Reports</a>
+    <a href="../jupyter/approve_leaves.php" style="position:relative">Pending Approvals</a>
     <span class="position-absolute top-70 start-90 translate-middle badge rounded-pill bg-danger"> <?php echo "" . mysqli_num_rows($leave); ?>
     
 
@@ -297,72 +319,120 @@ else{
       </div>
     </div>
     <div class="container-fluid mx-0">
-      <div class="card">
+      <div class="card" style="background-color: rgba(255, 255, 255, 0.423);">
         <div class="card-body">
-            <div class="row">
-                        <h1 class="display-4 fs-1">Employees</h1>
-                    <table class="table" style="width: auto;">
-                        <thead>
+          <div class="card" style="padding: 2%;">
+            <div class="card-header" style="background-color: #ECE5C7;">
+              <h3 class="text-center" ><?php echo $msg ?></h3>
+            </div>
+            <div class="card-body">
+              <div class="row justify-content-center">
+                
+                <table class="table mt-3" style="width: auto;">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <td>Name</td>
+                            <td>ID</td>
+                            <td>Gender</td>
+                            <td>Phone Number</td>
+                            <td>Email</td>
+                            <td>Birth Date</td>
+                            <td>Marital Status</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        $i = 1;
+                        while ($row = mysqli_fetch_assoc($emps)) { ?>
                             <tr>
-                                <th scope="col">#</th>
-                                <td>Name</td>
-                                <td>ID</td>
-                                <td>Gender</td>
-                                <td>Phone Number</td>
-                                <td>Email</td>
-                                <td>Birth Date</td>
-                                <td>Marital Status</td>
+                                <th scope="row"><?= $i ?></th>
+                                <td><?php echo $row["name"]; ?></td>
+                                <td><?php echo $row["id"]; ?></td>
+                                <td><?php echo $row["gender"]; ?></td>
+                                <td><?php echo $row["phone_number"]; ?></td>
+                                <td><?php echo $row["email"]; ?></td>
+                                <td><?php echo $row["birth_date"]; ?></td>
+                                <td><?php echo $row["marital_status"]; ?></td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                            $i = 1;
-                            while ($row = mysqli_fetch_assoc($filterq)) { ?>
-                                <tr>
-                                    <th scope="row"><?= $i ?></th>
-                                    <td><?php echo $row["name"]; ?></td>
-                                    <td><?php echo $row["id"]; ?></td>
-                                    <td><?php echo $row["gender"]; ?></td>
-                                    <td><?php echo $row["phone_number"]; ?></td>
-                                    <td><?php echo $row["email"]; ?></td>
-                                    <td><?php echo $row["birth_date"]; ?></td>
-                                    <td><?php echo $row["marital_status"]; ?></td>
-                                    <td><a href="update-process.php?id=<?php echo $row["id"]; ?>" class="btn btn-primary sm-4">Update</a></td>
-                                </tr>
-                            <?php $i++;
-                            } ?>
-                        </tbody>
-                    </table>
-                </div>
-        </div>
-        <div class="row">
+                        <?php $i++;
+                        } ?>
+                    </tbody>
+                </table>
+            </div>
+      <form action='' method=POST>
+        <div class="row justify-content-center mt-3">
             <div class="col-auto">
-                <form action='' method=POST>
-                                    <select class="form-select" name="dpt" required>
-                                        <option value="">Department</option>
-                                        <?php
-                                        $query = "SELECT DISTINCT name FROM department ORDER BY name ASC";
-                                        $result = $conn->query($query);
-                                        if ($result->num_rows > 0) {
-                                        $options = mysqli_fetch_all($result, MYSQLI_ASSOC);
-                                        }
-                                        foreach ($options as $option) {
-                                        ?>
-                                        <?php
-                                        $query2 = "SELECT DISTINCT id FROM department where name='" . $option['name'] . "'";
-                                        $dept = mysqli_query($conn, $query2);
-                                        $dept1 = mysqli_fetch_assoc($dept);
-                                        $dept_id = $dept1['id'];
-                                        ?>
-                                        <option value="<?php echo $dept_id; ?>"><?php echo $option['name']; ?> </option>
-                                        <?php
-                                        }
-                                        ?>
-                                    </select>
-                                    <input class="btn btn-primary" type="submit" value="Send" />
-                        </form>
+              <select class="form-select" name="dpt" >
+                  <option value="">Department</option>
+                  <?php
+                  $query = "SELECT DISTINCT name FROM department ORDER BY name ASC";
+                  $result = $conn->query($query);
+                  if ($result->num_rows > 0) {
+                  $options = mysqli_fetch_all($result, MYSQLI_ASSOC);
+                  }
+                  foreach ($options as $option) {
+                  ?>
+                  <?php
+                  $query2 = "SELECT DISTINCT id FROM department where name='" . $option['name'] . "'";
+                  $dept = mysqli_query($conn, $query2);
+                  $dept1 = mysqli_fetch_assoc($dept);
+                  $dept_id = $dept1['id'];
+                  ?>
+                  <option value="<?php echo $dept_id; ?>"><?php echo $option['name']; ?> </option>
+                  <?php
+                  }
+                  ?>
+              </select>
             </div>
         
+        
+            <div class="col-auto">
+                  <select class="form-select" name="jtitle" >
+                      <option value="">Job Title</option>
+                      <?php
+                      $query = "SELECT DISTINCT job_title FROM employment ORDER BY job_title ASC";
+                      $result = $conn->query($query);
+                      if ($result->num_rows > 0) {
+                      $options = mysqli_fetch_all($result, MYSQLI_ASSOC);
+                      }
+                      foreach ($options as $option) {
+                      ?>
+                      <option value="<?php echo $option['job_title']; ?>"><?php echo $option['job_title']; ?> </option>
+                      <?php
+                      }
+                      ?>
+                  </select>
+            </div>
+
+            <div class="col-auto">
+            <select class="form-select" name="pay_grade" >
+                      <option value="">Pay Grade</option>
+                      <?php
+                      $query = "SELECT DISTINCT pay_grade FROM employment ORDER BY pay_grade";
+                      $result = $conn->query($query);
+                      if ($result->num_rows > 0) {
+                      $options = mysqli_fetch_all($result, MYSQLI_ASSOC);
+                      }
+                      foreach ($options as $option) {
+                      ?>
+                      <option value="<?php echo $option['pay_grade']; ?>"><?php echo $option['pay_grade']; ?> </option>
+                      <?php
+                      }
+                      ?>
+                  </select>
+            </div>
+
+        </div>
+        <div class="row justify-content-center">
+          <div class="col-auto mt-3">
+            <input class="btn btn-primary" type="submit" value="Filter" />
+        </div>
+        </div>
+      </form>
+            </div>
+          </div>
+            
         </div>
       </div>
     </div>

@@ -11,7 +11,7 @@ try {
     exit();
 }
 
-$res = mysqli_query($conn,"select* from user where user_name='$username'and password='$userpassword'");
+$res = mysqli_query($conn,"select * from user where user_name='$username'and password='$userpassword'");
 $result=mysqli_fetch_array($res);
 
 if($result)

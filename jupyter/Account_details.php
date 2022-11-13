@@ -273,6 +273,11 @@ try {
       <a href="#" style="display: none;" >Add New Employee</a>
   <?php } ?>
         <a href="../jupyter/leaveform.php">Request a Leave</a>
+        <?php if ($row4['job_title'] === 'HR Manager') { ?>
+    <a href="../jupyter/reports.php" >Reports</a>
+    <?php } else { ?>
+      <a href="#" style="display: none;" >Reports</a>
+  <?php } ?>
         <a href="../jupyter/approve_leaves.php">Pending Approvals</a>
 
     </div>
