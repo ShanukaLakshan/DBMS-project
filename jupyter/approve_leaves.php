@@ -29,6 +29,9 @@ try {
     $leaves = mysqli_query($conn, $get_leaves);
     $sql3 = mysqli_query($conn,"SELECT * FROM employment WHERE id='$id'");
     $row4 = mysqli_fetch_array($sql3);
+    $jobid=$row4['job_id'];
+    $jobq=mysqli_query($conn,"SELECT * FROM job WHERE job_id='$jobid'");
+    $job=mysqli_fetch_array($jobq);
 } catch (Exception $e) {
     echo "<p style='color:red;'>Username or Password is incorrect !</p>";
     exit();
@@ -195,23 +198,26 @@ try {
 <body>
     <div class="sidebar">
     <a  href="../jupyter/homepage.php">Home</a>
-    <?php if ($row2['user_type'] === 'admin') { ?>
+  <?php if ($row2['user_type'] === 'admin') { ?>
       <a href="../jupyter/review_employee.php">Review Employees</a>
     <?php } else { ?>
       <a href="#" style="display: none;" >Review Employees</a>
   <?php } ?>
-  <?php if ($row4['job_title'] === 'HR Manager') { ?>
+  <?php if ($jobid === '004') { ?>
       <a href="../jupyter/add_new_employee.php">Add New Employee</a>
     <?php } else { ?>
       <a href="#" style="display: none;" >Add New Employee</a>
   <?php } ?>
-  <a href="../jupyter/leaveform.php" >Request a Leave</a>
-  <?php if ($row4['job_title'] === 'HR Manager') { ?>
+
+    <a href="../jupyter/leaveform.php" >Request a Leave</a>
+
+
+  <?php if ($jobid === '004') { ?>
     <a href="../jupyter/reports.php" >Reports</a>
     <?php } else { ?>
       <a href="#" style="display: none;" >Reports</a>
   <?php } ?>
-  <a class="active" href="../jupyter/approve_leaves.php">Pending Approvals</a>
+  <a class="active" class="active" href="../jupyter/approve_leaves.php">Pending Approvals</a>
     
       </div>
     <div class="content">
@@ -294,7 +300,7 @@ try {
                                                     <tr>
                                                         <th scope="row"><?= $i ?></th>
                                                         <td><?php echo $row["id"]; ?></td>
-                                                        <td><?php echo $row["type"]; ?></td>
+                                                        <td><?php echo mysqli_fetch_array(mysqli_query($conn,"SELECT * FROM leave_type WHERE type_id=".$row["type_id"].""))['name']; ?></td>
                                                         <td><?php echo $row["date_of_leave"]; ?></td>
                                                         <td><?php echo $row["status"]; ?></td>
                                                         <form action="approved.php" method="get">

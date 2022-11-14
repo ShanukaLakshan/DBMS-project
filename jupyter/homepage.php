@@ -34,29 +34,45 @@ try {
 
     $sql3 = mysqli_query($conn,"SELECT * FROM employment WHERE id='$id'");
     $row4 = mysqli_fetch_array($sql3);
+    $jobid=$row4['job_id'];
+    $jobq=mysqli_query($conn,"SELECT * FROM job WHERE job_id='$jobid'");
+    $job=mysqli_fetch_array($jobq);
+
+    $statusq=mysqli_query($conn,"SELECT * FROM emp_status WHERE stat_id='$row4[stat_id]'");
+    $status=mysqli_fetch_array($statusq);
 
     $sql4 = mysqli_query($conn,"SELECT * FROM address WHERE id='$id'");
     $row5 = mysqli_fetch_array($sql4);
 
-    $sql5 = mysqli_query($conn,"SELECT count(id) as count FROM leave_requests WHERE id='$id' and status='approved' and type='casual'");
+    $sql5 = mysqli_query($conn,"SELECT count(id) as count FROM leave_requests WHERE id='$id' and status='approved' and type_id='02'");
     $casualc=mysqli_fetch_array($sql5);
 
-    $sql6 = mysqli_query($conn,"SELECT count(id) as count FROM leave_requests WHERE id='$id' and status='approved' and type='annual'");
+    $sql6 = mysqli_query($conn,"SELECT count(id) as count FROM leave_requests WHERE id='$id' and status='approved' and type_id='01'");
     $annualc=mysqli_fetch_array($sql6);
 
-    $sql7 = mysqli_query($conn,"SELECT count(id) as count FROM leave_requests WHERE id='$id' and status='approved' and type='maternity'");
+    $sql7 = mysqli_query($conn,"SELECT count(id) as count FROM leave_requests WHERE id='$id' and status='approved' and type_id='03'");
     $maternityc=mysqli_fetch_array($sql7);
 
-    $sql8 = mysqli_query($conn,"SELECT count(id) as count FROM leave_requests WHERE id='$id' and status='approved' and type='no_pay'");
+    $sql8 = mysqli_query($conn,"SELECT count(id) as count FROM leave_requests WHERE id='$id' and status='approved' and type_id='04'");
     $nopayc=mysqli_fetch_array($sql8);
 
-    $sql9 = mysqli_query($conn,"SELECT * FROM leave_detail WHERE job_title='$row4[job_title]' and pay_grade='$row4[pay_grade]'");
-    $leaves=mysqli_fetch_array($sql9);
+    $casualaq = mysqli_query($conn,"SELECT * FROM leave_detail WHERE type_id='02' AND pay_grade='$row4[pay_grade]'");
+    $casuala=mysqli_fetch_array($casualaq);
+
+    $annualaq = mysqli_query($conn,"SELECT * FROM leave_detail WHERE type_id='01' AND pay_grade='$row4[pay_grade]'");
+    $annuala=mysqli_fetch_array($annualaq);
+
+    $maternityaq = mysqli_query($conn,"SELECT * FROM leave_detail WHERE type_id='03' AND pay_grade='$row4[pay_grade]'");
+    $maternitya=mysqli_fetch_array($maternityaq);
+
+    $nopayaq = mysqli_query($conn,"SELECT * FROM leave_detail WHERE type_id='04' AND pay_grade='$row4[pay_grade]'");
+    $nopaya=mysqli_fetch_array($nopayaq);
+
     $dept_id=$row4['dept_id'];
     $sql10=mysqli_query($conn,"SELECT * FROM department WHERE id='$dept_id'");
     $dept=mysqli_fetch_array($sql10);
 } catch (Exception $e) {
-    echo "<p style='color:red;'>Username or Password is incorrect !</p>";
+    echo $e;
     exit();
 }
 
@@ -235,20 +251,16 @@ try {
     <?php } else { ?>
       <a href="#" style="display: none;" >Review Employees</a>
   <?php } ?>
-  <?php if ($row4['job_title'] === 'HR Manager') { ?>
+  <?php if ($jobid === '004') { ?>
       <a href="../jupyter/add_new_employee.php">Add New Employee</a>
     <?php } else { ?>
       <a href="#" style="display: none;" >Add New Employee</a>
   <?php } ?>
 
-  <?php if ($row4['job_title'] === 'HR Manager') { ?>
     <a href="../jupyter/leaveform.php" >Request a Leave</a>
-    <?php } else { ?>
-      <a href="#" style="display: none;" >Request a Leave</a>
-  <?php } ?>
 
 
-  <?php if ($row4['job_title'] === 'HR Manager') { ?>
+  <?php if ($jobid === '004') { ?>
     <a href="../jupyter/reports.php" >Reports</a>
     <?php } else { ?>
       <a href="#" style="display: none;" >Reports</a>
@@ -394,13 +406,13 @@ try {
                         <div class="col col-sm-4">
                           <p style="color: #858585; margin-bottom: 2px;">Designation</p>
                           <p>
-                            <?php echo $row4['job_title'] ?>
+                            <?php echo $job['job_title'] ?>
                           </p>
                         </div>
                         <div class="col col-sm-4">
                           <p style="color: #858585; margin-bottom: 2px;">Status</p>
                           <p>
-                            <?php echo $row4['employement_status'] ?>
+                            <?php echo $status['title'] ?>
                           </p>
                         </div>
                       </div>
@@ -417,10 +429,10 @@ try {
                         <p style="color: #858585; margin-bottom: 10px;">No Pay</p>
                         <div class="progress" style="padding:0 ;">
                           <div class="progress-bar progress-bar-warning" role="progressbar"
-                            aria-valuenow='<?php echo $leaves[' no_pay']-$nopayc['count'] ?>' aria-valuemin="0"
+                            aria-valuenow='<?php echo $nopaya['leaves']-$nopayc['count'] ?>' aria-valuemin="0"
                             aria-valuemax="100" style="padding:0 ;width:
-                            <?php echo ($leaves['no_pay']-$nopayc['count'])/$leaves['no_pay']*100 ?>%">
-                            <?php echo $leaves['no_pay']-$nopayc['count'] ?> remaining
+                            <?php echo ($nopaya['leaves']-$nopayc['count'])/$nopaya['leaves']*100 ?>%">
+                            <?php echo $nopaya['leaves']-$nopayc['count'] ?> remaining
                           </div>
                         </div>
                       </div>
@@ -428,10 +440,10 @@ try {
                         <p style="color: #858585; margin-bottom: 10px;">Annual</p>
                         <div class="progress"style="padding:0 ;">
                           <div class="progress-bar progress-bar-warning" role="progressbar"
-                            aria-valuenow='<?php echo $leaves[' annual']-$annualc['count'] ?>' aria-valuemin="0"
+                            aria-valuenow='<?php echo $nopaya['leaves']-$annualc['count'] ?>' aria-valuemin="0"
                             aria-valuemax="100" style="width:
-                            <?php echo ($leaves['annual']-$annualc['count'])/$leaves['annual']*100 ?>%">
-                            <?php echo $leaves['annual']-$annualc['count'] ?> remaining
+                            <?php echo ($annuala['leaves']-$annualc['count'])/$annuala['leaves']*100 ?>%">
+                            <?php echo $annuala['leaves']-$annualc['count'] ?> remaining
                           </div>
                         </div>
                       </div>
@@ -439,10 +451,10 @@ try {
                         <p style="color: #858585; margin-bottom: 10px;">Casual</p>
                         <div class="progress"style="padding:0 ;">
                           <div class="progress-bar progress-bar-warning" role="progressbar"
-                            aria-valuenow='<?php echo $leaves[' casual']-$casualc['count'] ?>' aria-valuemin="0"
+                            aria-valuenow='<?php echo $casuala['leaves']-$casualc['count'] ?>' aria-valuemin="0"
                             aria-valuemax="100" style="width:
-                            <?php echo ($leaves['casual']-$casualc['count'])/$leaves['casual']*100 ?>%">
-                            <?php echo $leaves['casual']-$casualc['count'] ?> remaining
+                            <?php echo ($casuala['leaves']-$casualc['count'])/$casuala['leaves']*100 ?>%">
+                            <?php echo $casuala['leaves']-$casualc['count'] ?> remaining
                           </div>
                         </div>
                       </div>
@@ -450,10 +462,10 @@ try {
                         <p style="color: #858585; margin-bottom: 10px;">Maturnity</p>
                         <div class="progress"style="padding:0 ;">
                           <div class="progress-bar progress-bar-warning" role="progressbar"
-                            aria-valuenow='<?php echo $leaves[' maternity']-$maternityc['count'] ?>' aria-valuemin="0"
+                            aria-valuenow='<?php echo $maternitya['leaves']-$maternityc['count'] ?>' aria-valuemin="0"
                             aria-valuemax="100" style="width:
-                            <?php echo ($leaves['maternity']-$maternityc['count'])/$leaves['maternity']*100 ?>%">
-                            <?php echo $leaves['maternity']-$maternityc['count'] ?> remaining
+                            <?php echo ($maternitya['leaves']-$maternityc['count'])/$maternitya['leaves']*100 ?>%">
+                            <?php echo $maternitya['leaves']-$maternityc['count'] ?> remaining
                           </div>
                         </div>
                       </div>

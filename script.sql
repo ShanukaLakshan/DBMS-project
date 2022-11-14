@@ -9,6 +9,10 @@ drop table if exists salary;
 drop table if exists payroll;
 drop table if exists leave_requests;
 drop table if exists department;
+drop table if exists job;
+drop table if exists leave_type;
+drop table if exists emp_status;
+drop table if exists pay_level;
 drop table if exists user;
 SET FOREIGN_KEY_CHECKS = 1; 
 create table employee
@@ -28,7 +32,12 @@ create table supervisor
      primary key (supervisor_id,id),
      foreign key (id) references employee(id) on delete cascade
      );
-
+create table emp_status
+	(stat_id varchar(1),
+     title varchar(20),
+     primary key(stat_id)
+     );
+     
 create table user
 	(user_name	varchar(20) not null,
 	 id	int not null,
@@ -39,39 +48,59 @@ create table user
      primary key(user_name),
      foreign key (id) references employee(id) on delete cascade
      );
+create table job 
+	(job_title varchar(30) not null,
+	 job_id varchar(3) not null,
+     primary key (job_id)
+     );
+create table pay_level
+	(pay_grade tinyint not null,
+	 title varchar(10) not null,
+     primary key(pay_grade)
+     );
+     
 create table salary
-	(job_title	varchar(20) check (job_title in('HR Manager',
-'Accountant', 'Software Engineer', 'QA Engineer')) not null,
-     pay_grade	tinyint check(pay_grade>0 and pay_grade<=3) not null,
+	(job_id	varchar(3)  not null,
+     pay_grade	tinyint not null,
      amount	numeric(7,0) check (amount>0) not null,
-     primary key (job_title,pay_grade)
-     );     
+     primary key (job_id,pay_grade),
+     foreign key(pay_grade) references pay_level(pay_grade),
+     foreign key(job_id) references job(job_id)
+     );  
+     
 create table department
-	(name	varchar(10) not null,
-     id	varchar(5)	not null,
+	(name	varchar(30) not null,
+     id	varchar(4)	not null,
      primary key(id)
      );
 create table employment 
 	(id	int not null,
-	 job_title	varchar(20) not null,
+	 job_id	varchar(20) not null,
      pay_grade	tinyint not null,
-     employement_status	varchar(10 ) not null,
+     stat_id	varchar(1 ) not null,
      dept_id	varchar(5) not null,
      primary key (id),
      foreign key (id) references employee(id) ,
-     foreign key (job_title,pay_grade) references salary(job_title,pay_grade),
+     foreign key(stat_id) references emp_status(stat_id),
+     foreign key (job_id) references job(job_id),
+     foreign key (pay_grade) references pay_level(pay_grade),
      foreign key (dept_id) references department(id)
-     );     
+     
+     );    
+create table leave_type
+	(type_id varchar(2) not null,
+     name varchar(15) not null,
+     primary key(type_id)
+     );
 create table leave_detail
 	(pay_grade	tinyint not null,
-     job_title varchar(20) not null,
-     annual	varchar(2),
-     casual varchar(2),
-     maternity	varchar(2),
-     no_pay	varchar(2) not null,
-     primary key (pay_grade,job_title),
-     foreign key (job_title,pay_grade) references salary(job_title,pay_grade) 
+	 type_id varchar(2) not null,
+     leaves varchar(2) not null,
+     primary key (pay_grade,type_id),
+     foreign key (pay_grade) references pay_level(pay_grade),
+     foreign key (type_id) references leave_type(type_id)
      );
+     
 create table address
 	(id	int not null,
      address_line_1	varchar(20) not null,
@@ -101,12 +130,15 @@ create table payroll
     );
     
 create table leave_requests
-	(id int not null,
-     type	varchar(10) not null,
+	(leave_id int not null auto_increment,
+     id int not null,
+     type_id	varchar(15) not null,
      date_of_leave	date not null,
      date_requested date,
      date_moderated date,
      status varchar(10),
-     primary key(id,date_of_leave),
+     primary key(leave_id),
+     foreign key(type_id) references leave_type(type_id),
      foreign key(id) references employee(id) on delete cascade
      );
+alter table leave_requests auto_increment=0;

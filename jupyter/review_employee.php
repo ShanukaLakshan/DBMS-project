@@ -27,6 +27,11 @@ try {
     $id=$row2['id'];
     $get_leaves = "select id FROM leave_requests WHERE id in (SELECT id FROM supervisor where supervisor_id = '$id') and status='pending'";
     $leave = mysqli_query($conn, $get_leaves);
+    $sql3 = mysqli_query($conn,"SELECT * FROM employment WHERE id='$id'");
+    $row4 = mysqli_fetch_array($sql3);
+    $jobid=$row4['job_id'];
+    $jobq=mysqli_query($conn,"SELECT * FROM job WHERE job_id='$jobid'");
+    $job=mysqli_fetch_array($jobq);
 } catch (Exception $e) {
     echo "<p style='color:red;'>Username or Password is incorrect !</p>";
     exit();
@@ -212,9 +217,19 @@ try {
     <div class="sidebar">
     <a  href="../jupyter/homepage.php">Home</a>
     <?php if ($row2['user_type'] === 'admin') { ?>
-      <a class="active"  href="../jupyter/review_employee.php">Review Employees</a>
+      <a class="active" href="../jupyter/review_employee.php">Review Employees</a>
     <?php } else { ?>
       <a href="#" style="display: none;" >Review Employees</a>
+  <?php } ?>
+  <?php if ($jobid === '004') { ?>
+      <a href="../jupyter/add_new_employee.php">Add New Employee</a>
+    <?php } else { ?>
+      <a href="#" style="display: none;" >Add New Employee</a>
+  <?php } ?>
+  <?php if ($jobid === '004') { ?>
+    <a href="../jupyter/reports.php" >Reports</a>
+    <?php } else { ?>
+      <a href="#" style="display: none;" >Reports</a>
   <?php } ?>
   <a href="../jupyter/leaveform.php" >Request a Leave</a>
   <a href="../jupyter/approve_leaves.php">Pending Approvals</a>

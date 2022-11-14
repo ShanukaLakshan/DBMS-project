@@ -36,8 +36,11 @@ try {
 
     $sql3 = mysqli_query($conn,"SELECT * FROM employment WHERE id='$id'");
     $row4 = mysqli_fetch_array($sql3);
+    $jobid=$row4['job_id'];
+    $jobq=mysqli_query($conn,"SELECT * FROM job WHERE job_id='$jobid'");
+    $job=mysqli_fetch_array($jobq);
 
-if(empty($_POST['dpt']) && empty($_POST['jtitle']) && empty($_POST['pay_grade'])){
+if(empty($_POST['dpt']) && empty($_POST['jid']) && empty($_POST['pay_grade'])){
   $msg="All Employees";
   $empq= "SELECT * FROM employee";
 }
@@ -52,10 +55,10 @@ if(!empty($_POST['dpt'])){
   $msg .= "Department: ".$dept['name']." ";
   $empq .= "AND dept_id=".$_POST['dpt']." ";
 }
-if(!empty($_POST['jtitle'])){
-  $msg .= "Job Title: ".$_POST['jtitle']." ";
-  $jobt=$_POST['jtitle'];
-  $empq .= "AND job_title='$jobt' ";
+if(!empty($_POST['jid'])){
+  $msg .= "Job Title: ".mysqli_fetch_array(mysqli_query($conn,"select * from job where job_id=".$_POST['jid']." "))['job_title']." ";
+  $jobt=$_POST['jid'];
+  $empq .= "AND job_id='$jobt' ";
 }
 if(!empty($_POST['pay_grade'])){
   $msg .= "Pay Grade: ".$_POST['pay_grade']." ";
@@ -257,13 +260,17 @@ $emps=mysqli_query($conn,$empq);
     <?php } else { ?>
       <a href="#" style="display: none;" >Review Employees</a>
   <?php } ?>
-  <?php if ($row4['job_title'] === 'HR Manager') { ?>
+  <?php if ($jobid === '004') { ?>
       <a href="../jupyter/add_new_employee.php">Add New Employee</a>
     <?php } else { ?>
       <a href="#" style="display: none;" >Add New Employee</a>
   <?php } ?>
+  <?php if ($jobid === '004') { ?>
+    <a class="active" href="../jupyter/reports.php" >Reports</a>
+    <?php } else { ?>
+      <a href="#" style="display: none;" >Reports</a>
+  <?php } ?>
     <a href="../jupyter/leaveform.php" >Request a Leave</a>
-    <a class="active" href="./reports.php" >Reports</a>
     <a href="../jupyter/approve_leaves.php" style="position:relative">Pending Approvals</a>
     <span class="position-absolute top-70 start-90 translate-middle badge rounded-pill bg-danger"> <?php echo "" . mysqli_num_rows($leave); ?>
     
@@ -371,20 +378,14 @@ $emps=mysqli_query($conn,$empq);
               <select class="form-select" name="dpt" >
                   <option value="">Department</option>
                   <?php
-                  $query = "SELECT DISTINCT name FROM department ORDER BY name ASC";
+                  $query = "SELECT * FROM department ORDER BY name ASC";
                   $result = $conn->query($query);
                   if ($result->num_rows > 0) {
                   $options = mysqli_fetch_all($result, MYSQLI_ASSOC);
                   }
                   foreach ($options as $option) {
                   ?>
-                  <?php
-                  $query2 = "SELECT DISTINCT id FROM department where name='" . $option['name'] . "'";
-                  $dept = mysqli_query($conn, $query2);
-                  $dept1 = mysqli_fetch_assoc($dept);
-                  $dept_id = $dept1['id'];
-                  ?>
-                  <option value="<?php echo $dept_id; ?>"><?php echo $option['name']; ?> </option>
+                  <option value="<?php echo $option['id']; ?>"><?php echo $option['name']; ?> </option>
                   <?php
                   }
                   ?>
@@ -393,17 +394,17 @@ $emps=mysqli_query($conn,$empq);
         
         
             <div class="col-auto">
-                  <select class="form-select" name="jtitle" >
+                  <select class="form-select" name="jid" >
                       <option value="">Job Title</option>
                       <?php
-                      $query = "SELECT DISTINCT job_title FROM employment ORDER BY job_title ASC";
+                      $query = "SELECT * FROM job ORDER BY job_title ASC";
                       $result = $conn->query($query);
                       if ($result->num_rows > 0) {
                       $options = mysqli_fetch_all($result, MYSQLI_ASSOC);
                       }
                       foreach ($options as $option) {
                       ?>
-                      <option value="<?php echo $option['job_title']; ?>"><?php echo $option['job_title']; ?> </option>
+                    <option value="<?php echo $option['job_id']; ?>"><?php echo $option['job_title']; ?> </option>
                       <?php
                       }
                       ?>

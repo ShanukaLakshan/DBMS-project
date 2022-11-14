@@ -29,6 +29,9 @@ try {
     $leaves = mysqli_query($conn, $get_leaves);
     $sql3 = mysqli_query($conn,"SELECT * FROM employment WHERE id='$id'");
     $row4 = mysqli_fetch_array($sql3);
+    $jobid=$row4['job_id'];
+    $jobq=mysqli_query($conn,"SELECT * FROM job WHERE job_id='$jobid'");
+    $job=mysqli_fetch_array($jobq);
 } catch (Exception $e) {
     echo "<p style='color:red;'>Username or Password is incorrect !</p>";
     exit();
@@ -216,46 +219,46 @@ try {
     .form-div {
   margin-top: 100px;
   border: 1px solid #e0e0e0;
-}
-#profileDisplay {
-  display: block;
-  height: 300px;
-  width:300px;
-  margin: 0px auto;
-  border-radius: 0%;
-}
-.img-placeholder {
-  width: 46%;
-  color: white;
-  height: 100%;
-  background: black;
-  opacity: 0.7;
-  border-radius: 0%;
-  z-index: 2;
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  display: none;
-}
-.img-placeholder h4 {
-  margin-top: 40%;
-  color: white;
-}
-.img-div:hover .img-placeholder {
-  display: block;
-  cursor: pointer;
-}
-.btn-primary {
-    background-color: #635666;
+    }
+    #profileDisplay {
+    display: block;
+    height: 300px;
+    width:300px;
+    margin: 0px auto;
+    border-radius: 0%;
+    }
+    .img-placeholder {
+    width: 46%;
     color: white;
-    border-color: #635666;
-  }
-  .btn-primary:hover {
-    background-color: #8d7992;
-    border-radius:10%;
-    border-color: #8d7992;
-    color: white
-  }
+    height: 100%;
+    background: black;
+    opacity: 0.7;
+    border-radius: 0%;
+    z-index: 2;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    display: none;
+    }
+    .img-placeholder h4 {
+    margin-top: 40%;
+    color: white;
+    }
+    .img-div:hover .img-placeholder {
+    display: block;
+    cursor: pointer;
+    }
+    .btn-primary {
+        background-color: #635666;
+        color: white;
+        border-color: #635666;
+    }
+    .btn-primary:hover {
+        background-color: #8d7992;
+        border-radius:10%;
+        border-color: #8d7992;
+        color: white
+    }
 
 </style>
 
@@ -267,13 +270,13 @@ try {
         <?php } else { ?>
         <a href="#" style="display: none;">Review Employees</a>
         <?php } ?>
-        <?php if ($row4['job_title'] === 'HR Manager') { ?>
+        <?php if ($job['job_title'] === 'HR Manager') { ?>
       <a href="../jupyter/add_new_employee.php">Add New Employee</a>
     <?php } else { ?>
       <a href="#" style="display: none;" >Add New Employee</a>
   <?php } ?>
         <a href="../jupyter/leaveform.php">Request a Leave</a>
-        <?php if ($row4['job_title'] === 'HR Manager') { ?>
+        <?php if ($job['job_title'] === 'HR Manager') { ?>
     <a href="../jupyter/reports.php" >Reports</a>
     <?php } else { ?>
       <a href="#" style="display: none;" >Reports</a>
@@ -361,7 +364,7 @@ try {
                                                 echo "<img src='data:image/" . $ext . ";base64," . $img . "' height='auto' width='300px' class='rounded-circle' alt='...'/>";
                                               }
                                               else{
-                                                echo "<img src='./img/user-default.png' height='auto' width='300px' class='rounded-circle' alt='...'/>";
+                                                //echo "<img src='./img/user-default.png' height='auto' width='300px' class='rounded-circle' alt='...'/>";
                                               }                                            ?>
                                     </div>
                             </span>

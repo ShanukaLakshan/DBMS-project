@@ -39,6 +39,6 @@ if(0<(mysqli_num_rows($row))){
     header("location:leaveform.php?err=1");
 }
 
-mysqli_query($conn,"INSERT INTO leave_requests (id,type,date_of_leave,date_requested,status) VALUES ('$id','".$_POST['xleave_type']."','".$_POST['xdate']."','$date','Pending')");
+mysqli_query($conn,"INSERT INTO leave_requests (id,type_id,date_of_leave,date_requested,status) VALUES ('$id','".$_POST['xleave_type']."','".$_POST['xdate']."','$date','Pending')");
 header("Location: homepage.php");
 ?>

@@ -205,17 +205,17 @@ $conn = mysqli_connect($sname, $uname, $password, $db_name);
                         <select class="form-select" name="jtitle" required>
                           <option value="">Job Title</option>
                           <?php
-                          $query = "SELECT DISTINCT job_title FROM employment ORDER BY job_title";
-                          $result = $conn->query($query);
-                          if ($result->num_rows > 0) {
-                            $options = mysqli_fetch_all($result, MYSQLI_ASSOC);
-                          }
-                          foreach ($options as $option) {
-                          ?>
-                            <option value="<?php echo $option['job_title']; ?>"><?php echo $option['job_title']; ?> </option>
-                          <?php
-                          }
-                          ?>
+                              $query = "SELECT DISTINCT * FROM job ORDER BY job_title";
+                              $result = $conn->query($query);
+                              if ($result->num_rows > 0) {
+                                $options = mysqli_fetch_all($result, MYSQLI_ASSOC);
+                              }
+                              foreach ($options as $option) {
+                              ?>
+                                <option value="<?php echo $option['job_id']; ?>"><?php echo $option['job_title']; ?> </option>
+                              <?php
+                              }
+                              ?>
                         </select>
                       </div>
                     </div>
@@ -249,28 +249,33 @@ $conn = mysqli_connect($sname, $uname, $password, $db_name);
                       <select class="form-select" name="paygrade" required>
                         <option value="">Pay Grade</option>
                         <?php
-                        $query = "SELECT DISTINCT pay_grade FROM salary ORDER BY pay_grade ASC";
-                        $result = $conn->query($query);
-                        if ($result->num_rows > 0) {
-                          $options = mysqli_fetch_all($result, MYSQLI_ASSOC);
-                        }
-                        foreach ($options as $option) {
-                        ?>
-                          <option value="<?php echo $option['pay_grade']; ?>"><?php echo $option['pay_grade']; ?> </option>
-                        <?php
-                        }
-                        ?>
+                            $query = "SELECT DISTINCT * FROM pay_level ORDER BY pay_grade ASC";
+                            $result = $conn->query($query);
+                            if ($result->num_rows > 0) {
+                              $options = mysqli_fetch_all($result, MYSQLI_ASSOC);
+                            }
+                            foreach ($options as $option) {
+                            ?>
+                              <option value="<?php echo $option['pay_grade']; ?>"><?php echo $option['title']; ?> </option>
+                            <?php
+                            }
+                            ?>
                       </select>
                     </div>
                     <div class="col">
                       <select class="form-select" name="status" required>
-                        <option value="">Status</option>
-                        <option value="Freelance">Freelance</option>
-                        <option value="Intern-Part time">Intern - Part time</option>
-                        <option value="Intern-Full time">Intern - Full time</option>  
-                        <option value="Contract-Part time">Contract - Part time</option>
-                        <option value="Contract-Full time">Contract - Full time</option>
-                        <option value="Permanent">Permanent</option>
+                      <?php
+                            $query = "SELECT * FROM emp_status ORDER BY stat_id ASC";
+                            $result = $conn->query($query);
+                            if ($result->num_rows > 0) {
+                              $options = mysqli_fetch_all($result, MYSQLI_ASSOC);
+                            }
+                            foreach ($options as $option) {
+                            ?>
+                              <option value="<?php echo $option['stat_id']; ?>"><?php echo $option['title']; ?> </option>
+                            <?php
+                            }
+                            ?>
                       </select>
                     </div>
                   </div>

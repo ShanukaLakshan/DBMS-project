@@ -32,23 +32,12 @@ try {
 
     $sql3 = mysqli_query($conn,"SELECT * FROM employment WHERE id='$id'");
     $row4 = mysqli_fetch_array($sql3);
+    $jobid=$row4['job_id'];
+    $jobq=mysqli_query($conn,"SELECT * FROM job WHERE job_id='$jobid'");
+    $job=mysqli_fetch_array($jobq);
 
-    $sql4 = mysqli_query($conn,"SELECT * FROM address WHERE id='$id'");
-    $row5 = mysqli_fetch_array($sql4);
 
-    $sql5 = mysqli_query($conn,"SELECT count(id) as count FROM leave_requests WHERE id='$id' and status='approved' and type='casual'");
-    $casualc=mysqli_fetch_array($sql5);
-
-    $sql6 = mysqli_query($conn,"SELECT count(id) as count FROM leave_requests WHERE id='$id' and status='approved' and type='annual'");
-    $annualc=mysqli_fetch_array($sql6);
-
-    $sql7 = mysqli_query($conn,"SELECT count(id) as count FROM leave_requests WHERE id='$id' and status='approved' and type='maternity'");
-    $maternityc=mysqli_fetch_array($sql7);
-
-    $sql8 = mysqli_query($conn,"SELECT count(id) as count FROM leave_requests WHERE id='$id' and status='approved' and type='no_pay'");
-    $nopayc=mysqli_fetch_array($sql8);
-
-    $sql9 = mysqli_query($conn,"SELECT * FROM leave_detail WHERE job_title='$row4[job_title]' and pay_grade='$row4[pay_grade]'");
+    $sql9 = mysqli_query($conn,"SELECT * FROM leave_detail WHERE pay_grade='$row4[pay_grade]'");
     $leaves=mysqli_fetch_array($sql9);
     $dept_id=$row4['dept_id'];
     $sql10=mysqli_query($conn,"SELECT * FROM department WHERE id='$dept_id'");
@@ -244,13 +233,13 @@ try {
     <?php } else { ?>
       <a href="#" style="display: none;" >Review Employees</a>
   <?php } ?>
-  <?php if ($row4['job_title'] === 'HR Manager') { ?>
+  <?php if ($jobid === '004') { ?>
       <a class="active" href="../jupyter/add_new_employee.php">Add New Employee</a>
     <?php } else { ?>
       <a href="#" style="display: none;" >Add New Employee</a>
   <?php } ?>
     <a href="../jupyter/leaveform.php" >Request a Leave</a>
-    <?php if ($row4['job_title'] === 'HR Manager') { ?>
+  <?php if ($jobid === '004') { ?>
     <a href="../jupyter/reports.php" >Reports</a>
     <?php } else { ?>
       <a href="#" style="display: none;" >Reports</a>
@@ -404,14 +393,14 @@ try {
                             <select class="form-select" name="xxjtitle" required>
                               <option value="">Job Title</option>
                               <?php
-                              $query = "SELECT DISTINCT job_title FROM employment ORDER BY job_title";
+                              $query = "SELECT DISTINCT * FROM job ORDER BY job_title";
                               $result = $conn->query($query);
                               if ($result->num_rows > 0) {
                                 $options = mysqli_fetch_all($result, MYSQLI_ASSOC);
                               }
                               foreach ($options as $option) {
                               ?>
-                                <option value="<?php echo $option['job_title']; ?>"><?php echo $option['job_title']; ?> </option>
+                                <option value="<?php echo $option['job_id']; ?>"><?php echo $option['job_title']; ?> </option>
                               <?php
                               }
                               ?>
@@ -448,14 +437,14 @@ try {
                           <select class="form-select" name="xxpaygrade" required>
                             <option value="">Pay Grade</option>
                             <?php
-                            $query = "SELECT DISTINCT pay_grade FROM salary ORDER BY pay_grade ASC";
+                            $query = "SELECT DISTINCT * FROM pay_level ORDER BY pay_grade ASC";
                             $result = $conn->query($query);
                             if ($result->num_rows > 0) {
                               $options = mysqli_fetch_all($result, MYSQLI_ASSOC);
                             }
                             foreach ($options as $option) {
                             ?>
-                              <option value="<?php echo $option['pay_grade']; ?>"><?php echo $option['pay_grade']; ?> </option>
+                              <option value="<?php echo $option['pay_grade']; ?>"><?php echo $option['title']; ?> </option>
                             <?php
                             }
                             ?>
@@ -464,12 +453,18 @@ try {
                         <div class="col">
                           <select class="form-select" name="xxstatus" required>
                             <option value="">Status</option>
-                            <option value="Freelance">Freelance</option>
-                            <option value="Intern-Part time">Intern - Part time</option>
-                            <option value="Intern-Full time">Intern - Full time</option>
-                            <option value="Contract-Part time">Contract - Part time</option>
-                            <option value="Contract-Full time">Contract - Full time</option>
-                            <option value="Contract-Part time">Permanent</option>
+                            <?php
+                            $query = "SELECT * FROM emp_status ORDER BY stat_id ASC";
+                            $result = $conn->query($query);
+                            if ($result->num_rows > 0) {
+                              $options = mysqli_fetch_all($result, MYSQLI_ASSOC);
+                            }
+                            foreach ($options as $option) {
+                            ?>
+                              <option value="<?php echo $option['stat_id']; ?>"><?php echo $option['title']; ?> </option>
+                            <?php
+                            }
+                            ?>
                           </select>
                         </div>
                       </div>

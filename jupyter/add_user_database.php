@@ -14,7 +14,7 @@ $addresline2 = $_POST['xxadd2'];
 $city = $_POST['xxcity'];
 $province = $_POST['xxprovince'];
 $zip = $_POST['xxzip'];
-$jtitle = $_POST['xxjtitle'];
+$jid = $_POST['xxjtitle'];
 $dpt = $_POST['xxdpt'];
 $paygrade = $_POST['xxpaygrade'];
 $status = $_POST['xxstatus'];
@@ -39,11 +39,11 @@ $row = mysqli_fetch_assoc($eid);
 $id = $row['id'];
 $sql2 = "INSERT INTO address VALUES ('$id','$addresline1','$addresline2','$province','$city','$zip')";
 
-$query2 = "SELECT DISTINCT id FROM department where name='" . $dpt . "'";
-$depart=mysqli_query($conn, $query2);
-$depa = mysqli_fetch_assoc($depart);
-$dpt_id=$depa['id'];
-$sql3 = "INSERT INTO employment VALUES ('$id','$jtitle','$paygrade','$status','$dpt_id')";
+//$query2 = "SELECT DISTINCT id FROM department where name='" . $dpt . "'";
+//$depart=mysqli_query($conn, $query2);
+//$depa = mysqli_fetch_assoc($depart);
+//$dpt_id=$depa['id'];
+$sql3 = "INSERT INTO employment VALUES ('$id','$jid','$paygrade','$status','$dpt')";
 
 $sql4 = "INSERT INTO bank_details VALUES ('$id','$bnkname','$brnchname','$accn')";
 $sql5 = "INSERT INTO supervisor VALUES ('$sid','$id')";
