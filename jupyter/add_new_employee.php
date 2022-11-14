@@ -245,8 +245,12 @@ try {
       <a href="#" style="display: none;" >Reports</a>
   <?php } ?>
     <a href="../jupyter/approve_leaves.php" style="position:relative">Pending Approvals</a>
-    <span class="position-absolute top-70 start-90 translate-middle badge rounded-pill bg-danger"> <?php echo "" . mysqli_num_rows($leave); ?>
-
+    <?php 
+    $nums=mysqli_num_rows($leave);
+    if(mysqli_num_rows($leave)>0){
+        echo  "<span class='position-absolute top-70 start-90 translate-middle badge rounded-pill bg-danger'>" .$nums;
+    }
+    ?>
   </div>
   <div class="content">
     <div class="row col-lg-15 " style="background-color:#354259;">

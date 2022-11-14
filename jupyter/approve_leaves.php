@@ -192,9 +192,30 @@ try {
   }
   .btn:hover{
     background-color: #354259;
-    border-radius:0px;
+    border-radius:10%;
     color:white
-  }</style>
+  }
+  .btn-success{
+    background-color: #65C18C;
+    border-radius:10%;
+    color:white;
+    border-color: #65c18b;
+    height:30px;
+    font-size:medium;
+    padding: 5%;
+    width: 50px;
+  }
+  .btn-danger{
+    background-color: #FF4A4A;
+    border-radius:10%;
+    color:white;
+    border-color: #FF4A4A;
+    height:30px;
+    font-size:medium;
+    padding: 5%;
+    width: 50px;
+  }
+  </style>
 <body>
     <div class="sidebar">
     <a  href="../jupyter/homepage.php">Home</a>
@@ -275,12 +296,8 @@ try {
                         if (mysqli_num_rows($leaves) > 0) { ?>
         
                             <div class="row justify-content-center">
-                                <div class="col-7">
+                                <div class="col-auto">
                                     <div class="card" style="background-color: #EEEDDE;">
-                                    <?php
-                                   if(0==mysqli_num_rows($leaves)){
-                                      echo "<h3 class='text-center'>No Pending Approvals</h3>";}
-                                      ?>
                                         <div class="card-header">
                                             <h5>Pending Approvals</h5>
                                         <table class="table justify-content-center" style="width: auto;">
@@ -288,6 +305,7 @@ try {
                                                 <tr>
                                                     <th scope="col">#</th>
                                                     <td>ID</td>
+                                                    <td>Name</td>
                                                     <td>Type</td>
                                                     <td>Date</td>
                                                     <td>Status</td>
@@ -300,23 +318,27 @@ try {
                                                     <tr>
                                                         <th scope="row"><?= $i ?></th>
                                                         <td><?php echo $row["id"]; ?></td>
-                                                        <td><?php echo mysqli_fetch_array(mysqli_query($conn,"SELECT * FROM leave_type WHERE type_id=".$row["type_id"].""))['name']; ?></td>
+                                                        <td><?php echo mysqli_fetch_array(mysqli_query($conn,"SELECT * FROM employee WHERE id=".$row["id"].""))['name']; ?></td>                                                        <td><?php echo mysqli_fetch_array(mysqli_query($conn,"SELECT * FROM leave_type WHERE type_id=".$row["type_id"].""))['name']; ?></td>
                                                         <td><?php echo $row["date_of_leave"]; ?></td>
                                                         <td><?php echo $row["status"]; ?></td>
                                                         <form action="approved.php" method="get">
                                                             <input type="text" name="get_username" value="<?php echo $us_name ?>" style="display: none;" />
                                                             <input type="text" name="date" value="<?php echo $row["date_of_leave"]; ?>" style="display: none;" />
                                                             <input type="text" name="id" value="<?php echo $row["id"]; ?>" style="display: none;" />
-                                                            <td><button type="submit" name='data' value='1' class="btn btn-success">Approve</button></td>
+                                                            <td><button type="submit" name='data' value='1' class="btn btn-success"><i class="fa fa-check" aria-hidden="true"></i></button></td>
                                                         </form>
                                                         <form action="declined.php" method="get">
                                                             <input type="text" name="get_username" value="<?php echo $us_name ?>" style="display: none;" />
                                                             <input type="text" name="date" value="<?php echo $row["date_of_leave"]; ?>" style="display: none;" />
                                                             <input type="text" name="id" value="<?php echo $row["id"]; ?>" style="display: none;" />
-                                                        <td><button type='submit' class="btn btn-danger">Decline</button></td>
+                                                        <td><button type='submit' class="btn btn-danger"><i class="fa fa-times" aria-hidden="true"></i></button></td>
                                                         </form>
                                                     </tr>
                                                 <?php $i++;
+                                                } 
+                                                ?>
+                                                <? if(empty($row)){
+                                                    echo "lol bn";
                                                 } ?>
                                             </tbody>
                                         </table>
@@ -326,7 +348,10 @@ try {
                                 
                             </div>
         
-                        <?php } ?>
+                        <?php } 
+                        else{
+                          echo "<h3 class='text-center'>No Pending Approvals</h3>";
+                        }?>
                     </div>
                 </div>
         </div>

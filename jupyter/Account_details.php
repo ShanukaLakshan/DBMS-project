@@ -32,6 +32,8 @@ try {
     $jobid=$row4['job_id'];
     $jobq=mysqli_query($conn,"SELECT * FROM job WHERE job_id='$jobid'");
     $job=mysqli_fetch_array($jobq);
+    $get_leaves = "select id FROM leave_requests WHERE id in (SELECT id FROM supervisor where supervisor_id = '$id') and status='pending'";
+    $leave = mysqli_query($conn, $get_leaves);
 } catch (Exception $e) {
     echo "<p style='color:red;'>Username or Password is incorrect !</p>";
     exit();
@@ -282,7 +284,12 @@ try {
       <a href="#" style="display: none;" >Reports</a>
   <?php } ?>
         <a href="../jupyter/approve_leaves.php">Pending Approvals</a>
-
+        <?php 
+    $nums=mysqli_num_rows($leave);
+    if(mysqli_num_rows($leave)>0){
+        echo  "<span class='position-absolute top-70 start-90 translate-middle badge rounded-pill bg-danger'>" .$nums;
+    }
+    ?>
     </div>
     <div class="content">
         <div class="row col-lg-15 " style="background-color:#354259">
@@ -364,7 +371,7 @@ try {
                                                 echo "<img src='data:image/" . $ext . ";base64," . $img . "' height='auto' width='300px' class='rounded-circle' alt='...'/>";
                                               }
                                               else{
-                                                //echo "<img src='./img/user-default.png' height='auto' width='300px' class='rounded-circle' alt='...'/>";
+                                                echo "<img src='./img/user-default.png' height='auto' width='300px' class='rounded-circle' alt='...'/>";
                                               }                                            ?>
                                     </div>
                             </span>

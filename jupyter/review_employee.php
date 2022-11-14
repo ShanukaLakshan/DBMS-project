@@ -233,8 +233,12 @@ try {
   <?php } ?>
   <a href="../jupyter/leaveform.php" >Request a Leave</a>
   <a href="../jupyter/approve_leaves.php">Pending Approvals</a>
-  <span class="position-absolute top-70 start-90 translate-middle badge rounded-pill bg-danger"> <?php echo "" . mysqli_num_rows($leave); ?>
-
+  <?php 
+    $nums=mysqli_num_rows($leave);
+    if(mysqli_num_rows($leave)>0){
+        echo  "<span class='position-absolute top-70 start-90 translate-middle badge rounded-pill bg-danger'>" .$nums;
+    }
+    ?>
     </div>
     <div class="content">
         <div class="row col-lg-15 " style="background-color:#354259">
@@ -289,11 +293,15 @@ try {
         <div class="container-fluid mx-0">
             <div class="container-fluid mx-0">
                 <div class="card" style="background-color: #eeedde78;padding: 2%;min-height: 85vh;margin-top: 1%;">
-                    <div class="row justify-content-center">
+                
+                     <div class="row justify-content-center">
                         <div class="col-12">
-                            <div class="card" style="background-color: #EEEDDE;padding:2%">
-                                <form >
-
+                            <div class="card" style="background-color: #EEEDDE;">
+                                <div class="card-header" style="background-color:#ECE5C7 ">
+                                    <h3 class="text-center mt-2">Employee Details</h3>
+                                </div>
+                                <div class="card-body" style="padding:2%">
+                                     <form >
                                     <?php
                                     if ($row2['user_type'] == 'admin') { ?>
                                         <!-- For Admin -->
@@ -301,8 +309,6 @@ try {
                                             <?php
                                             $result = mysqli_query($conn, "SELECT * FROM employee");
                                             if (mysqli_num_rows($result) > 0) { ?>
-                
-                                                <h1 class="display-4 fs-1">Employees</h1>
                                                 <table class="table" style="width: auto;">
                                                     <thead>
                                                         <tr>
@@ -342,10 +348,13 @@ try {
                                         <p style="display: none;"></p>
                                     <?php } ?>
                                 </form>
+                                </div>
+                               
 
                             </div>
                         </div>
                     </div>
+                   
                 </div>
             </div>
 
