@@ -276,7 +276,7 @@ try {
       <a href="#" style="display: none;" >Review Employees</a>
   <?php } ?>
   <?php if ($jobid === '004') { ?>
-    <a class="active" href="./add_new_employee.php"><p style="font-size:small"><i class="fa fa-user-plus fa-2x" aria-hidden="true"></i><br>Review Employees</p></a>    <?php } else { ?>
+    <a class="active" href="./add_new_employee.php"><p style="font-size:small"><i class="fa fa-user-plus fa-2x" aria-hidden="true"></i><br>Add New Employee</p></a>    <?php } else { ?>
       <a href="#" style="display: none;" >Add New Employee</a>
   <?php } ?>
 
