@@ -39,6 +39,7 @@ try {
 $legend = false;
 if(empty($_POST['dpt']) && empty($_POST['datef']) && empty($_POST['datet'])){
   $title = 'Leaves by Departments';
+  $colours=['#196F3D','#2ECC71','#82E0AA','#F4D03F','#F39C12','#E67E22','#FF5733','#E74C3C'];
   $chart_type = 'bar';
   $sql1 = "SELECT name,total_leaves from department left outer join (select count(id) as total_leaves,dept_id from leave_requests left outer join employment using(id) where status='approved' group by dept_id) t2 on department.id=t2.dept_id order by total_leaves ASC;";
 
@@ -59,6 +60,7 @@ foreach ($result1 as $row) {
 }
 if(!empty($_POST['dpt']) && empty($_POST['datef']) && empty($_POST['datet'])){
   $dept_id=$_POST['dpt'];
+  $colours=['#2ECC71','#82E0AA','#E67E22','#FF5733'];
   $dept_query = "SELECT * FROM department where id = '$dept_id';";
   $dept_result = $conn->query($dept_query);
   $dept_name = mysqli_fetch_all($dept_result, MYSQLI_ASSOC);
@@ -86,6 +88,7 @@ if(empty($_POST['dpt']) && !empty($_POST['datef'])){
   $chart_type = 'bar';
   $date_f=$_POST['datef'];
   $date_t=$_POST['datet'];
+  $colours=['#196F3D','#2ECC71','#82E0AA','#F4D03F','#F39C12','#E67E22','#FF5733','#E74C3C'];
   if ($date_t == Null) {
     $title = 'Leaves by Departments from '.$_POST['datef'];
     $sql1 = "SELECT name,total_leaves from department left outer join (select count(id) as total_leaves,dept_id from leave_requests left outer join employment using(id) where status='approved' and date_of_leave BETWEEN '$date_f' and CURRENT_DATE() group by dept_id) t2 on department.id=t2.dept_id order by total_leaves ASC;";
@@ -114,6 +117,7 @@ if(!empty($_POST['dpt']) && !empty($_POST['datef'])){
   $dept_id=$_POST['dpt'];
   $date_f=$_POST['datef'];
   $date_t=$_POST['datet'];
+  $colours=['#2ECC71','#82E0AA','#E67E22','#FF5733'];
   $dept_query = "SELECT * FROM department where id = '$dept_id';";
   $dept_result = $conn->query($dept_query);
   $dept_name = mysqli_fetch_all($dept_result, MYSQLI_ASSOC);
@@ -543,7 +547,7 @@ new Chart("myChart", {
     labels: xValues,
     datasets: [{
       data: yValues,
-      backgroundColor: ['#196F3D','#2ECC71','#82E0AA','#F4D03F','#F39C12','#E67E22','#FF5733','#E74C3C'],
+      backgroundColor: <?php echo json_encode($colours); ?>,
       hoverOffset: 4,
     }]
   },

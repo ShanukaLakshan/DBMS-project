@@ -23,7 +23,7 @@ try {
     $sql2 = mysqli_query($conn, "SELECT * FROM user WHERE user_name = '$username' AND password = '$userpassword'");
     $row2 = mysqli_fetch_array($sql2);
     $sql1 = mysqli_query($conn, "SELECT * FROM employee WHERE id in (SELECT id FROM user WHERE user_name = '$username' AND password = '$userpassword')");
-    $row = mysqli_fetch_array($sql1);
+    $emprow = mysqli_fetch_array($sql1);
     $id=$row2['id'];
     $get_leaves = "select * FROM leave_requests WHERE id in (SELECT id FROM supervisor where supervisor_id = '$id') and status='pending'";
     $leaves = mysqli_query($conn, $get_leaves);
@@ -315,7 +315,7 @@ try {
       <a href="#" style="display: none;" >Review Employees</a>
   <?php } ?>
   <?php if ($jobid === '004') { ?>
-      <a href="./add_new_employee.php">Add New Employee</a>
+    <a href="./add_new_employee.php"><p style="font-size:small"><i class="fa fa-user-plus fa-2x" aria-hidden="true"></i><br>Add New Employee</p></a>
     <?php } else { ?>
       <a href="#" style="display: none;" >Add New Employee</a>
   <?php } ?>
