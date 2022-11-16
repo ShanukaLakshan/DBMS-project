@@ -1,63 +1,63 @@
-<?php 
+<?php
 
-if(!isset($_COOKIE["uname"]))// $_COOKIE is a variable and login is a cookie name 
+if (!isset($_COOKIE["uname"])) // $_COOKIE is a variable and login is a cookie name 
 
-	header("location:login.php"); 
+  header("location:login.php");
 
 ?>
 <?php
-    $username=$_COOKIE['uname'];
-    $userpassword=$_COOKIE['pass'];
+$username = $_COOKIE['uname'];
+$userpassword = $_COOKIE['pass'];
 
 include('user_config.php');
 include('db_connector.php');
 
 try {
-    $conn = mysqli_connect($sname, $uname, $password, $db_name);
+  $conn = mysqli_connect($sname, $uname, $password, $db_name);
 } catch (Exception $e) {
-    echo "<p style='color:red;'>Database Connection Failed !</p>";
-    exit();
+  echo "<p style='color:red;'>Database Connection Failed !</p>";
+  exit();
 }
-if(isset($_REQUEST['c'])){
+if (isset($_REQUEST['c'])) {
   echo "<script>alert('Changed Successfully');</script>";
 }
 try {
-    $sql2 = mysqli_query($conn, "SELECT * FROM user WHERE user_name = '$username'");
-    $row2 = mysqli_fetch_array($sql2);
+  $sql2 = mysqli_query($conn, "SELECT * FROM user WHERE user_name = '$username'");
+  $row2 = mysqli_fetch_array($sql2);
 
-    $sql1 = mysqli_query($conn, "SELECT * FROM employee WHERE id in (SELECT id FROM user WHERE user_name = '$username' AND password = '$userpassword')");
-    $row = mysqli_fetch_array($sql1);
-    $id=$row['id'];
+  $sql1 = mysqli_query($conn, "SELECT * FROM employee WHERE id in (SELECT id FROM user WHERE user_name = '$username' AND password = '$userpassword')");
+  $row = mysqli_fetch_array($sql1);
+  $id = $row['id'];
 
-    $get_leaves = "select id FROM leave_requests WHERE id in (SELECT id FROM supervisor where supervisor_id = '$id') and status='pending'";
-    $leave = mysqli_query($conn, $get_leaves);
+  $get_leaves = "select id FROM leave_requests WHERE id in (SELECT id FROM supervisor where supervisor_id = '$id') and status='pending'";
+  $leave = mysqli_query($conn, $get_leaves);
 
-    $sql3 = mysqli_query($conn,"SELECT * FROM employment WHERE id='$id'");
-    $row4 = mysqli_fetch_array($sql3);
+  $sql3 = mysqli_query($conn, "SELECT * FROM employment WHERE id='$id'");
+  $row4 = mysqli_fetch_array($sql3);
 
-    $sql4 = mysqli_query($conn,"SELECT * FROM address WHERE id='$id'");
-    $row5 = mysqli_fetch_array($sql4);
+  $sql4 = mysqli_query($conn, "SELECT * FROM address WHERE id='$id'");
+  $row5 = mysqli_fetch_array($sql4);
 
-    $sql5 = mysqli_query($conn,"SELECT count(id) as count FROM leave_requests WHERE id='$id' and status='approved' and type='casual'");
-    $casualc=mysqli_fetch_array($sql5);
+  $sql5 = mysqli_query($conn, "SELECT count(id) as count FROM leave_requests WHERE id='$id' and status='approved' and type='casual'");
+  $casualc = mysqli_fetch_array($sql5);
 
-    $sql6 = mysqli_query($conn,"SELECT count(id) as count FROM leave_requests WHERE id='$id' and status='approved' and type='annual'");
-    $annualc=mysqli_fetch_array($sql6);
+  $sql6 = mysqli_query($conn, "SELECT count(id) as count FROM leave_requests WHERE id='$id' and status='approved' and type='annual'");
+  $annualc = mysqli_fetch_array($sql6);
 
-    $sql7 = mysqli_query($conn,"SELECT count(id) as count FROM leave_requests WHERE id='$id' and status='approved' and type='maternity'");
-    $maternityc=mysqli_fetch_array($sql7);
+  $sql7 = mysqli_query($conn, "SELECT count(id) as count FROM leave_requests WHERE id='$id' and status='approved' and type='maternity'");
+  $maternityc = mysqli_fetch_array($sql7);
 
-    $sql8 = mysqli_query($conn,"SELECT count(id) as count FROM leave_requests WHERE id='$id' and status='approved' and type='no_pay'");
-    $nopayc=mysqli_fetch_array($sql8);
+  $sql8 = mysqli_query($conn, "SELECT count(id) as count FROM leave_requests WHERE id='$id' and status='approved' and type='no_pay'");
+  $nopayc = mysqli_fetch_array($sql8);
 
-    $sql9 = mysqli_query($conn,"SELECT * FROM leave_detail WHERE job_title='$row4[job_title]' and pay_grade='$row4[pay_grade]'");
-    $leaves=mysqli_fetch_array($sql9);
-    $dept_id=$row4['dept_id'];
-    $sql10=mysqli_query($conn,"SELECT * FROM department WHERE id='$dept_id'");
-    $dept=mysqli_fetch_array($sql10);
+  $sql9 = mysqli_query($conn, "SELECT * FROM leave_detail WHERE job_title='$row4[job_title]' and pay_grade='$row4[pay_grade]'");
+  $leaves = mysqli_fetch_array($sql9);
+  $dept_id = $row4['dept_id'];
+  $sql10 = mysqli_query($conn, "SELECT * FROM department WHERE id='$dept_id'");
+  $dept = mysqli_fetch_array($sql10);
 } catch (Exception $e) {
-    echo "<p style='color:red;'>Username or Password is incorrect !</p>";
-    exit();
+  echo "<p style='color:red;'>Username or Password is incorrect !</p>";
+  exit();
 }
 
 
@@ -70,8 +70,7 @@ try {
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
   <title>Jupiter - Portal</title>
@@ -105,7 +104,7 @@ try {
     height: 82px;
     text-align: center;
     justify-content: center;
-    
+
   }
 
   /* Active/current link */
@@ -211,18 +210,20 @@ try {
 
   .progress-bar-warning {
     background-color: #635666;
-    
+
   }
-  .btn-sq{
+
+  .btn-sq {
     border-radius: 0px;
-    background-color:#CDC2AE;
+    background-color: #CDC2AE;
     height: 82px !important;
     width: 100px !important;
   }
-  .btn:hover{
+
+  .btn:hover {
     background-color: #354259;
-    border-radius:0px;
-    color:white
+    border-radius: 0px;
+    color: white
   }
 </style>
 
@@ -233,15 +234,15 @@ try {
     <?php if ($row2['user_type'] === 'admin') { ?>
       <a href="../jupyter/review_employee.php">Review Employees</a>
     <?php } else { ?>
-      <a href="#" style="display: none;" >Review Employees</a>
-  <?php } ?>
-  <?php if ($row4['job_title'] === 'HR Manager') { ?>
+      <a href="#" style="display: none;">Review Employees</a>
+    <?php } ?>
+    <?php if ($row4['job_title'] === 'HR Manager') { ?>
       <a href="../jupyter/add_new_employee.php">Add New Employee</a>
     <?php } else { ?>
-      <a href="#" style="display: none;" >Add New Employee</a>
-  <?php } ?>
-    <a href="../jupyter/leaveform.php" >Request a Leave</a>
-    <a href="../jupyter/approve_leaves.php" style="position-relative">Pending Approvals</a>
+      <a href="#" style="display: none;">Add New Employee</a>
+    <?php } ?>
+    <a href="../jupyter/leaveform.php">Request a Leave</a>
+    <a href="../jupyter/approve_leaves.php" style="position:relative">Pending Approvals</a>
     <span class="position-absolute top-70 start-90 translate-middle badge rounded-pill bg-danger"> <?php echo "" . mysqli_num_rows($leave); ?>
 
   </div>
@@ -249,8 +250,7 @@ try {
     <div class="row col-lg-15 " style="background-color:#354259">
       <div class="col">
         <a href='./homepage.php'>
-        <img  class="border-dark " src="./img/jupiter_logo.png"
-          style="width:250px;margin-bottom: 5px;margin-left: 10px;">
+          <img class="border-dark " src="./img/jupiter_logo.png" style="width:250px;margin-bottom: 5px;margin-left: 10px;">
         </a>
       </div>
       <div class="col-lg-6 align-self-center text-center">
@@ -260,28 +260,28 @@ try {
         <div class="row mx-0 text-end">
           <div class="col-auto text-end">
             <?php
-                $sql3 = mysqli_query($conn, "SELECT * FROM user WHERE id = '$id'");
-                $row3 = mysqli_fetch_array($sql3);
-                $name = $row2['img_name'];
-                $stmt = $pdo->prepare("SELECT `img_data` FROM `user` WHERE `img_name`=?");
-                $stmt->execute([$name]);
-                $img = $stmt->fetch();
-                $img = $img["img_data"];
-                $img = base64_encode($img);
-                $ext = pathinfo($name, PATHINFO_EXTENSION);
-                if (!empty($img)){
-                  echo "<img src='data:image/" . $ext . ";base64," . $img . "' height='auto' width='30px' class='rounded-circle' alt='...'/>";
-                }
-                else{
-                  echo "<img src='./img/user-default.png' height='auto' width='30px' class='rounded-circle' alt='...'/>";
-                }
-                ?>
+            $sql3 = mysqli_query($conn, "SELECT * FROM user WHERE id = '$id'");
+            $row3 = mysqli_fetch_array($sql3);
+            $name = $row2['img_name'];
+            $stmt = $pdo->prepare("SELECT `img_data` FROM `user` WHERE `img_name`=?");
+            $stmt->execute([$name]);
+            $img = $stmt->fetch();
+            $img = $img["img_data"];
+            $img = base64_encode($img);
+            $ext = pathinfo($name, PATHINFO_EXTENSION);
+            if (!empty($img)) {
+              echo "<img src='data:image/" . $ext . ";base64," . $img . "' height='auto' width='30px' class='rounded-circle' alt='...'/>";
+            } else {
+              echo "<img src='./img/user-default.png' height='auto' width='30px' class='rounded-circle' alt='...'/>";
+            }
+            ?>
 
           </div>
           <div class="col-lg-auto text-end align-content-end" style="margin-left:-4%;">
             <div class="dropdown align-self-end" style="float:right">
-              <button class="dropbtn align-self-end"> <p style="color:white">
-                <?php echo $row['name'] ?> &nbsp<i class="fa fa-caret-down"></i></p>
+              <button class="dropbtn align-self-end">
+                <p style="color:white">
+                  <?php echo $row['name'] ?> &nbsp<i class="fa fa-caret-down"></i></p>
               </button>
               <div class="dropdown-content" style="left:0px">
                 <a href="../jupyter/account_details.php">Account details</a>
@@ -303,21 +303,20 @@ try {
                 <div class="card" style="padding:2%;background-color:#EEEDDE">
                   <div class="text-center">
                     <?php
-                                        $sql3 = mysqli_query($conn, "SELECT * FROM user WHERE id = '$id'");
-                                        $row3 = mysqli_fetch_array($sql3);
-                                        $name = $row2['img_name'];
-                                        $stmt = $pdo->prepare("SELECT `img_data` FROM `user` WHERE `img_name`=?");
-                                        $stmt->execute([$name]);
-                                        $img = $stmt->fetch();
-                                        $img = $img["img_data"];
-                                        $img = base64_encode($img);
-                                        $ext = pathinfo($name, PATHINFO_EXTENSION);
-                                        if (!empty($img)){
-                                          echo "<img src='data:image/" . $ext . ";base64," . $img . "' height='auto' width='300px' class='rounded-circle' alt='...'/>";
-                                        }
-                                        else{
-                                          echo "<img src='./img/user-default.png' height='auto' width='300px' class='rounded-circle' alt='...'/>";
-                                        }                                        ?>
+                    $sql3 = mysqli_query($conn, "SELECT * FROM user WHERE id = '$id'");
+                    $row3 = mysqli_fetch_array($sql3);
+                    $name = $row2['img_name'];
+                    $stmt = $pdo->prepare("SELECT `img_data` FROM `user` WHERE `img_name`=?");
+                    $stmt->execute([$name]);
+                    $img = $stmt->fetch();
+                    $img = $img["img_data"];
+                    $img = base64_encode($img);
+                    $ext = pathinfo($name, PATHINFO_EXTENSION);
+                    if (!empty($img)) {
+                      echo "<img src='data:image/" . $ext . ";base64," . $img . "' height='auto' width='300px' class='rounded-circle' alt='...'/>";
+                    } else {
+                      echo "<img src='./img/user-default.png' height='auto' width='300px' class='rounded-circle' alt='...'/>";
+                    }                                        ?>
 
                     <h5 class="card-title fw-bold" style="margin-top: 10px;">
                       <?php echo $row['name'] ?>
@@ -351,7 +350,7 @@ try {
                       <div class="col col-md-auto ">
                         <p style="color: #858585; margin-bottom: 2px;">Address</p>
                         <p>
-                          <?php echo $row5['address_line_1'].','.$row5['address_line_2'].','.$row5['city'].','.$row5['postal_code']  ?>
+                          <?php echo $row5['address_line_1'] . ',' . $row5['address_line_2'] . ',' . $row5['city'] . ',' . $row5['postal_code']  ?>
                         </p>
                       </div>
                       <div class="col col-md-auto">
@@ -396,51 +395,43 @@ try {
                 </div>
                 <div class="row align-self-center  " style="margin-top:10px">
                   <div class="card" style="background-color:#EEEDDE;margin-top: 4%;">
-                    <div class="card-header" >
+                    <div class="card-header">
                       <p class="fw-bold" style="font-size:large">Leaves</p>
                     </div>
                     <div class="card-body" style="padding-left:5%;padding-right:5%">
-                      <div class="row" >
+                      <div class="row">
                         <p style="color: #858585; margin-bottom: 10px;">No Pay</p>
                         <div class="progress" style="padding:0 ;">
-                          <div class="progress-bar progress-bar-warning" role="progressbar"
-                            aria-valuenow='<?php echo $leaves[' no_pay']-$nopayc['count'] ?>' aria-valuemin="0"
-                            aria-valuemax="100" style="padding:0 ;width:
-                            <?php echo ($leaves['no_pay']-$nopayc['count'])/$leaves['no_pay']*100 ?>%">
-                            <?php echo $leaves['no_pay']-$nopayc['count'] ?> remaining
+                          <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow='<?php echo $leaves[' no_pay'] - $nopayc['count'] ?>' aria-valuemin="0" aria-valuemax="100" style="padding:0 ;width:
+                            <?php echo ($leaves['no_pay'] - $nopayc['count']) / $leaves['no_pay'] * 100 ?>%">
+                            <?php echo $leaves['no_pay'] - $nopayc['count'] ?> remaining
                           </div>
                         </div>
                       </div>
                       <div class="row " style="margin-top:10px">
                         <p style="color: #858585; margin-bottom: 10px;">Annual</p>
-                        <div class="progress"style="padding:0 ;">
-                          <div class="progress-bar progress-bar-warning" role="progressbar"
-                            aria-valuenow='<?php echo $leaves[' annual']-$annualc['count'] ?>' aria-valuemin="0"
-                            aria-valuemax="100" style="width:
-                            <?php echo ($leaves['annual']-$annualc['count'])/$leaves['annual']*100 ?>%">
-                            <?php echo $leaves['annual']-$annualc['count'] ?> remaining
+                        <div class="progress" style="padding:0 ;">
+                          <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow='<?php echo $leaves[' annual'] - $annualc['count'] ?>' aria-valuemin="0" aria-valuemax="100" style="width:
+                            <?php echo ($leaves['annual'] - $annualc['count']) / $leaves['annual'] * 100 ?>%">
+                            <?php echo $leaves['annual'] - $annualc['count'] ?> remaining
                           </div>
                         </div>
                       </div>
                       <div class="row " style="margin-top:10px">
                         <p style="color: #858585; margin-bottom: 10px;">Casual</p>
-                        <div class="progress"style="padding:0 ;">
-                          <div class="progress-bar progress-bar-warning" role="progressbar"
-                            aria-valuenow='<?php echo $leaves[' casual']-$casualc['count'] ?>' aria-valuemin="0"
-                            aria-valuemax="100" style="width:
-                            <?php echo ($leaves['casual']-$casualc['count'])/$leaves['casual']*100 ?>%">
-                            <?php echo $leaves['casual']-$casualc['count'] ?> remaining
+                        <div class="progress" style="padding:0 ;">
+                          <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow='<?php echo $leaves[' casual'] - $casualc['count'] ?>' aria-valuemin="0" aria-valuemax="100" style="width:
+                            <?php echo ($leaves['casual'] - $casualc['count']) / $leaves['casual'] * 100 ?>%">
+                            <?php echo $leaves['casual'] - $casualc['count'] ?> remaining
                           </div>
                         </div>
                       </div>
                       <div class="row " style="margin-top:10px">
                         <p style="color: #858585; margin-bottom: 10px;">Maturnity</p>
-                        <div class="progress"style="padding:0 ;">
-                          <div class="progress-bar progress-bar-warning" role="progressbar"
-                            aria-valuenow='<?php echo $leaves[' maternity']-$maternityc['count'] ?>' aria-valuemin="0"
-                            aria-valuemax="100" style="width:
-                            <?php echo ($leaves['maternity']-$maternityc['count'])/$leaves['maternity']*100 ?>%">
-                            <?php echo $leaves['maternity']-$maternityc['count'] ?> remaining
+                        <div class="progress" style="padding:0 ;">
+                          <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow='<?php echo $leaves[' maternity'] - $maternityc['count'] ?>' aria-valuemin="0" aria-valuemax="100" style="width:
+                            <?php echo ($leaves['maternity'] - $maternityc['count']) / $leaves['maternity'] * 100 ?>%">
+                            <?php echo $leaves['maternity'] - $maternityc['count'] ?> remaining
                           </div>
                         </div>
                       </div>
