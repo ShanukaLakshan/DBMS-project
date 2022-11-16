@@ -16,11 +16,12 @@ drop table if exists pay_level;
 drop table if exists user;
 SET FOREIGN_KEY_CHECKS = 1; 
 create table employee
-	(name	varchar(20) not null,
+	(first_name	varchar(20) not null,
+	 last_name varchar(20) not null,
      id	int not null auto_increment,
      gender	varchar(6) not null,
      phone_number	varchar(10),
-     email	varchar(30),
+     email	varchar(50),
      birth_date    date not null,
      marital_status varchar(10),
      primary key (id)
@@ -75,7 +76,7 @@ create table department
      );
 create table employment 
 	(id	int not null,
-	 job_id	varchar(20) not null,
+	 job_id	varchar(3) not null,
      pay_grade	tinyint not null,
      stat_id	varchar(1 ) not null,
      dept_id	varchar(5) not null,
@@ -105,8 +106,8 @@ create table address
 	(id	int not null,
      address_line_1	varchar(20) not null,
 	 address_line_2	varchar(20),
-     province	varchar(10) not null,
-     city	varchar(15) not null,
+     province	varchar(20) not null,
+     city	varchar(20) not null,
      postal_code	varchar(5) not null,
      primary key (id),
      foreign key (id) references employee(id) on delete cascade
