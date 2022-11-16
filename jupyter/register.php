@@ -1,6 +1,7 @@
 <?php
 include('admin_config.php');
 $conn = mysqli_connect($sname, $uname, $password, $db_name);
+
 ?>
 <!DOCTYPE html>
 <html lang="en">

@@ -131,6 +131,7 @@ $conn = mysqli_connect($sname, $uname, $password, $db_name);
                 <div class="md-3">
                   <div class="row">
                     <div class="col">
+                    <input type="text" style="display:none" class="form-control" name="flag" value="1" readonly>
                       <input type="text" style="margin-top: 1px" class="form-control" name="xxfname" value="<?php echo $_GET['xfname']; ?>" readonly>
                     </div>
                     <div class="col">

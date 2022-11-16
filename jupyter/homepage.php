@@ -21,19 +21,22 @@ try {
 if(isset($_REQUEST['c'])){
   echo "<script>alert('Changed Successfully');</script>";
 }
+
 try {
     $sql2 = mysqli_query($conn, "SELECT * FROM user WHERE user_name = '$username'");
     $row2 = mysqli_fetch_array($sql2);
 
-    $sql1 = mysqli_query($conn, "SELECT * FROM employee WHERE id in (SELECT id FROM user WHERE user_name = '$username' AND password = '$userpassword')");
+    $sql1 = mysqli_query($conn, "SELECT * FROM employee WHERE id in (SELECT id FROM user WHERE user_name = '$username')");
     $row = mysqli_fetch_array($sql1);
     $id=$row['id'];
+
 
     $get_leaves = "select id FROM leave_requests WHERE id in (SELECT id FROM supervisor where supervisor_id = '$id') and status='pending'";
     $leave = mysqli_query($conn, $get_leaves);
 
     $sql3 = mysqli_query($conn,"SELECT * FROM employment WHERE id='$id'");
     $row4 = mysqli_fetch_array($sql3);
+    
     $jobid=$row4['job_id'];
     $jobq=mysqli_query($conn,"SELECT * FROM job WHERE job_id='$jobid'");
     $job=mysqli_fetch_array($jobq);
@@ -245,28 +248,28 @@ try {
 <body>
 
   <div class="sidebar">
-    <a class="active" href="../jupyter/homepage.php">Home</a>
+    <a class="active" href="./homepage.php">Home</a>
     <?php if ($row2['user_type'] === 'admin') { ?>
-      <a href="../jupyter/review_employee.php">Review Employees</a>
+      <a href="./review_employee.php">Review Employees</a>
     <?php } else { ?>
       <a href="#" style="display: none;" >Review Employees</a>
   <?php } ?>
   <?php if ($jobid === '004') { ?>
-      <a href="../jupyter/add_new_employee.php">Add New Employee</a>
+      <a href="./add_new_employee.php">Add New Employee</a>
     <?php } else { ?>
       <a href="#" style="display: none;" >Add New Employee</a>
   <?php } ?>
 
-    <a href="../jupyter/leaveform.php" >Request a Leave</a>
+    <a href="./leaveform.php" >Request a Leave</a>
 
 
   <?php if ($jobid === '004') { ?>
-    <a href="../jupyter/reports.php" >Reports</a>
+    <a href="./reports.php" >Reports</a>
     <?php } else { ?>
       <a href="#" style="display: none;" >Reports</a>
   <?php } ?>
     
-    <a href="../jupyter/approve_leaves.php" style="position-relative">Pending Approvals</a>
+    <a href="./approve_leaves.php" style="position-relative">Pending Approvals</a>
     <?php 
     $nums=mysqli_num_rows($leave);
     if(mysqli_num_rows($leave)>0){
@@ -313,8 +316,8 @@ try {
                 <?php echo $row['name'] ?> &nbsp<i class="fa fa-caret-down"></i></p>
               </button>
               <div class="dropdown-content" style="left:0px">
-                <a href="../jupyter/account_details.php">Account details</a>
-                <a href="../jupyter/logout.php">Logout</a>
+                <a href="./account_details.php">Account details</a>
+                <a href="./logout.php">Logout</a>
               </div>
             </div>
           </div>

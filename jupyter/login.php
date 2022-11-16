@@ -1,20 +1,24 @@
 <?php
 include('user_config.php');
-include('db_connector.php');
+//include('db_connector.php');
 $username = "" . $_POST['uname'];
 $userpassword = "" . $_POST['pwd'];
 
 try {
     $conn = mysqli_connect($sname, $uname, $password, $db_name);
 } catch (Exception $e) {
-    echo "<p style='color:red;'>Database Connection Failed !</p>";
+    echo $e;
     exit();
 }
+$check=$conn->prepare("select * from user where user_name=? and password=?");
+$check->bind_param("ss", $username, $userpassword);
+$check->execute();
+$result = $check->get_result();
+$arr=mysqli_fetch_array($result);
+// $res = mysqli_query($conn,"select * from user where user_name='$username'and password='$userpassword'");
+// $result=mysqli_fetch_array($res);
 
-$res = mysqli_query($conn,"select * from user where user_name='$username'and password='$userpassword'");
-$result=mysqli_fetch_array($res);
-
-if($result)
+if($arr)
 {
 	setcookie("uname",$username,time()+3600);// second on page time 
     setcookie('pass',$userpassword,time()+3600);

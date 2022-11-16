@@ -38,7 +38,19 @@ $row=mysqli_query($conn,"SELECT * FROM leave_requests WHERE id = '$id'  AND stat
 if(0<(mysqli_num_rows($row))){
     header("location:leaveform.php?err=1");
 }
-
-mysqli_query($conn,"INSERT INTO leave_requests (id,type_id,date_of_leave,date_requested,status) VALUES ('$id','".$_POST['xleave_type']."','".$_POST['xdate']."','$date','Pending')");
+$status='Pending';
+$request=$conn->prepare("INSERT INTO leave_requests (id,type_id,date_of_leave,date_requested,status) VALUES (?,?,?,?,?)");
+$request->bind_param("issss", $id, $_POST['xleave_type'], $_POST['xdate'], $date, $status);
+try{
+    $conn->begin_transaction();
+    $request->execute();
+}
+catch(Exception $e){
+    $conn->rollback();
+    echo "Error: " . $e->getMessage();
+    header("location:leaveform.php?errs=1");
+    exit();
+}
+// mysqli_query($conn,"INSERT INTO leave_requests (id,type_id,date_of_leave,date_requested,status) VALUES ('$id','".$_POST['xleave_type']."','".$_POST['xdate']."','$date','Pending')");
 header("Location: homepage.php");
 ?>

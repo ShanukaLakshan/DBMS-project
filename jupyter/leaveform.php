@@ -13,6 +13,8 @@ if(isset($_REQUEST["date"]))
 <?php 
 if(isset($_REQUEST["err"]))
 	$msg="Leave already requested";
+if(isset($_REQUEST["errs"]))
+  $msg="Error occured";
 ?>
 <?php
     $username=$_COOKIE['uname'];
@@ -253,27 +255,27 @@ try {
 
 <body>
   <div class="sidebar">
-    <a href="../jupyter/homepage.php">Home</a>
+    <a href="./homepage.php">Home</a>
     <?php if ($row2['user_type'] === 'admin') { ?>
-      <a href="../jupyter/review_employee.php">Review Employees</a>
+      <a href="./review_employee.php">Review Employees</a>
     <?php } else { ?>
       <a href="#" style="display: none;" >Review Employees</a>
   <?php } ?>
   <?php if ($jobid === '004') { ?>
-      <a href="../jupyter/add_new_employee.php">Add New Employee</a>
+      <a href="./add_new_employee.php">Add New Employee</a>
     <?php } else { ?>
       <a href="#" style="display: none;" >Add New Employee</a>
   <?php } ?>
 
-    <a class="active" href="../jupyter/leaveform.php" >Request a Leave</a>
+    <a class="active" href="./leaveform.php" >Request a Leave</a>
 
 
   <?php if ($jobid === '004') { ?>
-    <a href="../jupyter/reports.php" >Reports</a>
+    <a href="./reports.php" >Reports</a>
     <?php } else { ?>
       <a href="#" style="display: none;" >Reports</a>
   <?php } ?>
-    <a href="../jupyter/approve_leaves.php">Pending Approvals</a>
+    <a href="./approve_leaves.php">Pending Approvals</a>
     <?php 
     $nums=mysqli_num_rows($leave);
     if(mysqli_num_rows($leave)>0){
@@ -322,7 +324,7 @@ try {
               </button>
               <div class="dropdown-content" style="left:0px">
                 <a href="./account_details.php">Account details</a>
-                <a href="../jupyter/logout.php">Logout</a>
+                <a href="./logout.php">Logout</a>
               </div>
             </div>
           </div>

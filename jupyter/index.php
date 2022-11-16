@@ -1,6 +1,14 @@
 <?php 
 if(isset($_REQUEST["err"]))
 	$msg="Invalid username or Password";
+
+if(isset($_REQUEST["c"]))
+  echo "<script>alert('Account Created Successfully!');</script>";
+
+if(isset($_REQUEST["cerr"]))
+  echo "<script>alert('Account Creation Error!');</script>";
+if(isset($_REQUEST["perr"]))
+  echo "<script>alert('Image upload failed! You can change it later from the portal.');</script>";
 ?>
 <p style="color:red;">
 <?php
@@ -254,7 +262,7 @@ if(isset($_COOKIE['uname']))
                 >
                   <p class="mb-0 me-2">Don't have an account?</p>
                   <a
-                    href="register.php"
+                    href="new_user.php"
                     class="btn btn-outline-warning"
                     tabindex="-1"
                     role="button"

@@ -58,7 +58,7 @@ insert into leave_detail values("3","03",'30');
 insert into leave_detail values("1","04",'50');
 insert into leave_detail values("2","04",'50');
 insert into leave_detail values("3","04",'50');
-insert into leave_requests (id,type_idjob,date_of_leave,date_requested,date_moderated,status) values("20000",'01','2022-09-10',null,null,'Pending');
+insert into leave_requests (id,type_id,date_of_leave,date_requested,date_moderated,status) values("20000",'01','2022-09-10',null,null,'Pending');
 insert into leave_requests (id,type_id,date_of_leave,date_requested,date_moderated,status) values("20000",'01','2022-09-11',null,null,'Pending');
 insert into leave_requests (id,type_id,date_of_leave,date_requested,date_moderated,status) values("20000",'04','2022-09-12',null,null,'Pending');
 insert into leave_requests (id,type_id,date_of_leave,date_requested,date_moderated,status) values("20000",'02','2022-09-13',null,null,'Pending');
