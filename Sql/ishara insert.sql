@@ -18,10 +18,10 @@ insert into leave_type values ('01','Annual'),('02','Casual'),('03','Maternity')
 insert into job values ('Software Engineer','001'),('Accountant','002'),('QA Engineer','003'),('Human Resources Manager','004'),('Human Resources','005');
 insert into emp_status value ('2','Intern - Parttime'),('3','Intern - Fulltime'),('1','Permanent'),('6','Freelance'),('4','contract - Parttime'),('5','contract - Fulltime');
 
-insert into employee (first_name,last_name,gender,phone_number,email,birth_date,marital_status) values ("AuntilataCepaDena","SadeepaAiya ","Male","0717035989",'sadeepaekanayaked@gmail.com','1999-02-01','Married');
-insert into employee (first_name,last_name,gender,phone_number,email,birth_date,marital_status) values ("HithuwakkaraKolla","Shanilka","Male","0775645321",'shalikaadithya123@gmail.com','1999-01-17','Married');
-insert into employee (first_name,last_name,gender,phone_number,email,birth_date,marital_status) values ("Shanuka","JundaKanaShanuka","Male","0756434192",'shanukalakshan10@gmail.com','1987-05-03','Single');
-insert into employee (first_name,last_name,gender,phone_number,email,birth_date,marital_status) values ("kollantaAsa","Harsha",'Male','077344012','harsham@gmail.com','1999-07-10','Widowed');
+insert into employee (first_name,last_name,gender,phone_number,email,birth_date,marital_status) values ("Sadeepa","Dhananjaya","Male","0717035989",'sadeepaekanayaked@gmail.com','1999-02-01','Married');
+insert into employee (first_name,last_name,gender,phone_number,email,birth_date,marital_status) values ("Shanilka","Shanilka","Male","0775645321",'shalikaadithya123@gmail.com','1999-01-17','Married');
+insert into employee (first_name,last_name,gender,phone_number,email,birth_date,marital_status) values ("Shanuka","Lakshan","Male","0756434192",'shanukalakshan10@gmail.com','1987-05-03','Single');
+insert into employee (first_name,last_name,gender,phone_number,email,birth_date,marital_status) values ("Harsha","Senarathne",'Male','077344012','harsham@gmail.com','1999-07-10','Widowed');
 insert into employee (first_name,last_name,gender,phone_number,email,birth_date,marital_status) values ("Ishara","Malkumara","Male",'071868749','isharaam@gmai.com','1998-04-11','Separated');
 
 -- auto generated

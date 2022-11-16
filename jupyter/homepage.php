@@ -18,9 +18,7 @@ try {
     echo "<p style='color:red;'>Database Connection Failed !</p>";
     exit();
 }
-if(isset($_REQUEST['c'])){
-  echo "<script>alert('Changed Successfully');</script>";
-}
+
 
 try {
     $sql2 = mysqli_query($conn, "SELECT * FROM user WHERE user_name = '$username'");
@@ -92,6 +90,13 @@ try {
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+  <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+  <script>
+      $( function() {
+        $( "#dialog" ).dialog();
+      } );
+  </script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
   <title>Jupiter - Portal</title>
   <link rel="icon" type="image/x-icon" href="./img/favicon.png" />
@@ -119,7 +124,7 @@ try {
   .sidebar a {
     display: flex;
     color: black;
-    padding: 16px;
+    padding: 10px 12px;
     text-decoration: none;
     height: 82px;
     text-align: center;
@@ -243,38 +248,91 @@ try {
     border-radius:0px;
     color:white
   }
+  /* Style the sidenav links and the dropdown button */
+.sidenav a, .dropdown-btn {
+  padding: 6px 8px 6px 16px;
+  text-decoration: none;
+  font-size: 16px;
+  color: #000000;
+  display: block;
+  border: none;
+  background: none;
+  width:100%;
+  height:10%;
+  text-align: center;
+  cursor: pointer;
+  outline: none;
+}
+
+/* On mouse-over */
+.sidenav a:hover, .dropdown-btn:hover {
+  background-color: #555;
+  color: white;
+}
+
+/* Main content */
+
+
+/* Add an active class to the active dropdown button */
+.active {
+  background-color: #354259;
+  color: rgb(255, 255, 255);
+}
+
+/* Dropdown container (hidden by default). Optional: add a lighter background color and some left padding to change the design of the dropdown content */
+.dropdown-container {
+  display:none;
+  background-color: #fff4c1;
+}
+
+/* Optional: Style the caret down icon */
+.fa-caret-down {
+  float: center;
+  padding-right: 8px;
+}
 </style>
 
 <body>
+  <?php
+if(isset($_REQUEST['c'])){
+  echo "<script>alert('Changed Successfully');</script>";
+}
+?>
 
   <div class="sidebar">
-    <a class="active" href="./homepage.php">Home</a>
+  <a class="active" href="./homepage.php" class="text-center"><p class="text-center"><i class="fa fa-home fa-2x" aria-hidden="true"></i><br>Home</p></a>
     <?php if ($row2['user_type'] === 'admin') { ?>
-      <a href="./review_employee.php">Review Employees</a>
+      <a href="./review_employee.php"><p style="font-size:small"><i class="fa fa-users fa-2x" aria-hidden="true"></i><br>Review Employees</p></a>
     <?php } else { ?>
       <a href="#" style="display: none;" >Review Employees</a>
   <?php } ?>
   <?php if ($jobid === '004') { ?>
-      <a href="./add_new_employee.php">Add New Employee</a>
-    <?php } else { ?>
+    <a href="./add_new_employee.php"><p style="font-size:small"><i class="fa fa-user-plus fa-2x" aria-hidden="true"></i><br>Review Employees</p></a>    <?php } else { ?>
       <a href="#" style="display: none;" >Add New Employee</a>
   <?php } ?>
 
-    <a href="./leaveform.php" >Request a Leave</a>
+    <a  href="./leaveform.php" ><p style="font-size:small"><i class="fa fa-calendar fa-2x mt-2" aria-hidden="true"></i><br>Take a leave</p></a>
 
 
   <?php if ($jobid === '004') { ?>
-    <a href="./reports.php" >Reports</a>
+    <button class="dropdown-btn"><p style="font-size:small"><i class="fa fa-line-chart fa-2x mt-2" aria-hidden="true"></i><br>Reports
+      <i class="fa fa-caret-down"></i></p>
+    </button>
+    <div class="dropdown-container">
+      <a href="reports.php" style="height:auto;">Employees</a>
+      <a href="leave_report.php" style="height:auto;">Leaves</a>
+    </div>
     <?php } else { ?>
       <a href="#" style="display: none;" >Reports</a>
   <?php } ?>
-    
-    <a href="./approve_leaves.php" style="position-relative">Pending Approvals</a>
+  
+    <a class="position-relative" href="./approve_leaves.php"><p style="font-size:small;margin-bottom:50px"><i class="fa fa-clock-o fa-2x " aria-hidden="true"></i><br>Pending Approvals</p></a>
     <?php 
     $nums=mysqli_num_rows($leave);
     if(mysqli_num_rows($leave)>0){
-        echo  "<span class='position-absolute top-70 start-90 translate-middle badge rounded-pill bg-danger'>" .$nums;
+        echo  "<span class='position-relative top-10 start-40 translate-middle badge rounded-pill bg-danger' style='left:13px'>" .$nums;
     }
+
     ?>
   </div>
   <div class="content">
@@ -313,7 +371,7 @@ try {
           <div class="col-lg-auto text-end align-content-end" style="margin-left:-4%;">
             <div class="dropdown align-self-end" style="float:right">
               <button class="dropbtn align-self-end"> <p style="color:white">
-                <?php echo $row['name'] ?> &nbsp<i class="fa fa-caret-down"></i></p>
+                <?php echo $row['first_name'].' '.$row['last_name'] ?> &nbsp<i class="fa fa-caret-down"></i></p>
               </button>
               <div class="dropdown-content" style="left:0px">
                 <a href="./account_details.php">Account details</a>
@@ -352,7 +410,7 @@ try {
                                         }                                        ?>
 
                     <h5 class="card-title fw-bold" style="margin-top: 10px;">
-                      <?php echo $row['name'] ?>
+                      <?php echo $row['first_name'].' '.$row['last_name'] ?>
                     </h5>
                     <h6 class="card-title" style="margin-top: -5px;">
                       <?php echo $username ?>
@@ -489,5 +547,20 @@ try {
 
 
 </body>
+<script>
+  var dropdown = document.getElementsByClassName("dropdown-btn");
+var i;
 
+for (i = 0; i < dropdown.length; i++) {
+  dropdown[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var dropdownContent = this.nextElementSibling;
+    if (dropdownContent.style.display === "block") {
+      dropdownContent.style.display = "none";
+    } else {
+      dropdownContent.style.display = "block";
+    }
+  });
+}
+</script>
 </html>
