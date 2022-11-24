@@ -295,7 +295,7 @@ try {
       <a href="#" style="display: none;" >Reports</a>
   <?php } ?>
   
-    <a href="./approve_leaves.php"><p style="font-size:small"><i class="fa fa-clock-o fa-2x mt-1" aria-hidden="true"></i><br>Review Employees</p></a>
+    <a href="./approve_leaves.php"><p style="font-size:small"><i class="fa fa-clock-o fa-2x mt-1" aria-hidden="true"></i><br>Pending Approves</p></a>
     <?php 
     $nums=mysqli_num_rows($leave);
     if(mysqli_num_rows($leave)>0){
@@ -525,7 +525,21 @@ try {
                       </div>
                       <div class="row g-3" style="margin-top: 0.5px;">
                         <div class="col">
-                        <input type="text" class="form-control" name="xxsid" placeholder="Supervisor ID" required />
+                        <select class="form-select" name="xxsid" required>
+                            <option value="">Supervisor</option>
+                            <?php
+                            $query = "SELECT * FROM employee ORDER BY first_name,last_name";
+                            $result = $conn->query($query);
+                            if ($result->num_rows > 0) {
+                              $options = mysqli_fetch_all($result, MYSQLI_ASSOC);
+                            }
+                            foreach ($options as $option) {
+                            ?>
+                              <option value="<?php echo $option['id']; ?>"><?php echo $option['first_name'].' '.$option['last_name']; ?> </option>
+                            <?php
+                            }
+                            ?>
+                          </select>
                         </div>
                       </div>
                     </div>

@@ -34,7 +34,6 @@ if (count($_POST) > 0) {
     }
     if(empty($_POST['lname'])){
         $lname = $lol['last_name'];
-        echo $lname;
     }
     if(empty($_POST['email'])){
         $email = $lol['email'];
