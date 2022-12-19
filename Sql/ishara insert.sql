@@ -1263,7 +1263,6 @@ insert into user values ('GasGiniya','20004',MD5('11223344GasGiniya'),'user','de
 insert into user values ('sudumalli69','20003',MD5('11223344sudumalli69'),'user','default.jpg',null);
 insert into user values ('syph3rd','20000',MD5('11223344syph3rd'),'admin','default.jpg',null);
 
---auto generated
 insert into user values ('egaskall0','20005',MD5('11223344egaskall0'),'User','default.jpg',null);
 insert into user values ('jlaw1','20006',MD5('11223344jlaw1'),'User','default.jpg',null);
 insert into user values ('lcota2','20007',MD5('11223344lcota2'),'User','default.jpg',null);

@@ -11,7 +11,7 @@ try {
     exit();
 }
 $check=$conn->prepare("select * from user where user_name=? and password=?");
-$check->bind_param("ss", $username, $userpassword);
+$check->bind_param("ss", $username, md5($userpassword.$username));
 $check->execute();
 $result = $check->get_result();
 $arr=mysqli_fetch_array($result);
