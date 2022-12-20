@@ -1256,12 +1256,6 @@ insert into payroll values('20002','2022-09-9');
 insert into payroll values('20003','2022-08-9');
 insert into payroll values('20004','2022-07-9');
 
-insert into user values ('adi2012','20001','112233','admin','default.jpg',null);
-insert into user values ('david007','20002','112233','hr','default.jpg',null);
-insert into user values ('GasGiniya','20004','112233','user','default.jpg',null);
-insert into user values ('sudumalli69','20003','112233','user','default.jpg',null);
-insert into user values ('syph3rd','20000','112233','admin','default.jpg',null);
-
 insert into supervisor values("20000",'20001');
 insert into supervisor values ('20000','20002');
 insert into supervisor values ('20000','20003');
