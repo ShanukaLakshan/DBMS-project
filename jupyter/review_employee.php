@@ -20,9 +20,9 @@ try {
 }
 
 try {
-    $sql2 = mysqli_query($conn, "SELECT * FROM user WHERE user_name = '$username' AND password = '$userpassword'");
+    $sql2 = mysqli_query($conn, "SELECT * FROM user WHERE user_name = '$username' AND password = '".md5($userpassword.$username)."'");
     $row2 = mysqli_fetch_array($sql2);
-    $sql1 = mysqli_query($conn, "SELECT * FROM employee WHERE id in (SELECT id FROM user WHERE user_name = '$username' AND password = '$userpassword')");
+    $sql1 = mysqli_query($conn, "SELECT * FROM employee WHERE id in (SELECT id FROM user WHERE user_name = '$username' AND password = '".md5($userpassword.$username)."')");
     $row = mysqli_fetch_array($sql1);
     $id=$row2['id'];
     $get_leaves = "select id FROM leave_requests WHERE id in (SELECT id FROM supervisor where supervisor_id = '$id') and status='pending'";

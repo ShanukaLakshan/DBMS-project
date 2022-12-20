@@ -196,7 +196,8 @@ $conn = mysqli_connect($sname, $uname, $password, $db_name);
                       $dept_name = $dept1['name'];
                       ?>
                       <p style="margin: 0" style="font-size: 3px;">Department</p>
-                      <input type="text" class="form-control" name="xxdpt" value="<?php echo $dept_name; ?>" readonly>
+                      <input type="text" class="form-control" name="dptss" value="<?php echo $dept_name; ?>" readonly>
+                      <input type="text" style="display:none" class="form-control" name="xxdpt" value="<?php echo $_GET['xdpt']; ?>" readonly>
                     </div>
                   </div>
 
@@ -229,6 +230,26 @@ $conn = mysqli_connect($sname, $uname, $password, $db_name);
                 </div>
                 <input type="text" style="margin-top: 5px" class="form-control" name="xxaccn" value="<?php echo $_GET['xaccn']; ?>" readonly>
               </div>
+              <div class="md-3">
+                  <?php
+                  $query = "SELECT * FROM custom_attribute";
+                  $result = $conn->query($query);
+                  if ($result->num_rows > 0) {
+                    echo "<h5 style='margin-top: 10px' class='md-3'>Other Informations</h5>";
+                    $options = mysqli_fetch_all($result, MYSQLI_ASSOC);
+                    foreach ($options as $option) {
+                      $attr_id=$option['attr_id'];
+                      $attr_idx="x".$attr_id;
+                      $attr_idxx="xx".$attr_id;
+                      $attr_name=$option['name'];
+                      echo "<label>".$attr_name."</label>
+                      <input style='margin-top: 5px' type='text' class='form-control' name='$attr_idxx' value='".$_GET[$attr_idx]."' required />";
+                      ?>
+                    <?php
+                    }
+                  }
+                  ?>
+                <div>
               <div class="row">
                 <div class="col text-center">
                   <input style="margin: 10px" class="btn btn-primary " type="submit" value="Approve">

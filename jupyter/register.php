@@ -299,12 +299,29 @@ $conn = mysqli_connect($sname, $uname, $password, $db_name);
                   </div>
                   <input type="text" style="margin-top: 10px" name="accn" placeholder="Account Number" class="form-control" required />
                 </div>
+                <div class="md-3">
+                  <?php
+                  $query = "SELECT * FROM custom_attribute";
+                  $result = $conn->query($query);
+                  if ($result->num_rows > 0) {
+                    echo "<h5 style='margin-top: 10px' class='md-3'>Other Informations</h5>";
+                    $options = mysqli_fetch_all($result, MYSQLI_ASSOC);
+                    foreach ($options as $option) {
+                      $attr_id=$option['attr_id'];
+                      $attr_name=$option['name'];
+                      echo "<input style='margin-top: 10px' type='text' class='form-control' name='$attr_id' placeholder='$attr_name' required />"
+                      ?>
+                    <?php
+                    }
+                  }
+                  ?>
+                <div>
 
               </div>
             </div>
             <div class="row">
               <div class="col text-center">
-                <input class="btn btn-primary" type="submit" value="Send" />
+                <input style="margin-top: 10px" class="btn btn-primary" type="submit" value="Send" />
               </div>
             </div>
           </form>

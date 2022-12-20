@@ -2,7 +2,8 @@
 include('admin_config.php');
 
 $conn = mysqli_connect($sname, $uname, $password, $db_name);
-$name = $_POST['xxfname'] . " " . $_POST['xxlname'];
+$fname = $_POST['xxfname'] ;
+$lname= $_POST['xxlname'];
 $gender = $_POST['xxgender'];
 $phone = $_POST['xxphone'];
 $email = $_POST['xxemail'];
@@ -21,6 +22,24 @@ $bnkname = $_POST['xxbnkname'];
 $brnchname = $_POST['xxbrnchname'];
 $accn = $_POST['xxaccn'];
 $sid = $_POST['xxsid'];
+$query = "SELECT * FROM custom_attribute";
+$result = $conn->query($query);
+if ($result->num_rows > 0){
+    $customs='';
+    $marks='';
+    $strings='';
+    $values=array();
+    $count=1;
+    while($row = $result->fetch_assoc()){
+        $id = $row['attr_id'];
+        $attr_name = $row['name'];
+        $customs.=",custom_".$id;
+        $marks.=',?';
+        $strings.='s';
+        array_push($values, $_POST['xx'.$count]);
+        $count+=1;
+    }
+}
 // $sql1 = "INSERT INTO employee (name,gender,phone_number,email,birth_date,marital_status) VALUES ('$name','$gender','$phone','$email','$bdate','$marital')";
 $sql6 = "SELECT id FROM employee ORDER BY id DESC LIMIT 1";
 if (!$conn) {
@@ -32,12 +51,11 @@ if (!$conn) {
 $eid = mysqli_query($conn, $sql6);
 $row = mysqli_fetch_assoc($eid);
 $id = $row['id']+1;
-$employee = $conn->prepare("INSERT INTO employee (name,gender,phone_number,email,birth_date,marital_status) VALUES (?, ?, ?,?,?,?)");
-$employee->bind_param("ssssss", $name, $gender, $phone,$email,$bdate,$marital);
+$employee = $conn->prepare("INSERT INTO employee (first_name,last_name,gender,phone_number,email,birth_date,marital_status".$customs.") VALUES (?,?, ?, ?,?,?,?".$marks.")");
+$employee->bind_param("sssssss".$strings, $fname,$lname, $gender, $phone,$email,$bdate,$marital,...$values);
 
 $address=$conn->prepare("INSERT INTO address VALUES (?,?,?,?,?,?)");
 $address->bind_param("isssss", $id, $addresline1, $addresline2,$city,$province,$zip);
-
 $employment=$conn->prepare("INSERT INTO employment VALUES (?,?,?,?,?)");
 $employment->bind_param("issss", $id, $jid,$paygrade,$status,$dpt);
 
@@ -109,10 +127,12 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 // send user name and password to the user
 if(isset($_POST['flag'])){
-    $generated_username = $id;
     $generated_password = time().$id;
-    $user=$conn->prepare("INSERT INTO user VALUES (?,?,?,?,?)");
-    $user->bind_param("issss", $id, $generated_username, $generated_password,'user', 'default.jpg');
+    $passw=md5($generated_password.$id);
+    $usertype='user';
+    $img='default.jpg';
+    $user=$conn->prepare("INSERT INTO user (user_name,id,password,user_type,img_name) VALUES (?,?,?,?,?)");
+    $user->bind_param("issss", $id, $id,$passw ,$usertype, $img);
     try{
         $conn->begin_transaction();
         $user->execute();
@@ -167,8 +187,8 @@ if(isset($_POST['flag'])){
       
         <div >
             <div>
-                <h1>Hi, ' . $name . '</h1>
-                <h3>Thank you for joining our company. Your user name is ' . $generated_username . ' and your password is ' . $generated_password . '.</h2> 
+                <h1>Hi, ' . $fname . '</h1>
+                <h3>Thank you for joining our company. Your user name is ' . $id . ' and your password is ' . $generated_password . '.</h2> 
             </div>
             
             </div>

@@ -14,6 +14,7 @@ drop table if exists leave_type;
 drop table if exists emp_status;
 drop table if exists pay_level;
 drop table if exists user;
+drop table if exists custom_attribute;
 SET FOREIGN_KEY_CHECKS = 1; 
 create table employee
 	(first_name	varchar(20) not null,
@@ -143,3 +144,9 @@ create table leave_requests
      foreign key(id) references employee(id) on delete cascade
      );
 alter table leave_requests auto_increment=0;
+create table custom_attribute
+(	name	varchar(15),
+	attr_id	int not null auto_increment,
+    primary key (attr_id)
+    );
+alter table custom_attribute auto_increment=0;

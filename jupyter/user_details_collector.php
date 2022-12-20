@@ -1,5 +1,24 @@
 <?php
 header("Location: index.php");
+include('admin_config.php');
+
+$conn = mysqli_connect($sname, $uname, $password, $db_name);
+$custom='';
+$query = 'SELECT * FROM custom_attribute';
+$result = $conn->query($query);
+if ($result->num_rows > 0) {
+    $custom.='<label>Other Informations<label>';
+    $options = mysqli_fetch_all($result, MYSQLI_ASSOC);
+    foreach ($options as $option) {
+    $attr_id=$option['attr_id'];
+    $attr_idx='x'.$attr_id;
+    $attr_name=$option['name'];
+    $custom.= '<div>
+    <label> '.$attr_name.' </label>
+    <input type="text" class="form-control" name='.$attr_idx.' value="'. $_POST[$attr_id] .'" ><br>
+    </div>';
+    }
+}
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
@@ -39,7 +58,7 @@ try {
 
 <body>
   
-    <form method="GET" action="http://localhost:80/jupyter/admin_add_user.php">
+    <form method="GET" action="http://localhost:80/jupiter/admin_add_user.php">
         <div>
             <label >First Name</label>
                 <input type="text" name="xfname" value="' . $_POST['fname'] . '"><br>        
@@ -116,7 +135,9 @@ try {
             <label >Account Number</label>
                 <input type="text" name="xaccn" value="' . $_POST['accn'] . '"><br>        
         </div>
+        <div>'.$custom.
         
+      '</div>
       <input type="submit" value="Approve Job">
     </form>
   </div>
@@ -130,6 +151,5 @@ try {
 } catch (Exception $e) {
     echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
 }
-
 
 exit();
