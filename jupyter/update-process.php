@@ -25,6 +25,7 @@ include_once 'admin_config.php';
 $conn = mysqli_connect($sname, $uname, $password, $db_name);
 $result = mysqli_query($conn, "SELECT * FROM employee WHERE id='" . $_GET['id'] . "'");
 $lol = mysqli_fetch_array($result);
+// $custom=mysqli_query($conn,"SELECT * FROM custom_fields");
 if (count($_POST) > 0) {
     $fname=$_POST['fname'];
     $lname=$_POST['lname'];
@@ -38,6 +39,11 @@ if (count($_POST) > 0) {
     if(empty($_POST['email'])){
         $email = $lol['email'];
     }
+    // if($custom->num_rows>0){
+    //     while($row=mysqli_fetch_array($custom)){
+    //         if(empty($_POST[$row['custom_'.$row['attr_id']]]))
+    //     }
+    // }
 
     $update=$conn->prepare("UPDATE employee SET first_name=?,last_name=?, email=?  WHERE id=?");
     $update->bind_param("sssi",$fname,$lname,$email,$_POST['id']);
@@ -52,15 +58,13 @@ if (count($_POST) > 0) {
         $message = "Error in Modification. Try Again!";
     }
     $conn->commit();
-    // mysqli_query($conn, "UPDATE employee set name='" . $_POST['name'] . "',email='" . $_POST['email'] . "', 
-    // gender='" . $_POST['gender'] . "' WHERE id='" . $_POST['id'] . "'");
 }
 $result = mysqli_query($conn, "SELECT * FROM employee WHERE id='" . $_GET['id'] . "'");
 $lol = mysqli_fetch_array($result);
 try {
-    $sql2 = mysqli_query($conn, "SELECT * FROM user WHERE user_name = '$username' AND password = '$userpassword'");
+    $sql2 = mysqli_query($conn, "SELECT * FROM user WHERE user_name = '$username' ");
     $row2 = mysqli_fetch_array($sql2);
-    $sql1 = mysqli_query($conn, "SELECT * FROM employee WHERE id in (SELECT id FROM user WHERE user_name = '$username' AND password = '$userpassword')");
+    $sql1 = mysqli_query($conn, "SELECT * FROM employee WHERE id in (SELECT id FROM user WHERE user_name = '$username' )");
     $row = mysqli_fetch_array($sql1);
     $id=$row2['id'];
     $get_leaves = "select id FROM leave_requests WHERE id in (SELECT id FROM supervisor where supervisor_id = '$id') and status='pending'";
@@ -444,6 +448,14 @@ try {
                                     <input type="text" style="margin-top: 1px" class="form-control" name="gender"
                                         value="<?php echo $lol['gender']; ?>" readonly>
                                     <br>
+                                    <?php
+                                    $custom=mysqli_query($conn,"SELECT * FROM custom_attribute");
+                                    if(mysqli_num_rows($custom)>0){
+                                        while($row=mysqli_fetch_array($custom)){
+                                            echo "<p style='margin: 0' style='font-size: 3px;'>".$row['name']."</p>";
+                                            echo "<input type='text' style='margin-top: 1px' class='form-control' name='custom_".$row['attr_id']."' placeholder='".$lol['custom_'.$row['attr_id']]."'readonly>";
+                                        }
+                                    }?>
                                     <div class="row justify-content-center">
                                         <div class="col-auto">
                                             <button type="submit" name="submit" value="Submit"
