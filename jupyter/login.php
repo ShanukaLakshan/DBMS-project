@@ -10,15 +10,24 @@ try {
     echo $e;
     exit();
 }
-$check=$conn->prepare("select * from user where user_name=? and password=?");
-$check->bind_param("ss", $username, md5($userpassword.$username));
-$check->execute();
-$result = $check->get_result();
-$arr=mysqli_fetch_array($result);
+// $check=$conn->prepare("select * from user where user_name=? and password=?");
+// $check->bind_param("ss", $username, md5($userpassword.$username));
+// $check->execute();
+// $result = $check->get_result();
+// $arr=mysqli_fetch_array($result);
+
 // $res = mysqli_query($conn,"select * from user where user_name='$username'and password='$userpassword'");
 // $result=mysqli_fetch_array($res);
 
-if($arr)
+// user authentication
+$check=$conn->prepare("SELECT jupiter.auth(?, ?) AS result");
+$check->bind_param("ss", $username, md5($userpassword.$username));
+$check->execute();
+$result = $check->get_result();
+$row = $result->fetch_assoc(); 
+$verify = $row['result'];
+
+if($verify)
 {
 	setcookie("uname",$username,time()+3600);// second on page time 
     setcookie('pass',$userpassword,time()+3600);
