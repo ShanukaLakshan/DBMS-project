@@ -31,7 +31,7 @@ if(preg_match("/\b(Leave)\b/",$_POST['xleave_type'] )){
 
 <?php
 $date = (new DateTime("now", new DateTimeZone('Asia/Colombo') ))->format('Y-m-d');
-$sql2 = mysqli_query($conn, "SELECT * FROM user WHERE user_name = '$username' AND password = '$userpassword'");
+$sql2 = mysqli_query($conn, "SELECT * FROM user WHERE user_name = '$username'");
 $row2 = mysqli_fetch_array($sql2);
 $id=$row2['id'];
 $row=mysqli_query($conn,"SELECT * FROM leave_requests WHERE id = '$id'  AND status in ('approved','Pending') AND date_of_leave = '".$_POST['xdate']."'");

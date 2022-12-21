@@ -20,9 +20,9 @@ try {
 }
 
 try {
-    $sql2 = mysqli_query($conn, "SELECT * FROM user WHERE user_name = '$username' AND password = '".md5($userpassword.$username)."'");
+    $sql2 = mysqli_query($conn, "SELECT * FROM user WHERE user_name = '$username' ");
     $row2 = mysqli_fetch_array($sql2);
-    $sql1 = mysqli_query($conn, "SELECT * FROM employee WHERE id in (SELECT id FROM user WHERE user_name = '$username' AND password = '".md5($userpassword.$username)."')");
+    $sql1 = mysqli_query($conn, "SELECT * FROM employee WHERE id in (SELECT id FROM user WHERE user_name = '$username' )");
     $row = mysqli_fetch_array($sql1);
     $id=$row2['id'];
     $get_leaves = "select id FROM leave_requests WHERE id in (SELECT id FROM supervisor where supervisor_id = '$id') and status='pending'";
@@ -359,6 +359,7 @@ try {
                                         <div class="p-2">
                                             <?php
                                             $result = mysqli_query($conn, "SELECT * FROM employee");
+                                            $custom=mysqli_query($conn,"SELECT * FROM custom_attribute");
                                             if (mysqli_num_rows($result) > 0) { ?>
                                                 <table class="table" style="width: auto;">
                                                     <thead>
@@ -371,12 +372,20 @@ try {
                                                             <td>Email</td>
                                                             <td>Birth Date</td>
                                                             <td>Marital Status</td>
+                                                            <?php
+                                                            if (mysqli_num_rows($custom) > 0) {
+                                                                while ($row = mysqli_fetch_assoc($custom)) {
+                                                                    echo "<td>".$row['name']."</td>";
+                                                                }
+                                                            }
+                                                            ?>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                         <?php
                                                         $i = 1;
-                                                        while ($row = mysqli_fetch_assoc($result)) { ?>
+                                                        while ($row = mysqli_fetch_assoc($result)) {
+                                                            $custom=mysqli_query($conn,"SELECT * FROM custom_attribute"); ?>
                                                             <tr>
                                                                 <th scope="row"><?= $i ?></th>
                                                                 <td><?php echo $row["first_name"].' '.$row["last_name"]; ?></td>
@@ -386,6 +395,13 @@ try {
                                                                 <td><?php echo $row["email"]; ?></td>
                                                                 <td><?php echo $row["birth_date"]; ?></td>
                                                                 <td><?php echo $row["marital_status"]; ?></td>
+                                                                <?php
+                                                                if(mysqli_num_rows($custom) > 0){
+                                                                    while ($row1 = mysqli_fetch_assoc($custom)) {
+                                                                        echo "<td>".$row['custom_'.$row1['attr_id']]."</td>";
+                                                                    }
+                                                                }
+                                                                ?>
                                                                 <td><a href="update-process.php?id=<?php echo $row["id"]; ?>" class="btn btn-primary sm-4">Update</a></td>
                                                             </tr>
                                                         <?php $i++;

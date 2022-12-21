@@ -161,12 +161,12 @@ if(isset($_POST['flag'])){
         $mail->isSMTP();
         $mail->Host       = 'smtp.gmail.com';
         $mail->SMTPAuth   = true;
-        $mail->Username   = 'sadeepaekanayaked@gmail.com';
-        $mail->Password   = 'bcinmlnyoximsxfg'; // need to change
+        $mail->Username   = 'vengenz128@gmail.com';
+        $mail->Password   = 'hugnuhkquetujlih'; // need to change
         $mail->SMTPSecure = 'tls';
         $mail->Port       = 587;
     
-        $mail->setFrom('sadeepaekanayaked@gmail.com', 'Sadeepa Dhananjaya');
+        $mail->setFrom('vengenz128@gmail.com', 'Jupiter Apperals');
         $mail->addAddress($email);
     
         $mail->isHTML(true);

@@ -20,9 +20,9 @@ try {
 }
 
 try {
-    $sql2 = mysqli_query($conn, "SELECT * FROM user WHERE user_name = '$username' AND password = '$userpassword'");
+    $sql2 = mysqli_query($conn, "SELECT * FROM user WHERE user_name = '$username'");
     $row2 = mysqli_fetch_array($sql2);
-    $sql1 = mysqli_query($conn, "SELECT * FROM employee WHERE id in (SELECT id FROM user WHERE user_name = '$username' AND password = '$userpassword')");
+    $sql1 = mysqli_query($conn, "SELECT * FROM employee WHERE id in (SELECT id FROM user WHERE user_name = '$username')");
     $emprow = mysqli_fetch_array($sql1);
     $id=$row2['id'];
     $get_leaves = "select * FROM leave_requests WHERE id in (SELECT id FROM supervisor where supervisor_id = '$id') and status='pending'";
@@ -308,7 +308,7 @@ try {
 
 <body>
     <div class="sidebar">
-    <a href="./homepage.php" class="text-center"><p class="text-center"><i class="fa fa-home fa-2x" aria-hidden="true"></i><br>Home</p></a>
+    <a class="active" href="./homepage.php" class="text-center"><p class="text-center"><i class="fa fa-home fa-2x" aria-hidden="true"></i><br>Home</p></a>
     <?php if ($row2['user_type'] === 'admin') { ?>
       <a href="./review_employee.php"><p style="font-size:small"><i class="fa fa-users fa-2x" aria-hidden="true"></i><br>Review Employees</p></a>
     <?php } else { ?>
@@ -320,7 +320,7 @@ try {
       <a href="#" style="display: none;" >Add New Employee</a>
   <?php } ?>
 
-    <a class="active" href="./leaveform.php" ><p style="font-size:small"><i class="fa fa-calendar fa-2x mt-2" aria-hidden="true"></i><br>Take a leave</p></a>
+    <a  href="./leaveform.php" ><p style="font-size:small"><i class="fa fa-calendar fa-2x mt-2" aria-hidden="true"></i><br>Take a leave</p></a>
 
 
   <?php if ($jobid === '004') { ?>
