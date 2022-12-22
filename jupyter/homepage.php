@@ -11,6 +11,7 @@ if(!isset($_COOKIE["uname"]))// $_COOKIE is a variable and login is a cookie nam
 
 include('user_config.php');
 include('db_connector.php');
+include('sql.php');
 
 try {
     $conn = mysqli_connect($sname, $uname, $password, $db_name);
@@ -21,11 +22,12 @@ try {
 
 
 try {
+    $sql=mysqli_query($conn,"select * from employee_detail where username=$username");
     $sql2 = mysqli_query($conn, "SELECT * FROM user WHERE user_name = '$username'");
     $row2 = mysqli_fetch_array($sql2);
 
     $sql1 = mysqli_query($conn, "SELECT * FROM employee WHERE id in (SELECT id FROM user WHERE user_name = '$username')");
-    $row = mysqli_fetch_array($sql1);
+    $row = details($conn,$username);
     $id=$row['id'];
 
 

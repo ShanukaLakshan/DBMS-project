@@ -150,3 +150,5 @@ create table custom_attribute
     primary key (attr_id)
     );
 alter table custom_attribute auto_increment=0;
+
+create view employee_detail as select employment.id,user_name,job_title,name as department,emp_status.title as status,address_line_1,address_line_2,province,city,postal_code from employment inner join job using(job_id) inner join department on employment.dept_id=department.id inner join address on address.id=employment.id inner join emp_status using (stat_id) inner join user on user.id=employment.id order by employment.id;

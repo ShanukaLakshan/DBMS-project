@@ -23,12 +23,12 @@ $brnchname = $_POST['xxbrnchname'];
 $accn = $_POST['xxaccn'];
 $sid = $_POST['xxsid'];
 $query = "SELECT * FROM custom_attribute";
+$customs='';
+$marks='';
+$strings='';
+$values=array();
 $result = $conn->query($query);
 if ($result->num_rows > 0){
-    $customs='';
-    $marks='';
-    $strings='';
-    $values=array();
     $count=1;
     while($row = $result->fetch_assoc()){
         $id = $row['attr_id'];

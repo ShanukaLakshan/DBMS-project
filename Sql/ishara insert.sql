@@ -85,7 +85,7 @@ insert into employee (first_name,last_name,gender,phone_number,email,birth_date,
 insert into employee (first_name,last_name,gender,phone_number,email,birth_date,marital_status) value  ('Yehudit','Goracci','Male','7684775741','kferber1l@samsung.com','1998-03-26','Married');
 insert into employee (first_name,last_name,gender,phone_number,email,birth_date,marital_status) value  ('Anderea','Hollows','Female','6684089407','klockwood1m@bloomberg.com','1998-09-23','Married');
 insert into employee (first_name,last_name,gender,phone_number,email,birth_date,marital_status) value  ('Natalya','Palser','Female','9993043984','jtwidale1n@canalblog.com','1999-05-05','Single');
-insert into employee (first_name,last_name,gender,phone_number,email,birth_date,marital_status) value  ('Holmes','Oswell','Male','9623631061','etolomei1o@acquirethisfirst_name,last_name.com','1991-05-12','Single');
+insert into employee (first_name,last_name,gender,phone_number,email,birth_date,marital_status) value  ('Holmes','Oswell','Male','9623631061','etolomei1o@name.com','1991-05-12','Single');
 insert into employee (first_name,last_name,gender,phone_number,email,birth_date,marital_status) value  ('Nicky','Haggar','Male','6658471966','iseabrook1p@eepurl.com','1990-10-24','Single');
 insert into employee (first_name,last_name,gender,phone_number,email,birth_date,marital_status) value  ('Lewiss','Bech','Male','1547723727','rwhitehorn1q@whitehouse.gov','1996-04-04','Single');
 insert into employee (first_name,last_name,gender,phone_number,email,birth_date,marital_status) value  ('Othella','Etock','male','3247448834','jketchell1r@plala.or.jp','1992-12-06','Married');
@@ -1419,7 +1419,7 @@ insert into supervisor values('20153','20149');
 insert into supervisor values('20154','20150');
 
 insert into user values ('adi2012','20001',MD5('11223344adi2012'),'admin','default.jpg',null);
-insert into user values ('david007','20002',MD5('11223344david007'),'hr','default.jpg',null);
+insert into user values ('david007','20002',MD5('11223344david007'),'user','default.jpg',null);
 insert into user values ('GasGiniya','20004',MD5('11223344GasGiniya'),'user','default.jpg',null);
 insert into user values ('sudumalli69','20003',MD5('11223344sudumalli69'),'user','default.jpg',null);
 insert into user values ('syph3rd','20000',MD5('11223344syph3rd'),'admin','default.jpg',null);
