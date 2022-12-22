@@ -20,10 +20,10 @@ try {
 }
 
 try {
-    $sql2 = mysqli_query($conn, "SELECT * FROM user WHERE user_name = '$username' AND password = '$userpassword'");
+    $sql2 = mysqli_query($conn, "SELECT * FROM user WHERE user_name = '$username' ");
     $row2 = mysqli_fetch_array($sql2);
 
-    $sql1 = mysqli_query($conn, "SELECT * FROM employee WHERE id in (SELECT id FROM user WHERE user_name = '$username' AND password = '$userpassword')");
+    $sql1 = mysqli_query($conn, "SELECT * FROM employee WHERE id in (SELECT id FROM user WHERE user_name = '$username' )");
     $row = mysqli_fetch_array($sql1);
     $id=$row['id'];
 
@@ -555,12 +555,30 @@ try {
                         </div>
                       </div>
                       <input type="text" style="margin-top: 10px" name="xxaccn" placeholder="Account Number" class="form-control" required />
+                      <div class="md-3">
+                        <?php
+                        $query = "SELECT * FROM custom_attribute";
+                        $result = $conn->query($query);
+                        if ($result->num_rows > 0) {
+                          echo "<h5 style='margin-top: 10px' class='md-3'>Other Informations</h5>";
+                          $options = mysqli_fetch_all($result, MYSQLI_ASSOC);
+                          foreach ($options as $option) {
+                            $attr_id=$option['attr_id'];
+                            $attr_name=$option['name'];
+                            $attr_idxx='xx'.$attr_id;
+                            echo "<input style='margin-top: 10px' type='text' class='form-control' name='$attr_idxx' placeholder='$attr_name' required />"
+                            ?>
+                          <?php
+                          }
+                        }
+                        ?>
+                      <div>
                     </div>
-    
+                      
                   </div>
                 </div>
                 <div class="row">
-                  <div class="col text-center">
+                  <div class="col text-center mt-2">
                     <input class="btn btn-primary" type="submit" value="Send" />
                   </div>
                 </div>

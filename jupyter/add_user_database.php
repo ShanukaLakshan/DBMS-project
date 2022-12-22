@@ -207,5 +207,5 @@ if(isset($_POST['flag'])){
     header("Location: homepage.php");
 }
 else{
-    // header("Location:homepage.php");
+    header("Location:homepage.php");
 }
