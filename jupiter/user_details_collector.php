@@ -58,7 +58,7 @@ try {
 
 <body>
   
-    <form method="GET" action="http://localhost:80/jupiter/admin_add_user.php">
+    <form method="GET" action="http://localhost:80/jupyter/admin_add_user.php">
         <div>
             <label >First Name</label>
                 <input type="text" name="xfname" value="' . $_POST['fname'] . '"><br>        

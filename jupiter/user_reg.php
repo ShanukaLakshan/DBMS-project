@@ -9,20 +9,6 @@ try {
     exit();
 }
 
-
-if(!empty($_POST['id'])){
-    $user_id->bind_param("i", $_POST['id']);
-    $user_id->execute();
-    $result = $user_id->get_result();
-    $emp_id->bind_param("i", $_POST['id']);
-    $emp_id->execute();
-    $result2 = $emp_id->get_result();
-    // $row=mysqli_query($conn,"SELECT * FROM user WHERE id=".$_POST['id']."");
-    // $row2=mysqli_query($conn,"SELECT * FROM employee WHERE id=".$_POST['id']."");
-    if((mysqli_num_rows($result)>0) || (mysqli_num_rows($result2)==0)){
-      header("location:new_user.php?err=1");
-  }
-  }
 $user_user=$conn->prepare("SELECT * FROM user WHERE user_name=?");
 $user_user->bind_param("s", $_POST['uname']);
 $user_user->execute();
@@ -47,6 +33,7 @@ $id=$_POST['id'];
 $us='user';
 $filename='default.jpg';
 $user=$conn->prepare("INSERT INTO user (user_name,id,password,user_type,img_name) VALUES (?,?,?,?,?)");
+$pass=md5($pass.$uname);
 $user->bind_param("sisss", $uname, $id, $pass, $us, $filename);
 try{
     $conn->begin_transaction();

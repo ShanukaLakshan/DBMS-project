@@ -1,6 +1,6 @@
 <?php
 include('user_config.php');
-//include('db_connector.php');
+
 
 try {
     $conn = mysqli_connect($sname, $uname, $password, $db_name);

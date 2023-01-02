@@ -9,7 +9,7 @@ if(!isset($_COOKIE["uname"]))// $_COOKIE is a variable and login is a cookie nam
     $username=$_COOKIE['uname'];
     $userpassword=$_COOKIE['pass'];
 
-include('user_config.php');
+include('admin_config.php');
 include('db_connector.php');
 
 try {

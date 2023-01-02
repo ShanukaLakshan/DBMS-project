@@ -63,7 +63,7 @@ $bank=$conn->prepare("INSERT INTO bank_details VALUES (?,?,?,?)");
 $bank->bind_param("isss", $id, $bnkname, $brnchname,$accn);
 
 $supervise=$conn->prepare("INSERT INTO supervisor VALUES (?,?)");
-$supervise->bind_param("ii", $id, $sid);
+$supervise->bind_param("ii", $sid, $id);
 
 
 // $sql2 = "INSERT INTO address VALUES ('$id','$addresline1','$addresline2','$province','$city','$zip')";
@@ -207,5 +207,5 @@ if(isset($_POST['flag'])){
     header("Location: homepage.php");
 }
 else{
-    // header("Location:homepage.php");
+    header("Location:homepage.php");
 }

@@ -23,7 +23,6 @@ try {
 if(empty($_POST['xdate'])){
     header("location:leaveform.php?date=1");
 }
-echo $_POST['xleave_type'];
 if(preg_match("/\b(Leave)\b/",$_POST['xleave_type'] )){
     header("location:leaveform.php?err=1");
 }
@@ -51,6 +50,6 @@ catch(Exception $e){
     header("location:leaveform.php?errs=1");
     exit();
 }
-// mysqli_query($conn,"INSERT INTO leave_requests (id,type_id,date_of_leave,date_requested,status) VALUES ('$id','".$_POST['xleave_type']."','".$_POST['xdate']."','$date','Pending')");
+$conn->commit();
 header("Location: homepage.php");
 ?>
